@@ -20,6 +20,7 @@ $$a \land b \leq c \Leftrightarrow a \leq (b \to c)$$
 ### 1.3 基本性质
 
 **命题 1.3.1**：在Heyting代数中，以下性质成立：
+
 1. $a \to a = 1$
 2. $a \land (a \to b) = a \land b$
 3. $b \land (a \to b) = b$
@@ -27,6 +28,7 @@ $$a \land b \leq c \Leftrightarrow a \leq (b \to c)$$
 5. $(a \lor b) \to c = (a \to c) \land (b \to c)$
 
 **命题 1.3.2** (蕴含运算的性质)：在Heyting代数中，$\to$ 运算在第一个变元上是反单调的，在第二个变元上是单调的，即：
+
 - 如果 $a \leq a'$，则 $a' \to b \leq a \to b$
 - 如果 $b \leq b'$，则 $a \to b \leq a \to b'$
 
@@ -42,6 +44,7 @@ $$\neg a = a \to 0$$
 ### 2.2 伪补元的性质
 
 **命题 2.2.1**：在Heyting代数中，以下性质成立：
+
 1. $\neg\neg\neg a = \neg a$
 2. $a \leq \neg\neg a$
 3. $\neg a = \neg\neg\neg a$
@@ -84,6 +87,7 @@ $$U \to V = \{p \in P \mid \uparrow p \cap U \subseteq V\}$$
 ### 4.1 直觉主义命题逻辑
 
 **定义 4.1.1** (直觉主义命题逻辑)：直觉主义命题逻辑是一种形式逻辑，它拒绝排中律和双重否定消除规则，公理包括：
+
 1. $A \to (B \to A)$
 2. $(A \to (B \to C)) \to ((A \to B) \to (A \to C))$
 3. $A \land B \to A$
@@ -100,6 +104,7 @@ $$U \to V = \{p \in P \mid \uparrow p \cap U \subseteq V\}$$
 **定理 4.2.1** (完备性定理)：直觉主义命题逻辑中的每个可证定理都在任何Heyting代数中有效，反之亦然，任何在所有Heyting代数中有效的公式都是直觉主义逻辑中的可证定理。
 
 **命题 4.2.2**：在Heyting代数中，以下直觉主义逻辑原理成立：
+
 1. 有效的推理形式：$a \land (a \to b) \leq b$ (modus ponens)
 2. 有效的公式：$(a \to b) \land (b \to c) \to (a \to c)$ (假言三段论)
 3. 无效的公式：$a \lor \neg a$ (排中律，在一般Heyting代数中不成立)
@@ -110,6 +115,7 @@ $$U \to V = \{p \in P \mid \uparrow p \cap U \subseteq V\}$$
 **定义 4.3.1** (Kripke框架)：Kripke框架是一个二元组 $(W, \leq)$，其中 $W$ 是可能世界的集合，$\leq$ 是 $W$ 上的预序关系（反自反、传递），表示信息的增长或世界的可达性。
 
 **定义 4.3.2** (Kripke模型)：Kripke模型是一个三元组 $(W, \leq, \Vdash)$，其中 $(W, \leq)$ 是Kripke框架，$\Vdash$ 是一个二元关系，称为强迫关系（forcing relation），满足：
+
 - 如果 $w \Vdash p$ 且 $w \leq w'$，则 $w' \Vdash p$ (单调性)
 - $w \Vdash A \land B$ 当且仅当 $w \Vdash A$ 且 $w \Vdash B$
 - $w \Vdash A \lor B$ 当且仅当 $w \Vdash A$ 或 $w \Vdash B$
@@ -134,6 +140,7 @@ $$a \to b = \begin{cases} 1 & \text{if } a \leq b \\ b & \text{if } a > b \end{c
 $$a \lor (a \to b) = 1$$
 
 **命题 5.2.2**：以下条件等价：
+
 1. $H$ 是相干Heyting代数
 2. 对所有 $a \in H$，$a \lor \neg a = 1$（排中律成立）
 3. $H$ 是布尔代数
