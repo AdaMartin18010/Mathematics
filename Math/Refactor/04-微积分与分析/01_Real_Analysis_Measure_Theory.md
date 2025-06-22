@@ -208,7 +208,7 @@ f: X → ℝ is measurable if f⁻¹((a,∞)) ∈ ℱ for all a ∈ ℝ.
 
 ## Lebesgue Integration
 
-### Definition and Properties
+### Definition and Properties1
 
 **Definition 1.25** (Simple Function)
 φ = Σᵢ₌₁ⁿ aᵢχ_{Aᵢ} where Aᵢ ∈ ℱ and aᵢ ∈ ℝ.
