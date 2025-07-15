@@ -36,53 +36,86 @@ ZFC系统由9条公理（或公理模式）组成，我们先介绍除选择公�
 **1. 外延公理 (Axiom of Extensionality)**:
 > 两个集合相等，当且仅当它们拥有完全相同的元素。
 
-- **作用**: 定义了集合的"等价性"，与朴素集合论一致。
+- **Axiom of Extensionality（外延公理，国际标准定义）**：
+  - **英文表述**：For any sets A and B, if every element of A is an element of B and every element of B is an element of A, then A = B.
+  - **符号表达**：∀A ∀B [∀x (x ∈ A ⇔ x ∈ B) ⇒ A = B]
+  - **简明解释**：集合的身份仅由其元素决定。
+  - **典型应用**：集合等价判定、集合操作的基础。
 
 **2. 空集公理 (Axiom of Empty Set)**:
 > 存在一个不包含任何元素的集合。
 > $$ \exists A, \forall x, x \notin A $$
 
-- **作用**: 保证了至少有一个集合（即空集 $\emptyset$）是存在的，为后续构造提供了起点。
+- **Axiom of Empty Set（空集公理，国际标准定义）**：
+  - **英文表述**：There exists a set with no elements.
+  - **符号表达**：∃A ∀x (x ∉ A)
+  - **简明解释**：空集是所有集合论构造的起点。
+  - **典型应用**：定义自然数、递归构造。
 
 **3. 配对公理 (Axiom of Pairing)**:
 > 对于任意两个集合 $A$ 和 $B$，都存在一个集合 $C$，其元素恰好就是 $A$ 和 $B$。
 > $$ \forall A, \forall B, \exists C, \forall x, (x \in C \iff (x=A \lor x=B)) $$
 
-- **作用**: 允许我们从已有的集合构造出包含它们的小集合，如 $\{A, B\}$。
+- **Axiom of Pairing（配对公理，国际标准定义）**：
+  - **英文表述**：For any sets A and B, there exists a set C such that the elements of C are exactly A and B.
+  - **符号表达**：∀A ∀B ∃C ∀x [x ∈ C ⇔ (x = A ∨ x = B)]
+  - **简明解释**：任意两个集合可组成新集合。
+  - **典型应用**：有序对、笛卡尔积、关系定义。
 
 **4. 并集公理 (Axiom of Union)**:
 > 对于任意一个集合 $A$（它的元素本身也是集合），存在一个集合 $B$，其元素恰好是 $A$ 中所有元素（集合）的元素的并集。
 
-- **作用**: 允许我们将一"族"集合"压平"成一个大集合。
+- **Axiom of Union（并集公理，国际标准定义）**：
+  - **英文表述**：For any set A, there exists a set B such that an element x is in B if and only if there exists a set C in A with x ∈ C.
+  - **符号表达**：∀A ∃B ∀x [x ∈ B ⇔ ∃C (C ∈ A ∧ x ∈ C)]
+  - **简明解释**：集合族的所有元素可合并为一个集合。
+  - **典型应用**：集合并运算、层级构造。
 
 **5. 幂集公理 (Axiom of Power Set)**:
 > 对于任意集合 $A$，存在一个集合 $B$，其元素是 $A$ 的所有子集。
 
-- **作用**: 这是构造更大集合的强大工具，保证了幂集 $\mathcal{P}(A)$ 的存在性。
+- **Axiom of Power Set（幂集公理，国际标准定义）**：
+  - **英文表述**：For any set A, there exists a set B whose elements are exactly the subsets of A.
+  - **符号表达**：∀A ∃B ∀x [x ∈ B ⇔ x ⊆ A]
+  - **简明解释**：每个集合的所有子集也构成集合。
+  - **典型应用**：定义函数空间、拓扑、概率等。
 
 **6. 无穷公理 (Axiom of Infinity)**:
 > 存在一个集合 $A$，它包含空集 $\emptyset$，并且对于其中任意元素 $x$，集合 $\{x, \{x\}\}$ (或简化为 $x \cup \{x\}$) 也必定在 $A$ 中。
 
-- **作用**: 这是唯一一条明确断言**无限集**存在的公理。
-- 它保证了类似自然数集 $\{ \emptyset, \{\emptyset\}, \{\emptyset, \{\emptyset\}\}, ... \}$ 的存在，是建立分析学等分支的基础。
+- **Axiom of Infinity（无穷公理，国际标准定义）**：
+  - **英文表述**：There exists a set A such that the empty set is in A, and for every x in A, the set x ∪ {x} is also in A.
+  - **符号表达**：∃A [∅ ∈ A ∧ ∀x (x ∈ A ⇒ x ∪ {x} ∈ A)]
+  - **简明解释**：保证自然数等无限集合的存在。
+  - **典型应用**：自然数、公理化递归。
 
 **7. 分离公理模式 (Axiom Schema of Separation / Specification)**:
 > 对于任意集合 $A$ 和任意性质 $P(x)$，存在一个集合 $B$，其元素是 $A$ 中所有满足性质 $P(x)$ 的元素。
 > $$ B = \{x \in A \mid P(x)\} $$
 
-- **作用**: 这是对朴素集合论"内蕴概括原则"的**关键限制**。
-- 它不再允许我们对"宇宙中所有对象"使用性质，而只能从一个 **已经合法存在** 的集合 $A$ 中，分离出其满足特定性质的子集。
-- 这就有效地**规避了罗素悖论**，因为我们无法再构造"所有不包含自身的集合"，而只能构造"某个已知集合A中，所有不包含自身的集合"。
+- **Axiom Schema of Separation（分离公理模式，国际标准定义）**：
+  - **英文表述**：For any set A and any property P(x), there exists a set B whose elements are exactly those elements x of A for which P(x) holds.
+  - **符号表达**：∀A ∀P ∃B ∀x [x ∈ B ⇔ (x ∈ A ∧ P(x))]
+  - **简明解释**：只能从已有集合中“筛选”子集，防止悖论。
+  - **典型应用**：定义子集、避免罗素悖论。
 
 **8. 替换公理模式 (Axiom Schema of Replacement)**:
 > 如果对于一个已存在的集合 $A$，我们有一个函数式的性质 $P(x,y)$（即对每个 $x \in A$，最多只有一个 $y$ 满足 $P(x,y)$），那么所有这些 $y$ 构成的集合也存在。
 
-- **作用**: 这是一个极其强大的公理，它允许我们通过函数映射来构造新的、可能"更大"的集合。它保证了我们可以构造出非常巨大的基数。
+- **Axiom Schema of Replacement（替换公理模式，国际标准定义）**：
+  - **英文表述**：If F is a definable function and A is a set, then the image F[A] is also a set.
+  - **符号表达**：∀A ∀F ∃B [B = {F(x) | x ∈ A}]
+  - **简明解释**：函数像集也是集合，可递归构造大集合。
+  - **典型应用**：基数构造、递归定义。
 
 **9. 正则公理 / 基础公理 (Axiom of Regularity / Foundation)**:
 > 任何非空集合 $A$，都包含一个元素 $x$，使得 $x$ 和 $A$ 的交集为空 ($x \cap A = \emptyset$)。
 
-- **作用**: 这条公理排除了集合论中的一些病态情况，例如一个集合包含自身 ($A \in A$)，或者存在无限下降的元素链 ($... \in A_3 \in A_2 \in A_1$)。它保证了集合世界的层次是"良基的 (well-founded)"。
+- **Axiom of Regularity / Foundation（正则/基础公理，国际标准定义）**：
+  - **英文表述**：Every non-empty set A contains an element x such that x and A are disjoint.
+  - **符号表达**：∀A [A ≠ ∅ ⇒ ∃x (x ∈ A ∧ x ∩ A = ∅)]
+  - **简明解释**：排除集合自包含和无限下降链。
+  - **典型应用**：集合良基性、递归定义。
 
 这八条公理（模式）共同构建了ZF系统，它已经强大到足以构建现代数学的绝大部分内容，同时又足够严格，能够避免已知的悖论。
 
