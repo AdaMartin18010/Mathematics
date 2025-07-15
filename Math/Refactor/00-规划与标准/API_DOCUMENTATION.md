@@ -1,21 +1,25 @@
 # 数学格式修复项目 API 文档
 
 ## 概述
+
 数学格式修复项目提供完整的API接口，支持数学格式的检查、修复和批量处理。
 
 ## 基础信息
+
 - **API版本**: v1.0.0
-- **基础URL**: http://localhost:8000
+- **基础URL**: <http://localhost:8000>
 - **认证方式**: 无 (开发版本)
 
 ## 端点列表
 
 ### 1. 格式检查
+
 **POST** `/api/check`
 
 检查数学公式格式问题。
 
 **请求参数**:
+
 ```json
 {
     "content": "数学公式内容",
@@ -24,6 +28,7 @@
 ```
 
 **响应**:
+
 ```json
 {
     "status": "success",
@@ -39,11 +44,13 @@
 ```
 
 ### 2. 格式修复
+
 **POST** `/api/fix`
 
 修复数学公式格式问题。
 
 **请求参数**:
+
 ```json
 {
     "content": "原始内容",
@@ -53,6 +60,7 @@
 ```
 
 **响应**:
+
 ```json
 {
     "status": "success",
@@ -68,11 +76,13 @@
 ```
 
 ### 3. 批量处理
+
 **POST** `/api/batch`
 
 批量处理多个文件。
 
 **请求参数**:
+
 ```json
 {
     "files": [
@@ -89,6 +99,7 @@
 ```
 
 **响应**:
+
 ```json
 {
     "status": "success",
@@ -103,11 +114,13 @@
 ```
 
 ### 4. 状态查询
+
 **GET** `/api/status`
 
 获取服务状态。
 
 **响应**:
+
 ```json
 {
     "status": "running",
@@ -118,11 +131,13 @@
 ```
 
 ### 5. 统计信息
+
 **GET** `/api/stats`
 
 获取处理统计信息。
 
 **响应**:
+
 ```json
 {
     "total_files": 1000,
@@ -135,6 +150,7 @@
 ## 错误处理
 
 ### 错误响应格式
+
 ```json
 {
     "status": "error",
@@ -145,6 +161,7 @@
 ```
 
 ### 常见错误码
+
 - `INVALID_FORMAT`: 格式无效
 - `PROCESSING_ERROR`: 处理错误
 - `FILE_TOO_LARGE`: 文件过大
@@ -153,6 +170,7 @@
 ## 使用示例
 
 ### Python示例
+
 ```python
 import requests
 
@@ -170,6 +188,7 @@ response = requests.post('http://localhost:8000/api/fix', json={
 ```
 
 ### JavaScript示例
+
 ```javascript
 // 检查格式
 fetch('http://localhost:8000/api/check', {
@@ -196,6 +215,7 @@ fetch('http://localhost:8000/api/check', {
 ## 更新日志
 
 ### v1.0.0
+
 - 初始版本发布
 - 支持基础格式检查和修复
 - 提供RESTful API接口

@@ -63,6 +63,7 @@ python 数学格式修复API服务.py
 ## 📋 功能列表
 
 ### 核心工具
+
 - **批量处理工具**: 大规模文件处理
 - **Web界面**: 图形用户界面
 - **API服务**: RESTful API接口
@@ -70,12 +71,14 @@ python 数学格式修复API服务.py
 - **配置管理器**: 配置管理
 
 ### 质量保证
+
 - **测试套件**: 全面测试
 - **文档生成器**: 文档生成
 - **性能监控工具**: 性能监控
 - **安全审计工具**: 安全审计
 
 ### 部署运维
+
 - **自动化部署工具**: 自动化部署
 - **监控仪表板**: 系统监控
 - **备份恢复工具**: 备份恢复
@@ -121,10 +124,10 @@ python 数学格式修复API服务.py
 
 ## 📞 联系我们
 
-- **项目主页**: https://github.com/math-format-fix/project
-- **问题反馈**: https://github.com/math-format-fix/project/issues
-- **技术支持**: support@math-format-fix.com
-- **项目维护**: maintainer@math-format-fix.com
+- **项目主页**: <https://github.com/math-format-fix/project>
+- **问题反馈**: <https://github.com/math-format-fix/project/issues>
+- **技术支持**: <support@math-format-fix.com>
+- **项目维护**: <maintainer@math-format-fix.com>
 
 ---
 
