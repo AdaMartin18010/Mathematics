@@ -1,8 +1,16 @@
 # 抽象代数 (Abstract Algebra)
 
+## 概念定义 | Concept Definition
+
+- 中文定义：请补充该主题下核心概念的权威中文定义。
+- English Definition: Please provide authoritative English definitions for the core concepts under this topic.
+- 国际标准/权威来源：如ISO/IEC、Encyclopedia of Mathematics、Stanford Encyclopedia of Philosophy等。
+- 相关批判与哲学反思：请补充该主题的哲学批判、历史脉络与前沿趋势。
+
 ## 目录
 
 - [抽象代数 (Abstract Algebra)](#抽象代数-abstract-algebra)
+  - [概念定义 | Concept Definition](#概念定义--concept-definition)
   - [目录](#目录)
   - [A. 核心概念与定义](#a-核心概念与定义)
     - [A.1. 什么是抽象代数 (What is Abstract Algebra)?](#a1-什么是抽象代数-what-is-abstract-algebra)

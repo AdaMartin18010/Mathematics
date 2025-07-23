@@ -47,3 +47,10 @@ class ChomskyClassifier:
 
 - 持续细化各类型文法、语义解释、自动机模型等分支。
 - 强化多表征内容与国际化标准。
+
+## 概念定义 | Concept Definition
+
+- 中文定义：请补充该主题下核心概念的权威中文定义。
+- English Definition: Please provide authoritative English definitions for the core concepts under this topic.
+- 国际标准/权威来源：如ISO/IEC、Encyclopedia of Mathematics、Stanford Encyclopedia of Philosophy等。
+- 相关批判与哲学反思：请补充该主题的哲学批判、历史脉络与前沿趋势。
