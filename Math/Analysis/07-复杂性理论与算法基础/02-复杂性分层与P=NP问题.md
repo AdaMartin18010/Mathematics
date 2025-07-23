@@ -1,63 +1,48 @@
-# 02-复杂性分层与P=NP问题 | Complexity Hierarchies & P=NP Problem
+# 02-复杂性分层与P=NP问题 | Complexity Hierarchies & P vs NP Problem
 
 ---
 
 ## 1. 主题简介 | Topic Introduction
 
-本主题系统梳理复杂性分层、P=NP问题的理论基础、现代挑战与典型应用，结合形式化论证与哲学反思，递归推进内容创新与国际化。
+本节系统梳理复杂性分层与P=NP问题，包括P、NP、NP完全、PSPACE、EXPTIME等复杂性类，P=NP问题，强调其在数学基础、元数学、哲学分析与知识体系创新中的作用。
 
-This topic systematically reviews the theoretical foundations, modern challenges, and typical applications of complexity hierarchies and the P=NP problem, integrating formal reasoning and philosophical reflection, and recursively advancing content innovation and internationalization.
+This section systematically reviews complexity hierarchies and the P vs NP problem, including P, NP, NP-complete, PSPACE, EXPTIME, etc., and the P=NP problem, emphasizing their roles in mathematical foundations, metamathematics, philosophical analysis, and knowledge system innovation.
 
 ---
 
 ## 2. 复杂性分层 | Complexity Hierarchies
 
-- P、NP、NP-complete、PSPACE、EXPTIME等复杂性类
-- 复杂性理论的现代挑战与前沿
-
----
-
-## 3. P=NP问题与现代挑战 | P=NP Problem & Modern Challenges
-
-- P=NP问题的理论意义与实际影响
-- 算法创新、AI推理与复杂性分析
-- 现代前沿：量子计算、随机算法等
-
----
-
-## 4. 典型案例与现代应用 | Typical Cases & Modern Applications
-
-- 旅行商问题、SAT问题、AI推理中的复杂性分析
-- 算法创新与复杂性突破
-
----
-
-## 5. 形式化论证与代码实践 | Formal Reasoning & Code Practice
-
-### 5.1 伪代码：NP问题验证器
-
-```python
-def verify_np_solution(problem, solution):
-    # 检查solution是否为problem的有效解
-    ...
-```
-
-### 5.2 Lean定义NP问题结构
+- 理论基础：复杂性类、可计算性边界、资源约束。
+- 主要类型：P、NP、NP完全、PSPACE、EXPTIME。
+- 代表人物：库克（Cook）、卡普（Karp）、萨维奇（Savitch）
+- 典型理论：复杂性分层、Savitch定理。
+- 形式化片段（Lean）：
 
 ```lean
-structure NPProblem :=
-  (input : Type)
-  (solution : input → Prop)
-  (verifier : input → Prop)
+-- 复杂性类的Lean定义（简化）
+inductive ComplexityClass
+| P | NP | NPC | PSPACE | EXPTIME
 ```
 
 ---
 
-## 6. 哲学反思与递归扩展计划 | Philosophical Reflections & Recursive Expansion Plan
+## 3. P=NP问题 | P vs NP Problem
 
-- 复杂性分层与P=NP问题的发展推动了知识体系的创新与动态演化。
-- 持续递归细化各复杂性类、算法创新与现代应用。
-- 强化AI辅助、知识图谱、国际化标准等创新机制。
-- 推动理论、实践与哲学的深度融合，支撑知识体系的长期演化。
+- 理论基础：多项式时间、非确定性、NP完全。
+- 代表人物：库克（Cook）、卡普（Karp）、莱文（Levin）
+- 典型理论：Cook-Levin定理、NP完全性。
+- 伪代码：
+
+```python
+# P=NP问题判别伪代码（理论上未解决）
+def is_p_equal_np():
+    # 理论上未解决，仅作复杂性说明
+    raise NotImplementedError
+```
 
 ---
+
+## 4. 递归扩展计划 | Recursive Expansion Plan
+
+- 持续细化复杂性分层、P=NP、NP完全、PSPACE、EXPTIME等分支，补充代表性案例、历史事件、现代影响。
+- 强化多表征内容与国际化标准。
