@@ -4,66 +4,41 @@
 
 ## 1. 主题简介 | Topic Introduction
 
-本主题系统梳理语法、语义与Chomsky层级的理论基础、典型案例与现代应用，结合形式化论证与哲学反思，递归推进内容创新与国际化。
+本节系统梳理形式语言的语法、语义及Chomsky层级，强调其在数学基础、元数学、哲学分析与知识体系创新中的作用。
 
-This topic systematically reviews the theoretical foundations, typical cases, and modern applications of syntax, semantics, and the Chomsky hierarchy, integrating formal reasoning and philosophical reflection, and recursively advancing content innovation and internationalization.
-
----
-
-## 2. 语法与语义基础 | Foundations of Syntax & Semantics
-
-- BNF范式、抽象语法树（AST）
-- 语法分析、语义解释
-- 形式语言的生成与识别
+This section systematically reviews the syntax, semantics, and Chomsky hierarchy of formal languages, emphasizing their roles in mathematical foundations, metamathematics, philosophical analysis, and knowledge system innovation.
 
 ---
 
-## 3. Chomsky层级与形式语言理论 | Chomsky Hierarchy & Formal Language Theory
-
-- 0型文法（无限制文法）
-- 1型文法（上下文相关文法）
-- 2型文法（上下文无关文法）
-- 3型文法（正则文法）
-- 自动机模型对应（图灵机、LBA、PDA、FA）
-
----
-
-## 4. 典型案例与现代应用 | Typical Cases & Modern Applications
-
-- 编译器设计、语法分析器
-- 自然语言处理、AI推理
-- 形式化验证与模型检测
-
----
-
-## 5. 形式化论证与代码实践 | Formal Reasoning & Code Practice
-
-### 5.1 伪代码：BNF语法分析器
-
-```python
-def parse_bnf(grammar, input_str):
-    # 递归下降分析示例
-    ...
-```
-
-### 5.2 Lean定义正则文法
-
+## 2. 语法与语义 | Syntax & Semantics
+- 理论基础：形式语法、生成规则、语义解释。
+- 代表人物：乔姆斯基（Chomsky）、蒙塔格（Montague）
+- 典型理论：上下文无关文法、语义学派。
+- 形式化片段（Lean）：
 ```lean
-inductive RegExp (α : Type)
-| empty : RegExp
-| char : α → RegExp
-| app : RegExp → RegExp → RegExp
-| union : RegExp → RegExp → RegExp
-| star : RegExp → RegExp
+-- 上下文无关文法的Lean定义
+structure CFG (N T : Type) :=
+  (start : N)
+  (rules : set (N × list (N ⊕ T)))
 ```
 
 ---
 
-## 6. 哲学反思与递归扩展计划 | Philosophical Reflections & Recursive Expansion Plan
-
-- 语法与语义、Chomsky层级的发展推动了知识体系的创新与动态演化。
-- 持续递归细化各文法类型、自动机模型与现代应用。
-- 强化AI辅助、知识图谱、国际化标准等创新机制。
-- 推动理论、实践与哲学的深度融合，支撑知识体系的长期演化。
+## 3. Chomsky层级 | Chomsky Hierarchy
+- 类型：正则语言、上下文无关语言、上下文相关语言、递归可枚举语言。
+- 代表人物：乔姆斯基（Chomsky）
+- 典型理论：Chomsky层级、自动机模型。
+- 伪代码：
+```python
+# Chomsky层级判别伪代码
+class ChomskyClassifier:
+    def classify(self, grammar):
+        # 判别文法类型
+        pass
+```
 
 ---
+
+## 4. 递归扩展计划 | Recursive Expansion Plan
+- 持续细化各类型文法、语义解释、自动机模型等分支。
+- 强化多表征内容与国际化标准。
