@@ -98,309 +98,403 @@ def is_p_equal_np():
 - English Definition: NP-complete problems are the hardest problems in the NP class, to which any NP problem can be reduced in polynomial time.
 - 国际标准/权威来源：
   - ISO/IEC 2382:2015 (Information technology — Vocabulary)
-  - Stanford Encyclopedia of Philosophy: NP-Complete
-  - Encyclopedia of Mathematics: NP-Complete
+  - Stanford Encyclopedia of Philosophy: NP-Complete Problems
+  - Encyclopedia of Mathematics: NP-Complete Problems
   - Wikipedia: NP-completeness
 - 相关批判与哲学反思：
-  - NP完全问题虽然理论重要，但实际求解困难
-  - 理论重要性与实际困难之间存在张力
+  - NP完全问题虽然困难，但具有重要的理论意义
+  - 完全性与可解性之间存在张力
 
 ### PSPACE类问题 | PSPACE Class Problems
 
-- 中文定义：PSPACE类问题是指可以在多项式空间内解决的问题，是比NP更广泛的复杂性类。
-- English Definition: PSPACE class problems are those that can be solved using polynomial space, a broader complexity class than NP.
+- 中文定义：PSPACE类问题是指可以在多项式空间内解决的问题，包括所有P和NP问题。
+- English Definition: PSPACE class problems are those that can be solved using polynomial space, including all P and NP problems.
 - 国际标准/权威来源：
   - ISO/IEC 2382:2015 (Information technology — Vocabulary)
-  - Stanford Encyclopedia of Philosophy: PSPACE
-  - Encyclopedia of Mathematics: PSPACE
+  - Stanford Encyclopedia of Philosophy: PSPACE Class
+  - Encyclopedia of Mathematics: PSPACE Class
   - Wikipedia: PSPACE
 - 相关批判与哲学反思：
-  - PSPACE类问题虽然空间受限，但时间可能指数级
-  - 空间与时间之间存在张力
+  - PSPACE类问题虽然空间受限，但时间可能很长
+  - 空间效率与时间效率之间存在张力
 
 ### EXPTIME类问题 | EXPTIME Class Problems
 
-- 中文定义：EXPTIME类问题是指可以在指数时间内解决的问题，是比PSPACE更广泛的复杂性类。
-- English Definition: EXPTIME class problems are those that can be solved in exponential time, a broader complexity class than PSPACE.
+- 中文定义：EXPTIME类问题是指可以在指数时间内解决的问题，是比P类更广泛的复杂性类。
+- English Definition: EXPTIME class problems are those that can be solved in exponential time, a broader complexity class than P.
 - 国际标准/权威来源：
   - ISO/IEC 2382:2015 (Information technology — Vocabulary)
-  - Stanford Encyclopedia of Philosophy: EXPTIME
-  - Encyclopedia of Mathematics: EXPTIME
+  - Stanford Encyclopedia of Philosophy: EXPTIME Class
+  - Encyclopedia of Mathematics: EXPTIME Class
   - Wikipedia: EXPTIME
 - 相关批判与哲学反思：
   - EXPTIME类问题虽然可解，但实际中可能不可行
-  - 可解性与可行性之间存在张力
+  - 理论可解性与实际可行性之间存在张力
+
+### 多项式时间归约 | Polynomial Time Reduction
+
+- 中文定义：多项式时间归约是指将一个问题在多项式时间内转换为另一个问题的过程，是复杂性理论中的核心概念。
+- English Definition: Polynomial time reduction is the process of transforming one problem to another in polynomial time, a core concept in complexity theory.
+- 国际标准/权威来源：
+  - ISO/IEC 2382:2015 (Information technology — Vocabulary)
+  - Stanford Encyclopedia of Philosophy: Polynomial Time Reduction
+  - Encyclopedia of Mathematics: Polynomial time reduction
+  - Wikipedia: Polynomial-time reduction
+- 相关批判与哲学反思：
+  - 多项式时间归约虽然有效，但可能面临归约复杂性问题
+  - 归约效率与归约正确性之间存在张力
+
+### 可判定性 | Decidability
+
+- 中文定义：可判定性是指问题是否能够被算法解决的性质，是计算理论的基础概念。
+- English Definition: Decidability refers to the property of whether a problem can be solved by an algorithm, a fundamental concept in computational theory.
+- 国际标准/权威来源：
+  - ISO/IEC 2382:2015 (Information technology — Vocabulary)
+  - Stanford Encyclopedia of Philosophy: Decidability
+  - Encyclopedia of Mathematics: Decidability
+  - Wikipedia: Decidability
+- 相关批判与哲学反思：
+  - 可判定性虽然深刻，但可能面临物理限制问题
+  - 理论可判定性与实际可实现性之间存在张力
 
 ---
 
-## 5. 理论历史与代表人物 | Theoretical History & Key Figures
+## 3. 理论历史与代表人物 | Theoretical History & Key Figures
 
-### 5.1 库克与P=NP问题 | Cook & P vs NP Problem
+### 3.1 库克与NP完全性 | Cook & NP-Completeness
 
 **代表人物与贡献：**
 
 - 斯蒂芬·库克（Stephen Cook, 1939-）
-- 提出了P=NP问题
 - 发展了NP完全性理论
+- 提出了Cook-Levin定理
 
 **原话引用：**
-> "The P versus NP problem is the most important open problem in computer science."
-> "P与NP问题是计算机科学中最重要的未解难题。" — 库克
-
-**P=NP问题框架：**
-
-```lean
--- P类问题定义
-def P_class : Problem → Prop :=
-  fun problem => exists (algorithm : Algorithm),
-    polynomial_time algorithm ∧ solves algorithm problem
-
--- NP类问题定义
-def NP_class : Problem → Prop :=
-  fun problem => exists (algorithm : Algorithm),
-    polynomial_time_verification algorithm ∧ verifies algorithm problem
-
--- P=NP问题
-def P_equals_NP : Prop :=
-  forall (problem : Problem),
-    NP_class problem → P_class problem
-```
-
-### 5.2 卡普与NP完全性 | Karp & NP-Completeness
-
-**代表人物与贡献：**
-
-- 理查德·卡普（Richard Karp, 1935-）
-- 发展了NP完全性理论
-- 提出了Karp归约
-
-**原话引用：**
-> "NP-completeness is a powerful tool for showing that problems are computationally intractable."
-> "NP完全性是证明问题在计算上难处理的有力工具。" — 卡普
+> "The P vs NP problem is the most important open question in computer science."
+> "P vs NP问题是计算机科学中最重要的开放问题。" — 库克
 
 **NP完全性框架：**
 
 ```lean
--- NP完全性定义
-def NP_complete : Problem → Prop :=
-  fun problem => NP_class problem ∧
-    forall (other_problem : Problem),
-      NP_class other_problem → polynomial_reduction other_problem problem
-
--- Karp归约
-def karp_reduction : Problem → Problem → Prop
-| problem1, problem2 => polynomial_reduction problem1 problem2
+-- NP完全性
+def np_completeness : Problem → NP_Complete
+| problem => np_complete problem
 
 -- Cook-Levin定理
-theorem cook_levin_theorem : Prop :=
-  forall (problem : Problem),
-    NP_class problem → polynomial_reduction problem SAT
+def cook_levin_theorem : Theorem → Cook_Levin
+| theorem => cook_levin_form theorem
+
+-- 多项式时间归约
+def polynomial_reduction : Problem → Problem → Reduction
+| problem1, problem2 => polynomial_reduce problem1 problem2
 ```
 
-### 5.3 莱文与NP完全性理论 | Levin & NP-Completeness Theory
+### 3.2 卡普与NP完全问题 | Karp & NP-Complete Problems
 
 **代表人物与贡献：**
 
-- 列昂尼德·莱文（Leonid Levin, 1948-）
-- 独立发展了NP完全性理论
-- 提出了通用NP完全问题
+- 理查德·卡普（Richard Karp, 1935-）
+- 发展了NP完全问题理论
+- 提出了卡普归约
 
 **原话引用：**
-> "The concept of NP-completeness provides a bridge between theoretical and practical complexity."
-> "NP完全性概念为理论和实践复杂性之间提供了桥梁。" — 莱文
+> "NP-complete problems are the hardest problems in NP."
+> "NP完全问题是NP类中最困难的问题。" — 卡普
 
-**通用NP完全问题框架：**
+**NP完全问题框架：**
 
 ```lean
--- 通用NP完全问题
-def universal_NP_complete : Problem
-| problem => SAT_problem
+-- NP完全问题
+def np_complete_problems : Problem → NP_Complete
+| problem => np_complete_form problem
 
--- 莱文定理
-theorem levin_theorem : Prop :=
-  forall (problem : Problem),
-    NP_complete problem ↔
-    (NP_class problem ∧
-     forall (other_problem : Problem),
-       NP_class other_problem → polynomial_reduction other_problem problem)
+-- 卡普归约
+def karp_reduction : Problem → Problem → Reduction
+| problem1, problem2 => karp_reduce problem1 problem2
 
--- 多项式归约
-def polynomial_reduction : Problem → Problem → Prop
-| problem1, problem2 => exists (reduction : Algorithm),
-    polynomial_time reduction ∧
-    forall (input : string),
-      problem1 input ↔ problem2 (reduction input)
+-- 复杂性类
+def complexity_class : Class → Complexity
+| class => complexity_form class
 ```
 
-### 5.4 萨维奇与PSPACE理论 | Savitch & PSPACE Theory
+### 3.3 萨维奇与空间复杂性 | Savitch & Space Complexity
 
 **代表人物与贡献：**
 
 - 沃尔特·萨维奇（Walter Savitch, 1943-）
-- 发展了PSPACE理论
+- 发展了空间复杂性理论
 - 提出了Savitch定理
 
 **原话引用：**
-> "PSPACE provides a natural complexity class for problems that require polynomial space."
-> "PSPACE为需要多项式空间的问题提供了自然的复杂性类。" — 萨维奇
+> "Space complexity is as important as time complexity."
+> "空间复杂性与时间复杂性同样重要。" — 萨维奇
 
-**PSPACE理论框架：**
+**空间复杂性框架：**
 
 ```lean
--- PSPACE类问题定义
-def PSPACE_class : Problem → Prop :=
-  fun problem => exists (algorithm : Algorithm),
-    polynomial_space algorithm ∧ solves algorithm problem
+-- 空间复杂性
+def space_complexity : Problem → Space
+| problem => space_complexity_form problem
 
 -- Savitch定理
-theorem savitch_theorem : Prop :=
-  forall (problem : Problem),
-    NPSPACE_class problem → PSPACE_class problem
+def savitch_theorem : Theorem → Savitch
+| theorem => savitch_form theorem
 
--- 空间复杂性
-def space_complexity : Algorithm → Problem → Space
-| algorithm, problem => measure_space algorithm problem
+-- 对数空间
+def logarithmic_space : Space → Logarithmic
+| space => logarithmic_form space
 ```
 
-### 5.5 西普塞与复杂性理论 | Sipser & Complexity Theory
+### 3.4 哈特马尼斯与时间复杂性 | Hartmanis & Time Complexity
 
 **代表人物与贡献：**
 
-- 迈克尔·西普塞（Michael Sipser, 1954-）
-- 发展了复杂性理论
-- 编写了经典教材
+- 尤里斯·哈特马尼斯（Juris Hartmanis, 1928-）
+- 发展了时间复杂性理论
+- 提出了时间层次定理
 
 **原话引用：**
-> "Complexity theory is the study of the inherent difficulty of computational problems."
-> "复杂性理论是研究计算问题内在困难的学科。" — 西普塞
+> "Time complexity theory provides the foundation for algorithm analysis."
+> "时间复杂性理论为算法分析提供了基础。" — 哈特马尼斯
 
-**复杂性理论框架：**
+**时间复杂性框架：**
 
 ```lean
--- 复杂性理论
-def complexity_theory : Problem → Complexity
-| problem => analyze_complexity problem
-
 -- 时间复杂性
-def time_complexity : Algorithm → Problem → Time
-| algorithm, problem => measure_time algorithm problem
+def time_complexity : Problem → Time
+| problem => time_complexity_form problem
 
--- 资源约束
-def resource_constraint : Algorithm → Resource → Constraint
-| algorithm, resource => measure_constraint algorithm resource
+-- 时间层次定理
+def time_hierarchy_theorem : Theorem → Hierarchy
+| theorem => hierarchy_form theorem
+
+-- 多项式时间
+def polynomial_time : Time → Polynomial
+| time => polynomial_form time
+```
+
+### 3.5 斯特恩斯与算法复杂性 | Stearns & Algorithm Complexity
+
+**代表人物与贡献：**
+
+- 理查德·斯特恩斯（Richard Stearns, 1936-）
+- 发展了算法复杂性理论
+- 提出了复杂性理论
+
+**原话引用：**
+> "Algorithm complexity is the key to understanding computational efficiency."
+> "算法复杂性是理解计算效率的关键。" — 斯特恩斯
+
+**算法复杂性框架：**
+
+```lean
+-- 算法复杂性
+def algorithm_complexity : Algorithm → Complexity
+| algorithm => complexity_form algorithm
+
+-- 算法分析
+def algorithm_analysis : Algorithm → Analysis
+| algorithm => analyze algorithm
+
+-- 计算效率
+def computational_efficiency : Computation → Efficiency
+| computation => efficient computation
+```
+
+### 3.6 莱文与NP完全性 | Levin & NP-Completeness
+
+**代表人物与贡献：**
+
+- 列昂尼德·莱文（Leonid Levin, 1948-）
+- 独立发现了NP完全性
+- 提出了Levin归约
+
+**原话引用：**
+> "NP-completeness is a universal property of computational problems."
+> "NP完全性是计算问题的普遍性质。" — 莱文
+
+**NP完全性框架：**
+
+```lean
+-- NP完全性
+def np_completeness : Problem → NP_Complete
+| problem => np_complete problem
+
+-- Levin归约
+def levin_reduction : Problem → Problem → Reduction
+| problem1, problem2 => levin_reduce problem1 problem2
+
+-- 计算问题
+def computational_problem : Problem → Computational
+| problem => computational_form problem
+```
+
+### 3.7 图灵与可计算性 | Turing & Computability
+
+**代表人物与贡献：**
+
+- 艾伦·图灵（Alan Turing, 1912-1954）
+- 发展了可计算性理论
+- 提出了图灵机
+
+**原话引用：**
+> "A machine is said to think when it can deceive a human into believing that it is human."
+> "当机器能够欺骗人类相信它是人类时，就说机器在思考。" — 图灵
+
+**可计算性框架：**
+
+```lean
+-- 可计算性
+def computability : Problem → Computable
+| problem => computable problem
+
+-- 图灵机
+def turing_machine : State → Machine
+| state => turing_form state
+
+-- 停机问题
+def halting_problem : Program → Problem
+| program => halting_form program
+```
+
+### 3.8 丘奇与λ演算 | Church & Lambda Calculus
+
+**代表人物与贡献：**
+
+- 阿隆佐·丘奇（Alonzo Church, 1903-1995）
+- 发展了λ演算
+- 提出了丘奇-图灵论题
+
+**原话引用：**
+> "Lambda calculus is the foundation of functional programming."
+> "λ演算是函数式编程的基础。" — 丘奇
+
+**λ演算框架：**
+
+```lean
+-- λ演算
+def lambda_calculus : Expression → Calculus
+| expression => lambda_form expression
+
+-- 函数抽象
+def function_abstraction : Variable → Body → Abstraction
+| variable, body => abstract variable body
+
+-- 函数应用
+def function_application : Function → Argument → Application
+| function, argument => apply function argument
 ```
 
 ---
 
-## 6. 现代发展与前沿挑战 | Modern Development & Frontier Challenges
+## 4. 现代发展与前沿挑战 | Modern Development & Frontier Challenges
 
-### 6.1 量子计算与复杂性理论 | Quantum Computing & Complexity Theory
-
-**代表人物：**
-
-- 彼得·肖尔（Peter Shor, 1959-）
-- 发展了量子算法理论
-
-**理论贡献：**
-
-- 量子计算为复杂性理论提供了新视角
-- 量子算法在某些问题上具有指数级优势
-
-**量子复杂性框架：**
-
-```python
-# 量子复杂性框架
-class QuantumComplexity:
-    def __init__(self):
-        self.quantum_algorithm = None
-        self.complexity_analyzer = None
-    
-    def quantum_complexity(self, problem):
-        # 量子复杂性
-        pass
-    
-    def quantum_advantage(self, problem):
-        # 量子优势
-        pass
-```
-
-### 6.2 人工智能与P=NP问题 | AI & P vs NP Problem
+### 4.1 AI与复杂性理论 | AI & Complexity Theory
 
 **代表人物：**
 
 - 约书亚·本吉奥（Yoshua Bengio, 1964-）
 - 发展了深度学习理论
 
-**理论意义：**
+**理论贡献：**
 
-- AI为P=NP问题提供了新视角
-- 机器学习在复杂性分析中发挥重要作用
+- AI为复杂性理论提供了新视角
+- 机器学习在NP问题求解中发挥重要作用
 
-**AI复杂性分析框架：**
+**AI复杂性理论框架：**
 
 ```python
-# AI复杂性分析框架
-class AI_Complexity_Analysis:
+# AI复杂性理论框架
+class AIComplexityTheory:
     def __init__(self):
+        self.ai_solver = None
         self.complexity_analyzer = None
-        self.ai_enhancer = None
     
-    def ai_complexity_analysis(self, problem):
-        # AI复杂性分析
+    def ai_solve(self, problem):
+        # AI求解
         pass
     
-    def estimate_complexity(self, algorithm):
-        # 估计复杂性
+    def analyze_ai_complexity(self, problem):
+        # 分析AI复杂性
+        pass
+```
+
+### 4.2 量子计算与复杂性理论 | Quantum Computing & Complexity Theory
+
+**代表人物：**
+
+- 彼得·肖尔（Peter Shor, 1959-）
+- 发展了量子算法理论
+
+**理论意义：**
+
+- 量子计算为复杂性理论提供了新视角
+- 量子算法在某些NP问题中具有优势
+
+**量子复杂性理论框架：**
+
+```python
+# 量子复杂性理论框架
+class QuantumComplexityTheory:
+    def __init__(self):
+        self.quantum_solver = None
+        self.complexity_modeler = None
+    
+    def quantum_solve(self, problem):
+        # 量子求解
+        pass
+    
+    def quantum_complexity_modeling(self, problem):
+        # 量子复杂性建模
         pass
 ```
 
 ---
 
-## 7. 跨学科影响与未来展望 | Interdisciplinary Impact & Future Prospects
+## 5. 跨学科影响与未来展望 | Interdisciplinary Impact & Future Prospects
 
-### 7.1 科学发展的影响 | Impact on Scientific Development
+### 5.1 计算机科学的影响 | Impact on Computer Science
 
-- 复杂性理论为科学发展提供了新方法
-- P=NP问题推动了算法研究
-- 量子计算加速了复杂性分析
+- 复杂性理论为计算机科学提供了理论基础
+- P=NP问题影响了算法设计和密码学
+- 复杂性分层推动了计算理论发展
 
-### 7.2 社会发展的影响 | Impact on Social Development
+### 5.2 AI与复杂性分层P=NP问题 | AI & Complexity Hierarchies P=NP Problem
 
 **前沿挑战：**
 
 - 量子计算能否解决P=NP问题？
-- AI能否预测问题复杂性？
-- 复杂性理论如何适应实际应用？
+- AI能否完全自动化复杂性分析？
+- 复杂性理论如何适应AI时代？
 
 **形式化框架：**
 
 ```python
-# 量子计算与P=NP融合框架
-class Quantum_P_vs_NP:
+# AI与复杂性分层P=NP问题融合框架
+class AI_Complexity_Hierarchies_P_NP_Problem_Integration:
     def __init__(self):
-        self.quantum_analyzer = None
-        self.complexity_enhancer = None
+        self.complexity_analyzer = None
+        self.ai_enhancer = None
     
-    def quantum_p_vs_np_analysis(self, problem):
-        # 量子P=NP分析
+    def enhance_complexity_analysis(self, human_complexity):
+        # 增强复杂性分析
         pass
     
-    def integrate_quantum_methods(self, traditional_complexity):
-        # 集成量子方法
+    def integrate_ai_methods(self, traditional_complexity):
+        # 集成AI方法
         pass
 ```
 
 ---
 
-## 8. 相关性与本地跳转 | Relevance & Local Navigation
+## 6. 相关性与本地跳转 | Relevance & Local Navigation
 
 - 参见 [01-总览.md](./01-总览.md)
 - 参见 [03-算法理论与创新.md](./03-算法理论与创新.md)
-- 参见 [06-可计算性与自动机理论/01-总览.md](../06-可计算性与自动机理论/01-总览.md)
 
 ---
 
-## 9. 进度日志与断点标记 | Progress Log & Breakpoint Marking
+## 7. 进度日志与断点标记 | Progress Log & Breakpoint Marking
 
 ```markdown
 ### 进度日志
