@@ -7,6 +7,12 @@
   - [3.1. 公理化方法：解决方案](#31-公理化方法解决方案)
   - [3.2. ZF公理：八条核心规则](#32-zf公理八条核心规则)
   - [3.3. 本地知识图谱](#33-本地知识图谱)
+  - [国际化对齐补全：ZFC公理系统（对齐 Wikipedia/EoM）](#国际化对齐补全zfc公理系统对齐-wikipediaeom)
+    - [一、公理清单（ZFC）](#一公理清单zfc)
+    - [二、等价与常见变体](#二等价与常见变体)
+    - [三、典型推论](#三典型推论)
+    - [四、例子与反例](#四例子与反例)
+    - [五、参考](#五参考)
 
 **版本**: 1.0
 **日期**: 2025-07-02
@@ -133,3 +139,47 @@ ZFC系统由9条公理（或公理模式）组成，我们先介绍除选择公�
 ---
 
 [前往上一节: 02-悖论与危机：乐园的崩塌.md](./02-悖论与危机：乐园的崩塌.md) | [前往下一节: 04-选择公理：天使还是魔鬼.md](./04-选择公理：天使还是魔鬼.md) | [返回总览](./00-集合论总览.md)
+
+## 国际化对齐补全：ZFC公理系统（对齐 Wikipedia/EoM）
+
+### 一、公理清单（ZFC）
+
+1. 外延公理（Extensionality）
+2. 空集公理（Empty set, from Separation/Infinity 可引）
+3. 配对公理（Pairing）
+4. 并集公理（Union）
+5. 幂集公理（Power set）
+6. 无穷公理（Infinity）
+7. 分离公理模式（Separation Schema）
+8. 替代公理模式（Replacement Schema）
+9. 正则公理（Foundation/Regularity）
+10. 选择公理（Axiom of Choice, AC）（ZFC 相比 ZF 的附加）
+
+### 二、等价与常见变体
+
+- 分离（Separation）可由更强形式之**替代**推出弱式实例
+- 正则（Foundation）可替以**反基础公理（Anti-Foundation）**得到不同体系
+- 选择公理（AC）的等价形式：
+  - 佐恩引理（Zorn’s lemma）
+  - 良序定理（Well-ordering theorem）
+  - 每个向量空间都有基
+  - Tychonoff 定理（任意积空间紧致，需在一般性下依赖AC）
+
+### 三、典型推论
+
+- 自然数集ℕ存在（由无穷公理）；皮亚诺结构可在ZFC中刻画
+- 可传递闭包、序数的递归定义（正则+替代）
+- 超限递归与选择函数的存在（依具体形式使用AC）
+
+### 四、例子与反例
+
+- 无选择时的反例：存在无基向量空间（ZFA/ZF下）
+- 非良基集合模型（放弃正则）中的反直觉现象
+
+### 五、参考
+
+- Jech, Set Theory；Kunen, Set Theory
+- [Wikipedia: Zermelo–Fraenkel set theory](https://en.wikipedia.org/wiki/Zermelo%E2%80%93Fraenkel_set_theory)
+- [EoM: ZF set theory](https://encyclopediaofmath.org/wiki/Zermelo%E2%80%93Fraenkel_axioms)
+
+> 本节遵循《国际化数学内容标准》与《条目结构模板》。
