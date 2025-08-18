@@ -25,3 +25,8 @@
 - Dummit, D. S., & Foote, R. M. (2004). Abstract Algebra (3rd ed.). Wiley.
 - Hungerford, T. W. (1974). Algebra. Springer.
 - Atiyah, M. F., & Macdonald, I. G. (1969). Introduction to Commutative Algebra.
+
+## 与 Smith 标准形的对应
+
+- 对有限生成阿贝尔群 G ≅ Z^r ⊕ ⊕_i Z/d_i Z，不变因子 d_i 可由某 Z-线性映射的 Smith 标准形对角元读出（coker 解释）。
+- 参见：`MWE-Smith标准形-最小例.md`，其中 SNF 的对角元即给出不变因子，进而对应本页的分解形态。

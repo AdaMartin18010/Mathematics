@@ -30,3 +30,8 @@
 - Bar-Hillel, Perles, Shamir (1961). On formal properties of simple phrase structure grammars.
 - Hopcroft–Ullman–Motwani. Introduction to Automata Theory, Languages, and Computation.
 - Sipser. Introduction to the Theory of Computation.
+
+## 与 Ogden 引理的对照与用法
+
+- 当基本泵引理无法精确控制被抽取片段时，使用 Ogden 引理在关键片段加标记，从而强制 v、x 覆盖该片段以导出矛盾。
+- 使用指引：对 L = { a^i b^j c^k | i=j 或 j=k } 的非CFL证明，见 `MWE-Ogden引理-最小例.md`。

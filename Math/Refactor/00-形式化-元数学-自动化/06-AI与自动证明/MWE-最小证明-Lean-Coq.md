@@ -28,3 +28,10 @@ End Minimal.
 
 - 要点：最小可验证证明，展示形式系统的“语法→可检验证明”。
 - 参考：Lean/Coq 文档
+
+```lean
+-- Lean: 最小证明 P → P
+example (P : Prop) : P → P := by
+  intro h
+  exact h
+```
