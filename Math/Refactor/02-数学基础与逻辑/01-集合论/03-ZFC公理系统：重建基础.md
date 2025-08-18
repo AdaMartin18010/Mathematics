@@ -13,6 +13,7 @@
     - [三、典型推论](#三典型推论)
     - [四、例子与反例](#四例子与反例)
     - [五、参考](#五参考)
+  - [引文与参考（严格体例）](#引文与参考严格体例)
 
 **版本**: 1.0
 **日期**: 2025-07-02
@@ -183,3 +184,16 @@ ZFC系统由9条公理（或公理模式）组成，我们先介绍除选择公�
 - [EoM: ZF set theory](https://encyclopediaofmath.org/wiki/Zermelo%E2%80%93Fraenkel_axioms)
 
 > 本节遵循《国际化数学内容标准》与《条目结构模板》。
+
+---
+
+## 引文与参考（严格体例）
+
+- Zermelo, E. (1908). Untersuchungen über die Grundlagen der Mengenlehre I. Math. Ann., 65, 261–281.（外延、分离、选择雏形；pp.261–281）
+- Fraenkel, A. (1922). Über die Einführung transfiniter Zahlen. Sitzungsberichte d. Preuss. Akad. d. Wiss.（补充替代等）
+- Skolem, T. (1922). Some remarks on axiomatized set theory.（Skolem 形式化与可数性现象）
+- Von Neumann, J. (1925/1928). Axiomatisierung der Mengenlehre.（累计层级 Vα 与正则性）
+- Jech, T. (2003). Set Theory (3rd ed.). Springer.（第I章 §2–§5：ZFC 公理，定理编号随版次）
+- Kunen, K. (2011). Set Theory. College Publications.（现代陈述与练习）
+
+> 返回：`../00-集合论总览.md`；相关：`./04-选择公理：天使还是魔鬼.md`。
