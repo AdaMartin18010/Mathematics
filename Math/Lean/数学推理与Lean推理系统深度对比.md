@@ -2,12 +2,31 @@
 
 ## 目录
 
-- [1. 推理基础对比](#1-推理基础对比)
-- [2. 证明方法对比](#2-证明方法对比)
-- [3. 逻辑系统对比](#3-逻辑系统对比)
-- [4. 推理策略对比](#4-推理策略对比)
-- [5. 自动化程度对比](#5-自动化程度对比)
-- [6. 实际案例分析](#6-实际案例分析)
+- [数学推理与Lean推理系统深度对比](#数学推理与lean推理系统深度对比)
+  - [目录](#目录)
+  - [1. 推理基础对比](#1-推理基础对比)
+    - [1.1 推理基础理论 | Foundation of Reasoning](#11-推理基础理论--foundation-of-reasoning)
+    - [1.2 推理原则对比 | Reasoning Principles Comparison](#12-推理原则对比--reasoning-principles-comparison)
+  - [2. 证明方法对比](#2-证明方法对比)
+    - [2.1 直接证明 | Direct Proof](#21-直接证明--direct-proof)
+    - [2.2 归纳证明 | Inductive Proof](#22-归纳证明--inductive-proof)
+    - [2.3 反证法 | Proof by Contradiction](#23-反证法--proof-by-contradiction)
+  - [3. 逻辑系统对比](#3-逻辑系统对比)
+    - [3.1 命题逻辑 | Propositional Logic](#31-命题逻辑--propositional-logic)
+    - [3.2 谓词逻辑 | Predicate Logic](#32-谓词逻辑--predicate-logic)
+  - [4. 推理策略对比](#4-推理策略对比)
+    - [4.1 数学推理策略 | Mathematical Reasoning Strategies](#41-数学推理策略--mathematical-reasoning-strategies)
+    - [4.2 Lean推理策略 | Lean Reasoning Strategies](#42-lean推理策略--lean-reasoning-strategies)
+    - [4.3 推理策略对比表 | Reasoning Strategy Comparison Table](#43-推理策略对比表--reasoning-strategy-comparison-table)
+  - [5. 自动化程度对比](#5-自动化程度对比)
+    - [5.1 数学证明自动化 | Mathematical Proof Automation](#51-数学证明自动化--mathematical-proof-automation)
+    - [5.2 Lean证明自动化 | Lean Proof Automation](#52-lean证明自动化--lean-proof-automation)
+    - [5.3 自动化对比表 | Automation Comparison Table](#53-自动化对比表--automation-comparison-table)
+  - [6. 实际案例分析](#6-实际案例分析)
+    - [6.1 案例分析1：费马小定理 | Case Study 1: Fermat's Little Theorem](#61-案例分析1费马小定理--case-study-1-fermats-little-theorem)
+    - [6.2 案例分析2：欧拉公式 | Case Study 2: Euler's Formula](#62-案例分析2欧拉公式--case-study-2-eulers-formula)
+    - [6.3 案例分析3：哥德巴赫猜想 | Case Study 3: Goldbach's Conjecture](#63-案例分析3哥德巴赫猜想--case-study-3-goldbachs-conjecture)
+  - [总结](#总结)
 
 ---
 
