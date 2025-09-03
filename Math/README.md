@@ -193,7 +193,7 @@
 - [03-Lean证明助手与形式化验证](./Lean/03-Lean证明助手与形式化验证/) - Lean证明助手与形式化验证
 - [04-Lean数学库与定理证明](./Lean/04-Lean数学库与定理证明/) - Lean数学库与定理证明
 
-#### 4. Matter模块 | Matter Module
+#### 5. Matter模块 | Matter Module
 
 **位置：** `Math/Matter/`  
 **内容：** 数学基础内容、概念分析和知识体系  
