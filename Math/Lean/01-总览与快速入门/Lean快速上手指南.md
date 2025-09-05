@@ -13,15 +13,16 @@
 
 ### 必需工具
 
-- **Lean 4**: 最新版本的Lean语言
-- **VS Code**: 推荐的代码编辑器
-- **Lean扩展**: VS Code的Lean语言支持
+- **Lean 4** 与 `elan`: 工具链与版本管理
+- **Lake**: Lean 4 项目与依赖管理
+- **VS Code** 与 Lean 4 扩展
 
 ### 安装步骤
 
-1. 安装Lean 4: [下载地址](https://leanprover-community.github.io/get_started.html)
-2. 安装VS Code: [下载地址](https://code.visualstudio.com/)
-3. 安装Lean扩展: 在VS Code扩展市场搜索"Lean"
+1. 安装 `elan`（将自动安装 Lean 4 工具链）：`Windows` 建议按官方指南执行：`https://leanprover-community.github.io/get_started.html`
+2. 安装 VS Code: `https://code.visualstudio.com/`
+3. 安装 Lean 4 扩展（Marketplace 搜索 "Lean 4"）
+4. 初始化 `lake`（随 Lean 4 提供），确保可用：`lake --version`
 
 ### 验证安装
 
@@ -33,6 +34,9 @@ lean --version
 lake new my_project
 cd my_project
 lake build
+
+# 查看工具链
+type lean-toolchain | cat
 ```
 
 ---
@@ -120,12 +124,13 @@ theorem example2 (n : Nat) : n + 0 = n := by
 
 ```lean
 -- 导入标准库
-import Mathlib.Data.Nat.Basic
-import Mathlib.Algebra.Ring.Basic
+import Std
+import Mathlib
 
 -- 打开命名空间
 open Nat
 open List
+open scoped BigOperators
 ```
 
 ---
@@ -258,9 +263,9 @@ theorem rewrite_example (a b : Nat) (h : a = b) : a + 1 = b + 1 := by
 
 ### 官方文档
 
-- [Lean教程](https://leanprover-community.github.io/learn/)
-- [数学库文档](https://leanprover-community.github.io/mathlib_docs/)
-- [Lean 4参考](https://leanprover-community.github.io/lean4/doc/)
+- [Lean 教程](https://leanprover-community.github.io/learn/)
+- [Mathlib4 文档](https://leanprover-community.github.io/mathlib4_docs/)
+- [Lean 4 参考](https://leanprover-community.github.io/lean4/doc/)
 
 ### 社区资源
 
