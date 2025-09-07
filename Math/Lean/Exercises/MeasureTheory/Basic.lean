@@ -1,3 +1,12 @@
+/-!
+运行提示：
+- 在 `Exercises` 目录执行 `lake build`
+- 需要 `Mathlib`，版本随 `lakefile.lean` 固定到 stable 或已验证提交
+- 最小导入：`import Std`, `import Mathlib`
+-/
+
+import Std
+import Mathlib
 -- 测度论基础练习 | Measure Theory Basic Exercises
 -- 对齐国际标准：剑桥大学Part III测度论课程
 -- 更新时间：2025-01-15
@@ -35,6 +44,7 @@ theorem monotone_convergence (X : Type) [MeasurableSpace X] (μ : Measure X)
   (∀ n, Measurable (f n)) → (∀ n x, 0 ≤ f n x) →
   (∀ n x, f n x ≤ f (n + 1) x) → (∀ x, Tendsto (fun n => f n x) atTop (𝓝 (f_lim x))) →
   ∫ x, f_lim x ∂μ = ⨆ n, ∫ x, f n x ∂μ := by
+  -- HINT: 使用测度可加性与外测度构造；检索 `Measure.add_measurable`/`MeasurableSet.union`
   sorry
 
 -- 练习5：几乎处处性质

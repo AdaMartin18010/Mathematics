@@ -35,8 +35,9 @@ package exercises
 @[default_target]
 lean_lib Exercises
 
+-- 固定 mathlib4 至已验证提交，避免 master 波动导致不稳定
 require mathlib from git
-  "https://github.com/leanprover-community/mathlib4" @ "master"
+  "https://github.com/leanprover-community/mathlib4" @ "stable"
 ```
 
 ```lean
@@ -59,3 +60,11 @@ end Exercises.Basics
     ```
 
 ```
+
+---
+
+## 版本与工具链对齐 | Version & Toolchain Alignment
+
+- 工具链：`Exercises/lean-toolchain` 应与主仓库保持一致，建议跟随最新稳定版。
+- mathlib4：在 `lakefile.lean` 固定到 `stable` 或 `版本同步索引.md` 中记录的已验证提交。
+- 同步流程：每月对照 `Lean/版本同步索引.md`，如有 breaking changes，先在 `Exercises` 内验证再更新示例。

@@ -2,6 +2,13 @@
 -- 对齐国际标准：剑桥大学Part II代数课程
 -- 更新时间：2025-01-15
 
+/-!
+运行提示：
+- 在 `Exercises` 目录执行 `lake build`
+- 需要 `Mathlib`，版本随 `lakefile.lean` 固定到 stable 或已验证提交
+- 最小导入：`import Std`, `import Mathlib`
+-/
+
 import Std
 import Mathlib
 
@@ -24,6 +31,7 @@ theorem ring_mul_zero (R : Type) [MyRing R] (a : R) : a * 0 = 0 := by
   have h1 := MyRing.left_distrib a 0 0
   have h2 := MyRing.add_zero (a * 0)
   have h3 := MyRing.add_zero 0
+  -- HINT: 使用分配律将 a*(0+0) 与 a*0 + a*0 比较，再移项
   sorry -- 这是一个练习，需要学生完成
 
 -- 环的幂运算练习
@@ -32,6 +40,7 @@ theorem ring_pow_zero (R : Type) [MyRing R] (a : R) : a^0 = 1 := by
 
 -- 环的负元性质练习
 theorem ring_neg_mul (R : Type) [MyRing R] (a b : R) : (-a) * b = -(a * b) := by
+  -- HINT: 用 (-a)*b + a*b = 0 证明，并用加法消去得到等式
   sorry -- 这是一个练习，需要学生完成
 
 -- 环的分配律练习

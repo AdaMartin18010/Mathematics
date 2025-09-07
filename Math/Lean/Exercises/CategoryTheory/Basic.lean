@@ -1,3 +1,12 @@
+/-!
+运行提示：
+- 在 `Exercises` 目录执行 `lake build`
+- 需要 `Mathlib`，版本随 `lakefile.lean` 固定到 stable 或已验证提交
+- 最小导入：`import Std`, `import Mathlib`
+-/
+
+import Std
+import Mathlib
 -- 范畴论基础练习 | Category Theory Basic Exercises
 -- 对齐国际标准：剑桥大学Part III范畴论课程
 -- 更新时间：2025-01-15
