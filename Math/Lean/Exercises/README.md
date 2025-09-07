@@ -19,25 +19,37 @@ Exercises/
 ├─ Basics/
 │   └─ AddComm.lean
 ├─ Algebra/
-│   └─ Group.lean
+│   ├─ Group.lean
+│   ├─ Ring.lean
+│   └─ Field.lean
 ├─ Analysis/
-│   └─ Real.lean
+│   ├─ Real.lean
+│   └─ Complex.lean
 ├─ Geometry/
 │   └─ Euclidean.lean
 ├─ NumberTheory/
 │   └─ Basic.lean
-└─ Probability/
+├─ Probability/
+│   └─ Basic.lean
+├─ Topology/
+│   └─ Basic.lean
+├─ CategoryTheory/
+│   └─ Basic.lean
+└─ MeasureTheory/
     └─ Basic.lean
 ```
 
 ## 练习分类 | Exercise Categories
 
 - **Basics/**: 基础语法与类型系统练习
-- **Algebra/**: 代数结构练习
-- **Analysis/**: 分析学与拓扑练习
+- **Algebra/**: 代数结构练习（群、环、域）
+- **Analysis/**: 分析学练习（实数分析、复分析）
 - **Geometry/**: 几何学练习（欧几里得几何）
 - **NumberTheory/**: 数论练习（基础数论）
 - **Probability/**: 概率论练习（基础概率论）
+- **Topology/**: 拓扑学练习（基础拓扑）
+- **CategoryTheory/**: 范畴论练习（基础范畴论）
+- **MeasureTheory/**: 测度论练习（基础测度论）
 
 ## 验证 | Verification
 
@@ -45,4 +57,4 @@ Exercises/
 
 ---
 
-更新时间：2025-01-15
+更新时间：2025-01-15（新增拓扑学、范畴论、测度论练习，扩展代数和分析练习）
