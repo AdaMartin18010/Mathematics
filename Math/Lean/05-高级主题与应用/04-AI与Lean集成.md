@@ -8,6 +8,20 @@ import Mathlib
 open scoped BigOperators
 ```
 
+## 常用模块导入清单 | Common Imports Cheat Sheet
+
+- JSON/序列化：`import Std/Data/Json`，`import Std/Data/HashMap`
+- 字符串/解析：`import Std/Data/String/Basic`
+- IO/文件：`import Std/Io`
+- 策略与自动化：`import Mathlib/Tactic`，`import Mathlib/Tactic/Conv`，`import Mathlib/Tactic/NormNum`
+
+## 概念层级与映射 | Concepts & Mapping
+
+- 神经-符号：外部模型（建议/检索） + 内部 Lean 证明（战术/定理）
+- 自动化：`simp/linarith/tautology` 等传统 + 机器学习引导
+- 知识接口：结构化数据（KG/JSON）到 Lean 命题/证据的映射
+- 解释与可追溯：建议→脚本→证明对象→自然语言解释
+
 ## 1. 神经符号混合推理 | Neuro-Symbolic Hybrid Reasoning
 
 ### 神经网络辅助证明 | Neural Network Assisted Proof
@@ -313,6 +327,32 @@ def context_aware_tactic_selection (context : ProofContext) (goal : Prop) : Stri
 def intelligent_proof_suggestions (context : ProofContext) : List String :=
   -- 生成智能证明建议
   sorry
+```
+
+## 9. 练习与参考解 | Exercises with Hints
+
+```lean
+-- 练习1：将简单自然语言映射为等式命题（玩具示例）
+def toy_parse (s : String) : Option Prop :=
+  if s = "1+1=2" then some (1+1=2) else none
+
+theorem ex_nl_to_formal :
+  match toy_parse "1+1=2" with
+  | some p => p
+  | none => True := by
+  simp [toy_parse]; norm_num
+
+-- 练习2：整合“建议”与“符号核查”（玩具接口）
+structure Suggestion where stmt : Prop; ok : Bool
+
+def integrate_suggestions (ss : List Suggestion) : List Prop :=
+  ss.filter (fun s => s.ok) |>.map (fun s => s.stmt)
+
+theorem ex_integrate_keeps_ok (ss : List Suggestion) :
+  ∀ s ∈ ss, s.ok = True → s.stmt ∈ integrate_suggestions ss := by
+  intro s hs hok; 
+  simp [integrate_suggestions, hok] at *; 
+  exact List.mem_map.mpr ⟨s, by simpa [hok], rfl⟩
 ```
 
 ### 自适应学习 | Adaptive Learning

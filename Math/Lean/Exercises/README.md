@@ -76,6 +76,11 @@ Exercises/
 
 说明：如遇策略或 API 变动，请先参阅 `Lean/版本同步索引.md` 与各文档“版本与兼容性注记”。
 
+## 索引与参考解 | Indexes
+
+- 跨章节练习索引：`Lean/Exercises/跨章节练习索引.md`
+- 练习参考解索引：`Lean/Exercises/练习参考解索引.md`
+
 ## 参考条目与外部链接 | Reference Index
 
 - 文档与手册：

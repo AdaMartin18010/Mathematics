@@ -17,20 +17,40 @@ namespace Exercises.Basics
 theorem add_comm_ex (a b : Nat) : a + b = b + a := by
   exact Nat.add_comm a b
 
+-- SOLUTION: 可以直接用 simp；也可 rw 重写
+-- by
+--   simp
+
 -- 基础乘法交换律练习
 theorem mul_comm_ex (a b : Nat) : a * b = b * a := by
   exact Nat.mul_comm a b
+
+-- SOLUTION:
+-- by
+--   simp [mul_comm]
 
 -- 基础加法结合律练习
 theorem add_assoc_ex (a b c : Nat) : (a + b) + c = a + (b + c) := by
   exact Nat.add_assoc a b c
 
+-- SOLUTION:
+-- by
+--   simpa using Nat.add_assoc a b c
+
 -- 基础乘法结合律练习
 theorem mul_assoc_ex (a b c : Nat) : (a * b) * c = a * (b * c) := by
   exact Nat.mul_assoc a b c
 
+-- SOLUTION:
+-- by
+--   simpa using Nat.mul_assoc a b c
+
 -- 基础分配律练习
 theorem mul_add_ex (a b c : Nat) : a * (b + c) = a * b + a * c := by
   exact Nat.mul_add a b c
+
+-- SOLUTION:
+-- by
+--   simpa using Nat.mul_add a b c
 
 end Exercises.Basics
