@@ -24,6 +24,10 @@ theorem category_comp_assoc (C : Type) [Category C] (X Y Z W : C)
   (f ≫ g) ≫ h = f ≫ (g ≫ h) := by
   exact Category.assoc f g h
 
+-- SOLUTION:
+-- by
+--   simpa using Category.assoc f g h
+
 -- 练习2：函子的基本性质
 -- 对应哈佛大学范畴论标准
 theorem functor_comp (C D : Type) [Category C] [Category D] (F : C ⥤ D) (X Y Z : C)
@@ -31,12 +35,20 @@ theorem functor_comp (C D : Type) [Category C] [Category D] (F : C ⥤ D) (X Y Z
   F.map (f ≫ g) = F.map f ≫ F.map g := by
   exact F.map_comp f g
 
+-- SOLUTION:
+-- by
+--   simpa using F.map_comp f g
+
 -- 练习3：自然变换的基本性质
 -- 对应芝加哥大学范畴论标准
 theorem naturality (C D : Type) [Category C] [Category D] (F G : C ⥤ D)
   (α : F ⟶ G) (X Y : C) (f : X ⟶ Y) :
   α.app Y ≫ G.map f = F.map f ≫ α.app X := by
   exact α.naturality f
+
+-- SOLUTION:
+-- by
+--   simpa using α.naturality f
 
 -- 练习4：同构的基本性质
 -- 对应华威大学范畴论标准

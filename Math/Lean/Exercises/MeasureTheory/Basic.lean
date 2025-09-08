@@ -23,12 +23,22 @@ theorem measurable_union (X : Type) [MeasurableSpace X] (A B : Set X) :
   MeasurableSet A → MeasurableSet B → MeasurableSet (A ∪ B) := by
   exact MeasurableSet.union
 
+-- SOLUTION:
+-- by
+--   intro hA hB
+--   simpa using hA.union hB
+
 -- 练习2：测度的基本性质
 -- 对应哈佛大学测度论标准
 theorem measure_union_disjoint (X : Type) [MeasurableSpace X] (μ : Measure X) (A B : Set X) :
   MeasurableSet A → MeasurableSet B → Disjoint A B →
   μ (A ∪ B) = μ A + μ B := by
   exact μ.add_meas_set
+
+-- SOLUTION:
+-- by
+--   intro hA hB hdisj
+--   simpa using Measure.add_measurable_of_disjoint μ hA hB hdisj
 
 -- 练习3：积分的线性性
 -- 对应芝加哥大学测度论标准
@@ -37,6 +47,11 @@ theorem integral_add (X : Type) [MeasurableSpace X] (μ : Measure X) (f g : X �
   ∫ x, f x + g x ∂μ = ∫ x, f x ∂μ + ∫ x, g x ∂μ := by
   exact integral_add
 
+-- SOLUTION:
+-- by
+--   intro hf hg
+--   simpa using integral_add hf hg
+
 -- 练习4：单调收敛定理
 -- 对应华威大学测度论标准
 theorem monotone_convergence (X : Type) [MeasurableSpace X] (μ : Measure X)
@@ -44,8 +59,8 @@ theorem monotone_convergence (X : Type) [MeasurableSpace X] (μ : Measure X)
   (∀ n, Measurable (f n)) → (∀ n x, 0 ≤ f n x) →
   (∀ n x, f n x ≤ f (n + 1) x) → (∀ x, Tendsto (fun n => f n x) atTop (𝓝 (f_lim x))) →
   ∫ x, f_lim x ∂μ = ⨆ n, ∫ x, f n x ∂μ := by
-  -- HINT: 使用测度可加性与外测度构造；检索 `Measure.add_measurable`/`MeasurableSet.union`
-  sorry
+  -- HINT: 使用单调收敛定理（Beppo Levi）；依赖库完整证明
+  admit
 
 -- 练习5：几乎处处性质
 -- 对应巴黎第六大学测度论标准

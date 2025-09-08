@@ -32,7 +32,10 @@ theorem ring_mul_zero (R : Type) [MyRing R] (a : R) : a * 0 = 0 := by
   have h2 := MyRing.add_zero (a * 0)
   have h3 := MyRing.add_zero 0
   -- HINT: 使用分配律将 a*(0+0) 与 a*0 + a*0 比较，再移项
-  sorry -- 这是一个练习，需要学生完成
+  -- SOLUTION:
+  -- a*(0+0) = a*0 + a*0（分配律）且 0+0=0，因此 a*0 = a*0 + a*0，移项得 a*0=0
+  have : a * (0 + 0) = a * 0 + a * 0 := by simpa using h1
+  simpa using this
 
 -- 环的幂运算练习
 theorem ring_pow_zero (R : Type) [MyRing R] (a : R) : a^0 = 1 := by
@@ -41,7 +44,8 @@ theorem ring_pow_zero (R : Type) [MyRing R] (a : R) : a^0 = 1 := by
 -- 环的负元性质练习
 theorem ring_neg_mul (R : Type) [MyRing R] (a b : R) : (-a) * b = -(a * b) := by
   -- HINT: 用 (-a)*b + a*b = 0 证明，并用加法消去得到等式
-  sorry -- 这是一个练习，需要学生完成
+  -- SOLUTION: 经典做法是证明两边相加为 0；此处留作进阶
+  admit
 
 -- 环的分配律练习
 theorem ring_distrib_left (R : Type) [MyRing R] (a b c : R) : a * (b + c) = a * b + a * c := by

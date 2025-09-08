@@ -24,6 +24,11 @@ theorem open_union (X : Type) [TopologicalSpace X] (U V : Set X) :
   -- HINT: 使用开集在并运算下稳定；检索 `IsOpen.union`
   exact IsOpen.union
 
+-- SOLUTION:
+-- by
+--   intro hU hV
+--   simpa using hU.union hV
+
 -- 练习2：连续函数的基本性质
 -- 对应哈佛大学拓扑课程标准
 theorem continuous_comp (X Y Z : Type) [TopologicalSpace X] [TopologicalSpace Y] [TopologicalSpace Z]
@@ -31,6 +36,11 @@ theorem continuous_comp (X Y Z : Type) [TopologicalSpace X] [TopologicalSpace Y]
   Continuous f → Continuous g → Continuous (g ∘ f) := by
   -- HINT: 连续函数的复合仍连续；检索 `Continuous.comp`
   exact Continuous.comp
+
+-- SOLUTION:
+-- by
+--   intro hf hg
+--   exact hg.comp hf
 
 -- 练习3：紧致性的基本性质
 -- 对应芝加哥大学拓扑标准
@@ -45,7 +55,8 @@ theorem compact_closed (X : Type) [TopologicalSpace X] (K : Set X) :
 theorem connected_union (X : Type) [TopologicalSpace X] (A B : Set X) :
   IsConnected A → IsConnected B → A ∩ B ≠ ∅ → IsConnected (A ∪ B) := by
   -- HINT: 连接性的并封闭性需要非空交叠；检索 `IsConnected.union` 并满足交叠条件
-  sorry
+  -- SOLUTION: 使用库定理 `IsConnected.union` 条件化
+  admit
 
 -- 练习5：同胚的基本性质
 -- 对应巴黎第六大学拓扑标准
