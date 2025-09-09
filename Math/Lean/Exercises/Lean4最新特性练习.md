@@ -20,15 +20,19 @@
 
 -- 1. 定义一个加法函数
 def add := (· + ·)
+-- SOLUTION: 使用点记号语法，Lean自动推断为 Nat → Nat → Nat
 
 -- 2. 定义一个乘法函数
 def multiply := (· * ·)
+-- SOLUTION: 使用点记号语法，Lean自动推断为 Nat → Nat → Nat
 
 -- 3. 定义一个平方函数
 def square := (· ^ 2)
+-- SOLUTION: 使用点记号语法，Lean自动推断为 Nat → Nat
 
 -- 4. 定义一个字符串连接函数
 def concat := (· ++ ·)
+-- SOLUTION: 使用点记号语法，Lean自动推断为 String → String → String
 
 -- 验证类型推断
 #check add      -- 应该显示 Nat → Nat → Nat
@@ -39,9 +43,11 @@ def concat := (· ++ ·)
 -- 2025年最新特性练习
 -- 5. 定义一个管道操作函数
 def pipeline := (· |> (· * 2) |> (· + 1))
+-- SOLUTION: 使用管道操作符 |> 组合函数，等价于 (· + 1) ∘ (· * 2)
 
 -- 6. 定义一个复杂操作链
 def complex_chain := (· |> (· ^ 2) |> (· + 1) |> (· * 3))
+-- SOLUTION: 使用管道操作符 |> 组合多个函数，等价于 (· * 3) ∘ (· + 1) ∘ (· ^ 2)
 
 -- 验证最新特性
 #check pipeline      -- 应该显示 Nat → Nat
@@ -56,16 +62,20 @@ def complex_chain := (· |> (· ^ 2) |> (· + 1) |> (· * 3))
 
 -- 1. 定义一个恒等函数
 def identity x := x
+-- SOLUTION: 多态恒等函数，Lean推断为 {α : Type} → α → α
 
 -- 2. 定义一个函数组合函数
 def compose := (· ∘ ·)
+-- SOLUTION: 函数组合操作符，Lean推断为 {α β γ : Type} → (β → γ) → (α → β) → α → γ
 
 -- 3. 定义一个函数应用函数
 def apply := (· $ ·)
+-- SOLUTION: 函数应用操作符，Lean推断为 {α β : Type} → (α → β) → α → β
 
 -- 4. 定义一个列表映射函数
 def map_list {α β : Type} (f : α → β) (xs : List α) : List β :=
   xs.map f
+-- SOLUTION: 使用List.map方法，Lean推断为 {α β : Type} → (α → β) → List α → List β
 
 -- 验证类型推断
 #check identity  -- 应该显示 {α : Type} → α → α
@@ -86,19 +96,29 @@ def map_list {α β : Type} (f : α → β) (xs : List α) : List β :=
 
 -- 1. 定义数学运算函数
 def double := (· * 2)
+-- SOLUTION: 使用点记号语法定义双倍函数
 def triple := (· * 3)
+-- SOLUTION: 使用点记号语法定义三倍函数
 def increment := (· + 1)
+-- SOLUTION: 使用点记号语法定义递增函数
 def decrement := (· - 1)
+-- SOLUTION: 使用点记号语法定义递减函数
 
 -- 2. 定义比较函数
 def is_even := (· % 2 = 0)
+-- SOLUTION: 使用点记号语法定义偶数判断函数
 def is_odd := (· % 2 = 1)
+-- SOLUTION: 使用点记号语法定义奇数判断函数
 def is_positive := (0 < ·)
+-- SOLUTION: 使用点记号语法定义正数判断函数
 
 -- 3. 定义字符串操作函数
 def to_upper := String.toUpper
+-- SOLUTION: 直接引用String.toUpper方法
 def to_lower := String.toLower
+-- SOLUTION: 直接引用String.toLower方法
 def add_exclamation := (· ++ "!")
+-- SOLUTION: 使用点记号语法定义添加感叹号函数
 
 -- 测试函数
 #eval double 5        -- 应该输出 10
@@ -116,17 +136,25 @@ def add_exclamation := (· ++ "!")
 
 -- 1. 定义基础函数
 def square := (· ^ 2)
+-- SOLUTION: 使用点记号语法定义平方函数
 def add_one := (· + 1)
+-- SOLUTION: 使用点记号语法定义加一函数
 def multiply_by_three := (· * 3)
+-- SOLUTION: 使用点记号语法定义乘三函数
 
 -- 2. 定义函数组合
 def square_then_add_one := add_one ∘ square
+-- SOLUTION: 使用函数组合操作符 ∘，先平方再加一
 def add_one_then_square := square ∘ add_one
+-- SOLUTION: 使用函数组合操作符 ∘，先加一再平方
 def triple_then_square := square ∘ multiply_by_three
+-- SOLUTION: 使用函数组合操作符 ∘，先乘三再平方
 
 -- 3. 定义管道操作
 def pipe_square_add := (· |> square |> add_one)
+-- SOLUTION: 使用管道操作符 |>，等价于 add_one ∘ square
 def pipe_add_square := (· |> add_one |> square)
+-- SOLUTION: 使用管道操作符 |>，等价于 square ∘ add_one
 
 -- 测试组合函数
 #eval square_then_add_one 3    -- 应该输出 10 (3² + 1)
@@ -151,6 +179,7 @@ def slow_fib (n : Nat) : Nat :=
   | 0 => 0
   | 1 => 1
   | n + 2 => slow_fib n + slow_fib (n + 1)
+-- SOLUTION: 指数时间复杂度，每次递归调用两次自身
 
 -- 2. 尾递归版本（高效）
 def fast_fib (n : Nat) : Nat :=
@@ -159,11 +188,13 @@ def fast_fib (n : Nat) : Nat :=
     | 0 => a
     | n + 1 => aux b (a + b) n
   aux 0 1 n
+-- SOLUTION: 线性时间复杂度，使用累加器模式实现尾递归
 
 -- 3. 普通递归求和
 def slow_sum : List Nat → Nat
   | [] => 0
   | x :: xs => x + slow_sum xs
+-- SOLUTION: 普通递归，可能栈溢出
 
 -- 4. 尾递归求和
 def fast_sum (xs : List Nat) : Nat :=
@@ -171,6 +202,7 @@ def fast_sum (xs : List Nat) : Nat :=
     | [] => acc
     | x :: xs => aux (acc + x) xs
   aux 0 xs
+-- SOLUTION: 尾递归版本，使用累加器避免栈溢出
 
 -- 性能测试
 #eval fast_fib 10   -- 应该快速计算
@@ -222,14 +254,17 @@ def test_array := #[1, 2, 3, 4, 5]
 
 -- 1. 定义简单的宏
 macro "my_simp" : tactic => `(simp)
+-- SOLUTION: 定义简单的宏，等价于 simp 策略
 
 -- 2. 定义参数化宏
 macro "auto_simp" : tactic => do
   `(simp [*, -not_not] <;> try linarith)
+-- SOLUTION: 定义自动化简宏，先simp再尝试linarith
 
 -- 3. 定义复杂宏
 macro "smart_prove" : tactic => do
   `(simp <;> try linarith <;> try ring <;> try omega)
+-- SOLUTION: 定义智能证明宏，依次尝试多种策略
 
 -- 使用宏的示例
 theorem test_macro (a b : Nat) : a + b = b + a := by
@@ -256,14 +291,17 @@ macro "conditional_tactic" : tactic => do
     `(rfl)
   else
     `(sorry)
+-- SOLUTION: 根据目标类型选择不同策略的条件宏
 
 -- 2. 定义错误处理宏
 macro "safe_tactic" : tactic => do
   `(try simp <;> try linarith <;> try ring <;> sorry)
+-- SOLUTION: 安全的错误处理宏，失败时使用sorry
 
 -- 3. 定义组合宏
 macro "combo_tactic" : tactic => do
   `(simp [*, -not_not] <;> try linarith <;> try ring <;> try omega)
+-- SOLUTION: 组合多种策略的智能宏
 
 -- 使用高级宏
 theorem test_conditional (a : Nat) : a = a := by
@@ -290,14 +328,19 @@ namespace MathLib
 
 -- 1. 使用智能类型推断定义基础函数
 def add := (· + ·)
+-- SOLUTION: 使用点记号语法定义加法函数
 def multiply := (· * ·)
+-- SOLUTION: 使用点记号语法定义乘法函数
 def square := (· ^ 2)
+-- SOLUTION: 使用点记号语法定义平方函数
 def cube := (· ^ 3)
+-- SOLUTION: 使用点记号语法定义立方函数
 
 -- 2. 使用点记号定义高级函数
 def factorial : Nat → Nat
   | 0 => 1
   | n + 1 => (n + 1) * factorial n
+-- SOLUTION: 递归定义阶乘函数
 
 def fibonacci (n : Nat) : Nat :=
   let rec aux (a b : Nat) (n : Nat) : Nat :=
@@ -305,6 +348,7 @@ def fibonacci (n : Nat) : Nat :=
     | 0 => a
     | n + 1 => aux b (a + b) n
   aux 0 1 n
+-- SOLUTION: 尾递归定义斐波那契数列
 
 -- 3. 定义优化的数据结构
 structure Vector2D where
@@ -334,13 +378,16 @@ instance : Addable Vector2D where
 -- 5. 定义宏简化证明
 macro "math_prove" : tactic => do
   `(simp [*, -not_not] <;> try linarith <;> try ring)
+-- SOLUTION: 定义数学证明宏，组合多种策略
 
 -- 6. 使用宏证明定理
 theorem add_comm (a b : Nat) : a + b = b + a := by
   math_prove
+-- SOLUTION: 使用自定义宏证明加法交换律
 
 theorem add_assoc (a b c : Nat) : (a + b) + c = a + (b + c) := by
   math_prove
+-- SOLUTION: 使用自定义宏证明加法结合律
 
 end MathLib
 
