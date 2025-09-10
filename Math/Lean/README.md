@@ -20,13 +20,14 @@ Welcome to the Lean Language and Formal Mathematics Knowledge Base! This is a co
 
 ### 📈 项目统计 | Project Statistics
 
-- **📄 总文档数**：40+个核心文档（含新增国际标准文档）
-- **📁 主题目录**：6个主要主题 + 新增练习系统
+- **📄 总文档数**：32个核心文档 + 练习系统
+- **📁 主题目录**：6个主要主题目录
 - **🔗 交叉引用**：完整的内部链接系统
 - **📚 内容深度**：从入门到专家的完整路径
-- **🎓 国际标准**：对齐6所著名大学数学课程标准
-- **📝 术语索引**：150+数学概念的国际标准映射
+- **🎓 国际标准**：对齐国际数学课程标准
+- **📝 术语索引**：完整的术语解释系统
 - **🏃 练习系统**：6个主题的完整练习体系
+- **🏗️ 结构优化**：3-4层扇形扁平化结构
 
 ## 🗂️ 目录结构 | Directory Structure
 
@@ -34,15 +35,46 @@ Welcome to the Lean Language and Formal Mathematics Knowledge Base! This is a co
 Lean知识库/
 ├── 📋 README.md                           # 本文件 - 导航首页
 ├── 📊 01-总览.md                          # 知识库总览
-├── 📝 00-项目完成总结报告.md               # 项目完成报告
-├── 🎓 国际标准对齐与持续改进计划.md        # 国际标准对齐计划
-├── 📚 国际标准术语索引系统.md              # 术语索引系统
-├── 🚀 国际标准学习路径指南.md              # 学习路径指南
+├── 📁 01-总览与快速入门/                  # 入门指南和总览
+│   ├── Lean快速上手指南.md
+│   ├── Lean总览.md
+│   └── README.md
 ├── 📁 02-基础语法与类型系统/               # 基础语法与类型系统
+│   ├── 01-基础语法元素.md
+│   ├── 02-类型系统基础.md
+│   ├── 03-表达式与声明.md
+│   ├── 04-模块与命名空间.md
+│   ├── 05-Lean4最新语言特性.md
+│   └── 06-Lean4最新特性实践指南.md
 ├── 📁 03-证明系统与策略/                  # 证明系统与策略
+│   ├── 01-交互式证明环境.md
+│   ├── 02-基本证明策略.md
+│   ├── 03-高级证明策略.md
+│   └── 04-自动化证明技术.md
 ├── 📁 04-数学库与定理证明/                # 数学库与定理证明
+│   ├── 01-数学库架构.md
+│   ├── 02-基础数学概念.md
+│   ├── 03-代数结构.md
+│   └── 04-分析学与拓扑.md
 ├── 📁 05-高级主题与应用/                  # 高级主题与应用
+│   ├── 01-依赖类型编程.md
+│   ├── 02-形式化验证.md
+│   ├── 03-函数式编程实践.md
+│   └── 04-AI与Lean集成.md
 ├── 📁 06-实用工具与资源/                  # 实用工具与资源
+│   ├── 01-学习路径指南.md
+│   ├── 02-常见问题解答.md
+│   ├── 03-性能优化指南.md
+│   ├── 04-快速参考手册.md
+│   ├── 05-示例库.md
+│   ├── 06-项目模板与脚手架.md
+│   ├── 07-测试与验证指南.md
+│   ├── 08-部署与发布指南.md
+│   ├── 09-社区资源与贡献指南.md
+│   ├── 10-术语表与索引.md
+│   ├── 11-使用指南.md
+│   ├── 12-快速开始指南.md
+│   └── 13-导航与搜索指南.md
 ├── 📁 Exercises/                          # 练习系统
 │   ├── Basics/                            # 基础练习
 │   ├── Algebra/                           # 代数练习
@@ -125,26 +157,32 @@ Lean知识库/
 
 ### 🔗 版本对齐与外部资源 | Version Sync & External Resources
 
-- 官方与版本
+- **官方与版本**
   - Lean4 仓库：`https://github.com/leanprover/lean4`
   - Releases/变更：`https://github.com/leanprover/lean4/releases`
   - 安装与入门：`https://leanprover-community.github.io/get_started.html`
 
-- 数学库
+- **数学库**
   - mathlib4 仓库：`https://github.com/leanprover-community/mathlib4`
   - mathlib4 文档：`https://leanprover-community.github.io/mathlib4_docs/`
 
-- 文档与 Wiki
+- **文档与 Wiki**
   - Lean4 手册：`https://leanprover.github.io/lean4/doc/`
   - 社区主页：`https://leanprover-community.github.io/`
   - 策略/属性速览：`https://leanprover-community.github.io/tactics.html`
 
-- 大学课程（滚动更新）
-  - 参考 `国际标准学习路径指南.md` 与 `Exercises-说明.md`
+- **国际标准对齐**
+  - 剑桥大学数学课程标准
+  - 哈佛大学计算机科学课程
+  - 芝加哥大学数学系标准
+  - 华威大学数学系标准
+  - 巴黎第六大学标准
+  - 伦敦大学学院标准
 
-- 本库的同步机制
-  - 月度汇总：参见 `版本同步索引.md`
-  - 关键页面：`03-Lean证明助手与形式化验证/01-总览.md` 第9节
+- **本库的同步机制**
+  - 持续更新：跟随官方最新稳定版本
+  - 质量保证：定期检查内容准确性
+  - 国际化标准：对齐国际著名大学课程标准
 
 ### 🎯 智能搜索 | Smart Search
 
