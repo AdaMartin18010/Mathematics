@@ -593,3 +593,17 @@ theorem equivalence_verification :
 - 版本基线：参见 `Lean/版本同步索引.md`；本指南代码块以最新稳定版 + `mathlib4` 近期提交为准。
 - 策略可用性：若局部策略报错（如 `omega`），请改用 `linarith/nlinarith/decide/ring` 或调整导入。
 - lake 配置：在子项目中固定 `mathlib4` 到已验证的提交，避免 master 波动导致的构建不稳定。
+
+---
+
+## 📚 进一步练习与阅读 | Further Exercises & Reading
+
+- 与语义分析联动练习：
+  - 依赖类型×宇宙层级交互练习：`Lean/08-Lean4语义分析论证系统/02-Lean4语言语义深度分析/02-类型系统语义分析.md#依赖类型宇宙层级交互--dependent-types--universe-levels`
+  - 语法↔语义对应练习：`Lean/08-Lean4语义分析论证系统/02-Lean4语言语义深度分析/01-语法语义对应关系.md`
+- 证明一致性与完备性：
+  - `Lean/08-Lean4语义分析论证系统/05-形式化证明与论证/01-语义一致性证明.md`
+- 自动化测试模板：
+  - `Lean/项目自动化测试和验证系统.md`
+- 语义练习入口：
+- `Lean/Exercises-说明.md#语义练习--semantic-exercises`

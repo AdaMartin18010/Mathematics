@@ -690,3 +690,16 @@ Lean4最新语言特性为开发提供了：
 - mathlib4 同步：若 API 或命名发生变更，优先以 `mathlib4_docs` 为准并在本页修订示例。
 - 策略可用性：涉及 `linarith/ring/decide` 等策略，请确认 `Mathlib` 版本满足依赖；若不可用，请在 `lakefile.lean` 固定至相容提交。
 - 非标准策略：避免引用 Lean 4 非标准的 `omega` 等；若需整数算术，优先选择 `linarith` 或证明改写。
+
+---
+
+## 📚 进一步阅读 | Further Reading
+
+- 语义分析：类型系统语义（依赖×宇宙）
+  - `Lean/08-Lean4语义分析论证系统/02-Lean4语言语义深度分析/02-类型系统语义分析.md#依赖类型宇宙层级交互--dependent-types--universe-levels`
+- 深度语义解释理论
+  - `Lean/08-Lean4语义分析论证系统/02-Lean4语言语义深度分析/04-深度语义解释理论.md`
+- 语义一致性证明
+  - `Lean/08-Lean4语义分析论证系统/05-形式化证明与论证/01-语义一致性证明.md`
+- 实践与测试模板
+  - `Lean/项目自动化测试和验证系统.md`
