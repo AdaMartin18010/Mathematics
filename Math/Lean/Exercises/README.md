@@ -53,6 +53,16 @@ Exercises/
 - **CategoryTheory/**: 范畴论练习（基础范畴论）
 - **MeasureTheory/**: 测度论练习（基础测度论）
 
+## 语义练习 | Semantic Exercises
+
+- 入口文档：`Lean/Exercises-说明.md#语义练习--semantic-exercises`
+- 代码位置：`Exercises/Semantics/`
+  - `UniversePiSigma.lean`：Universe×Π/Σ 与 `Vec/append/get` 骨架
+  - `Inference.lean`：极简 `TyVar/TyTerm/Subst` 与 `unify`
+- 运行方式：
+  - 构建全部：`cd Exercises && lake build`
+  - 打开单文件：在编辑器中打开对应 `.lean` 文件进行交互检查
+
 ## 验证 | Verification
 
 所有练习都经过 `lake build` 验证，确保代码可编译运行。
