@@ -100,12 +100,21 @@ end Exercises.Basics
   - 阅读：`Lean/08-Lean4语义分析论证系统/02-Lean4语言语义深度分析/01-语法语义对应关系.md`
   - 实践：从 `表达式→类型→证明` 的三段式小练习，确保每步可 #check / #eval
 
+- Coercions 与子类型
+  - 阅读：`Lean/08-Lean4语义分析论证系统/02-Lean4语言语义深度分析/02-类型系统语义分析.md#15-coercions与子类型语义--coercions--subtyping-semantics`
+  - 实践：`Exercises/Semantics/CoercionsSubtype.lean` 完成 Age/Fin 投影与等式保持练习
+
+- 类型类解析与实例搜索
+  - 阅读：同上文档 `1.4 类型类推导语义`
+  - 实践：`Exercises/Semantics/TypeclassResolution.lean` 完成不同实例下的行为验证
+
 ### 完成打勾 | Completion Checklist
 
 - [ ] Universe×Pi/Sigma 示例可编译
 - [ ] `Vec.append`/`get` 证明通过（或有最小 `admit` 占位）
 - [ ] 类型推断与统一用例通过
 - [ ] 所有练习 `lake build` 成功
+- [ ] （可选）统一器支持 occurs-check 并含示例
 
 ---
 

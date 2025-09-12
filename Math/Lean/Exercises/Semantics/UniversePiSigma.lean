@@ -40,7 +40,26 @@ def get {α} {n} : Vec α n → Fin n → α
 /- 语义性质（骨架）：对左段索引，连接后的访问等于左向量访问 -/
 theorem get_append_left_skeleton {α} {m n} (v : Vec α m) (w : Vec α n) (i : Fin m) :
   get (append v w) ⟨i.val, Nat.lt_trans i.isLt (Nat.lt_add_right _ _ _)⟩ = get v i := by
-  -- 练习：使用对 v 的归纳与对 i 的分类讨论完成证明
-  sorry
+  -- 对 v 做归纳，并对 i 分情况讨论
+  induction v with
+  | nil =>
+      -- m = 0，Fin 0 无元素，矛盾消解
+      cases i with
+      | mk _ h => cases h
+  | @cons a m' v ih =>
+      -- 此时 m = m' + 1
+      cases i with
+      | mk idx h =>
+          cases idx with
+          | zero =>
+              -- i = 0 情况
+              -- LHS 与 RHS 都应化约为 a
+              simp [append, get]
+          | succ k =>
+              -- i = k+1 情况，构造子问题的索引 i'
+              have hk : k < m' := Nat.lt_of_succ_lt_succ h
+              have i' : Fin m' := ⟨k, hk⟩
+              -- 两侧分别按定义化约，并套用归纳假设
+              simp [append, get, ih, i']
 
 end Exercises.Semantics
