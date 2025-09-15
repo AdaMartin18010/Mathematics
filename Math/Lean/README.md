@@ -183,6 +183,7 @@ Lean知识库/
   - 持续更新：跟随官方最新稳定版本
   - 质量保证：定期检查内容准确性
   - 国际化标准：对齐国际著名大学课程标准
+  - 月度记录入口：[版本同步索引](版本同步索引.md)
 
 ### 🎯 智能搜索 | Smart Search
 
@@ -232,6 +233,13 @@ lake build
 # 运行测试
 lake test
 ```
+
+### 🔍 快速验证 | Quick Verification
+
+- **环境验证**：`lean --version` 与 `lake --version`
+- **构建验证**：`cd Exercises && ./build.ps1`（Windows）或 `cd Exercises && lake build`
+- **版本同步**：查看 `版本同步索引.md` 的当月记录与对齐状态
+- **断链检查**：参考 `00-完整导航索引系统.md` 的质量门禁规则
 
 ### 🎯 按需求查找 | Find by Need
 

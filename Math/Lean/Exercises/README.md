@@ -11,6 +11,17 @@ lake build
 
 提示：`lean-toolchain` 建议与主仓库一致；`lakefile.lean` 推荐将 `mathlib4` 固定到 `stable` 或 `版本同步索引.md` 记录的提交。
 
+### Windows 环境准备 | Windows Setup
+
+1. 安装 elan（Lean 工具链管理）：
+   - 访问 `https://leanprover-community.github.io/get_started.html` 并按 Windows 指南安装
+2. 安装 lake：
+   - 安装后确保 `lake --version` 可用；若不可用，重启 PowerShell 或将用户本地包路径加入 `PATH`
+3. 验证：
+   - 在任意目录执行 `lean --version` 与 `lake --version`
+4. 一键构建：
+   - 运行 `./build.ps1`（首次需右键“以 PowerShell 运行”，或在 PowerShell 执行 `Set-ExecutionPolicy -Scope Process Bypass` 后 `./build.ps1`）
+
 ## 结构 | Structure
 
 ```text
@@ -66,6 +77,25 @@ Exercises/
 ## 验证 | Verification
 
 所有练习都经过 `lake build` 验证，确保代码可编译运行。
+
+## 构建故障排查 | Troubleshooting
+
+- 工具链不匹配：
+  - 核对 `Exercises/lean-toolchain` 是否为最新稳定（当前：`v4.12.0`）
+  - 运行 `lean --version` 与 `lake --version` 确认本地环境
+- mathlib4 版本波动：
+  - `lakefile.lean` 已固定到 `stable`，如遇 API 变更请参考 `Lean/版本同步索引.md`
+  - 必要时将 `@ "stable"` 临时替换为索引页记录的具体提交哈希
+- 导入路径错误：
+  - 在 `mathlib4_docs` 搜索目标定理/类型，确认 `import` 路径
+  - 常见：`Mathlib/Tactic/Linarith`、`Mathlib/Measure/Integral/IntervalIntegral`
+- 缓存问题：
+  - 执行 `lake clean` 后重试 `lake build`
+  - 删除 `.lake/` 目录后重试（注意会重新下载依赖）
+
+## 每月构建抽检计划 | Monthly Build Spot-check
+
+- 2025-10：抽检 `Analysis/*` 与 `Topology/*`；步骤参见 `Lean/Exercises-说明.md#下月构建抽检计划（2025-10）--next-month-build-spot-check-plan`。
 
 ## 按课程路径练习清单 | Course-aligned Exercise Map
 

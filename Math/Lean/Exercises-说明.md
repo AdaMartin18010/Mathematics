@@ -83,6 +83,16 @@ end Exercises.Basics
 
 ---
 
+## 下月构建抽检计划（2025-10） | Next-month Build Spot-check Plan
+
+- 抽检范围：`Exercises/Analysis/*` 与 `Exercises/Topology/*`
+- 工具链：按 `Lean/版本同步索引.md` 的最新稳定版本
+- 步骤：
+  1) `cd Exercises && lake build` 全量构建
+  2) 若失败，先固定 `mathlib4` 至索引页记录提交后重试
+  3) 记录问题与修复在 `Lean/版本同步索引.md` 的“当月记录”
+  4) 回归验证：最小示例与受影响文档片段
+
 ## 语义练习 | Semantic Exercises
 
 - 依赖×宇宙层级交互（从入门到进阶）
