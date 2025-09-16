@@ -343,6 +343,14 @@ lake test
 
 ## 📝 更新日志 | Changelog
 
+完整条目见：`CHANGELOG.md`
+
+### 版本 4.3 (2025年9月)
+
+- 新增 `CHANGELOG.md` 汇总本月变更；新增“快速验证”与SOP回链
+- 版本同步：建立月度Checklist与回归记录模板；兼容性小节覆盖核心页面
+- 构建验证：`Exercises/build.ps1` 与 Windows 故障排查上线
+
 ### 版本 4.0 (2025年1月)
 
 - ✅ 完成扇形结构重构

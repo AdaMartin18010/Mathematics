@@ -97,6 +97,7 @@ end Exercises.Basics
 
 - 依赖×宇宙层级交互（从入门到进阶）
   - 阅读：`Lean/08-Lean4语义分析论证系统/02-Lean4语言语义深度分析/02-类型系统语义分析.md#依赖类型宇宙层级交互--dependent-types--universe-levels`
+  - 总览：`Lean/08-Lean4语义分析论证系统/01-语义分析基础理论/01-语义分析总览.md`
   - 实践：在 `Exercises/Semantics/UniversePiSigma.lean` 中实现：
     1) 定义 Π/Σ 的层级保持示例（使用 `universe u v` 与 `max u v`）
     2) 构造 `Vec`、`append`、`get` 并证明左段索引的语义保持（骨架可参考文档）
