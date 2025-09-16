@@ -240,6 +240,7 @@ lake test
 - **构建验证**：`cd Exercises && ./build.ps1`（Windows）或 `cd Exercises && lake build`
 - **版本同步**：查看 `版本同步索引.md` 的当月记录与对齐状态
 - **断链检查**：参考 `00-完整导航索引系统.md` 的质量门禁规则
+- **运维SOP**：参见《维护与执行SOP.md》，按周例行/⽉例行执行
 
 ### 🎯 按需求查找 | Find by Need
 
