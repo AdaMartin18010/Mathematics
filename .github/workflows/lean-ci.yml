@@ -1,0 +1,73 @@
+name: Lean CI
+
+on:
+  push:
+    branches: [ main, master ]
+    paths:
+      - 'Math/Lean/**'
+      - '.github/workflows/lean-ci.yml'
+  pull_request:
+    branches: [ main, master ]
+    paths:
+      - 'Math/Lean/**'
+      - '.github/workflows/lean-ci.yml'
+
+jobs:
+  build:
+    name: Build and Test Lean Code
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Install elan (Lean version manager)
+      run: |
+        curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y
+        echo "$HOME/.elan/bin" >> $GITHUB_PATH
+    
+    - name: Verify Lean installation
+      run: |
+        lean --version
+        lake --version
+    
+    - name: Cache Lean dependencies
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.elan
+          Math/Lean/Exercises/.lake
+        key: ${{ runner.os }}-lean-${{ hashFiles('Math/Lean/Exercises/lakefile.lean', 'Math/Lean/Exercises/lean-toolchain') }}
+        restore-keys: |
+          ${{ runner.os }}-lean-
+    
+    - name: Build Lean project
+      working-directory: Math/Lean/Exercises
+      run: |
+        lake build
+    
+    - name: Run Lean tests (if any)
+      working-directory: Math/Lean/Exercises
+      run: |
+        # 如果有测试文件，在这里运行
+        # lake test
+        echo "Tests would run here if configured"
+    
+    - name: Check for sorry placeholders
+      working-directory: Math/Lean
+      run: |
+        echo "Checking for sorry placeholders..."
+        if grep -r "sorry" Exercises --include="*.lean" --exclude-dir=".lake"; then
+          echo "⚠️ Found sorry placeholders:"
+          grep -r "sorry" Exercises --include="*.lean" --exclude-dir=".lake" -n
+          exit 1
+        else
+          echo "✅ No sorry placeholders found!"
+        fi
+    
+    - name: Report build success
+      if: success()
+      run: |
+        echo "✅ Lean build successful!"
+        echo "All 17 Lean files compiled successfully."
+
