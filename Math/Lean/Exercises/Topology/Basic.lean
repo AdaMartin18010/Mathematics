@@ -55,8 +55,9 @@ theorem compact_closed (X : Type) [TopologicalSpace X] (K : Set X) :
 theorem connected_union (X : Type) [TopologicalSpace X] (A B : Set X) :
   IsConnected A → IsConnected B → A ∩ B ≠ ∅ → IsConnected (A ∪ B) := by
   -- HINT: 连接性的并封闭性需要非空交叠；检索 `IsConnected.union` 并满足交叠条件
-  -- SOLUTION: 使用库定理 `IsConnected.union` 条件化
-  admit
+  -- SOLUTION: 使用库定理 `IsConnected.union`
+  intro hA hB hAB
+  exact IsConnected.union hA hB hAB
 
 -- 练习5：同胚的基本性质
 -- 对应巴黎第六大学拓扑标准

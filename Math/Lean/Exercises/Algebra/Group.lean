@@ -42,9 +42,19 @@ theorem group_pow_one (G : Type) [MyGroup G] (a : G) : a^1 = a := by
 theorem group_inv_inv (G : Type) [MyGroup G] (a : G) : (a⁻¹)⁻¹ = a := by
   -- HINT: 证明 b * a = 1 蕴含 b = a⁻¹ 的唯一性；取 b := (a⁻¹)⁻¹ 应用到上一个练习
   -- SOLUTION:
-  -- 利用 (a⁻¹) 的左逆元是 a
-  -- a * a⁻¹ = 1 ⇒ (a⁻¹) 的逆等于 a
-  -- 形式化可基于唯一性证明，这里直接给出结论：
-  admit
+  -- 证明策略：证明 a 是 a⁻¹ 的左逆元
+  -- 由于左逆元唯一（在群中），而 (a⁻¹)⁻¹ 也是 a⁻¹ 的左逆元，因此它们相等
+  have h1 : a * a⁻¹ = 1 := group_mul_right_inv G a
+  have h2 : (a⁻¹)⁻¹ * a⁻¹ = 1 := MyGroup.mul_left_inv a⁻¹
+  -- 证明 a 满足左逆元性质：a⁻¹ * a = 1（已由公理给出）
+  -- 因此 a = (a⁻¹)⁻¹
+  -- 我们通过证明 (a⁻¹)⁻¹ * a⁻¹ = a * a⁻¹ 来得出结论
+  -- 左乘 (a⁻¹)⁻¹ 到等式 a⁻¹ * a = 1 的两边
+  have h3 : a⁻¹ * a = 1 := MyGroup.mul_left_inv a
+  calc (a⁻¹)⁻¹ = (a⁻¹)⁻¹ * 1 := by rw [MyGroup.mul_one]
+    _ = (a⁻¹)⁻¹ * (a⁻¹ * a) := by rw [← h3]
+    _ = ((a⁻¹)⁻¹ * a⁻¹) * a := by rw [MyGroup.mul_assoc]
+    _ = 1 * a := by rw [h2]
+    _ = a := by rw [MyGroup.one_mul]
 
 end Exercises.Algebra

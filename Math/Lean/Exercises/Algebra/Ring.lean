@@ -44,8 +44,28 @@ theorem ring_pow_zero (R : Type) [MyRing R] (a : R) : a^0 = 1 := by
 -- 环的负元性质练习
 theorem ring_neg_mul (R : Type) [MyRing R] (a b : R) : (-a) * b = -(a * b) := by
   -- HINT: 用 (-a)*b + a*b = 0 证明，并用加法消去得到等式
-  -- SOLUTION: 经典做法是证明两边相加为 0；此处留作进阶
-  admit
+  -- SOLUTION: 证明 (-a)*b + a*b = 0，然后由负元唯一性得出结论
+  -- 首先计算 (-a)*b + a*b
+  have h1 : (-a) * b + a * b = (-a + a) * b := by rw [← MyRing.right_distrib]
+  -- 由环的加法负元性质：-a + a = 0
+  have h2 : -a + a = 0 := MyRing.add_left_neg a
+  -- 因此 (-a)*b + a*b = 0 * b
+  have h3 : (-a) * b + a * b = 0 * b := by rw [h2] at h1; exact h1
+  -- 而 0 * b = 0（需要证明）
+  have h4 : (0 : R) * b = 0 := by
+    have : (0 : R) * b + 0 * b = (0 + 0) * b := by rw [← MyRing.right_distrib]
+    have : (0 : R) * b + 0 * b = 0 * b := by simpa using this
+    have : 0 * b + (0 * b + -(0 * b)) = 0 * b + -(0 * b) := by rw [this]
+    have : 0 * b + (0 * b + -(0 * b)) = 0 * b + 0 := by
+      rw [MyRing.add_assoc]; rw [MyRing.add_left_neg]; rw [MyRing.add_zero]
+    simpa [MyRing.add_left_neg, MyRing.add_zero] using this
+  -- 因此 (-a)*b + a*b = 0
+  have h5 : (-a) * b + a * b = 0 := by rw [h4] at h3; exact h3
+  -- 由加法消去律（两边加 -(a*b)）得 (-a)*b = -(a*b)
+  have h6 : (-a) * b + a * b + (-(a * b)) = 0 + (-(a * b)) := by rw [h5]
+  have h7 : (-a) * b + (a * b + (-(a * b))) = -(a * b) := by
+    simpa [MyRing.add_zero] using h6
+  simpa [MyRing.add_left_neg, MyRing.add_zero] using h7
 
 -- 环的分配律练习
 theorem ring_distrib_left (R : Type) [MyRing R] (a b c : R) : a * (b + c) = a * b + a * c := by
