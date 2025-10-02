@@ -23,9 +23,18 @@ namespace NumberTheory
 theorem divisibility_transitive (a b c : ℕ) :
   a ∣ b → b ∣ c → a ∣ c := by
   -- HINT: 整除与线性组合；检索 `Nat.dvd_iff_modEq_zero`/`Nat.gcd_eq` 等
-  -- SOLUTION:
-  -- intro h1 h2; rcases h1 with ⟨k, hk⟩; rcases h2 with ⟨m, hm⟩; refine ⟨k*m, ?_⟩; simpa [hk, hm, Nat.mul_comm, Nat.mul_left_comm, Nat.mul_assoc]
-  admit
+  -- SOLUTION: 整除的传递性是基础定理
+  -- 证明：若 a ∣ b，则存在 k 使得 b = a * k
+  --       若 b ∣ c，则存在 m 使得 c = b * m
+  --       代入得 c = (a * k) * m = a * (k * m)
+  --       因此 a ∣ c
+  intro h1 h2
+  obtain ⟨k, hk⟩ := h1
+  obtain ⟨m, hm⟩ := h2
+  use k * m
+  calc c = b * m := hm
+    _ = (a * k) * m := by rw [hk]
+    _ = a * (k * m) := by rw [Nat.mul_assoc]
 
 -- 练习2：最大公约数性质
 -- 对应剑桥大学Part I数论
@@ -33,26 +42,39 @@ theorem gcd_property (a b : ℕ) :
   gcd a b ∣ a ∧ gcd a b ∣ b ∧
   (∀ d : ℕ, d ∣ a → d ∣ b → d ∣ gcd a b) := by
   -- HINT: 欧几里得算法性质；`Nat.gcd_rec`/`Nat.gcd_comm`
-  -- SOLUTION: 由 gcd 的定义性质；示意占位
-  admit
+  -- SOLUTION: gcd的定义性质
+  constructor
+  · exact Nat.gcd_dvd_left a b
+  constructor
+  · exact Nat.gcd_dvd_right a b
+  · intro d hda hdb
+    exact Nat.dvd_gcd hda hdb
 
 -- 练习3：互质性质
 -- 对应芝加哥大学数论标准
 theorem coprime_property (a b : ℕ) :
   coprime a b ↔ gcd a b = 1 := by
   -- HINT: 互素与贝祖等式；`Nat.coprime_iff_gcd_eq_one`
-  -- SOLUTION:
-  -- by
-  --   simpa [Nat.coprime_iff_gcd_eq_one]
-  admit
+  -- SOLUTION: 这是互素的定义等价
+  -- 在mathlib中，coprime 定义为 gcd = 1
+  exact Nat.coprime_iff_gcd_eq_one
 
 -- 练习4：素数性质
 -- 对应华威大学数论课程
 theorem prime_property (p : ℕ) :
   Prime p ↔ p > 1 ∧ (∀ a b : ℕ, p ∣ a * b → p ∣ a ∨ p ∣ b) := by
   -- HINT: 质数定义与可除性；`Nat.prime` 相关定理
-  -- SOLUTION: 由 `Nat.prime_iff` 性质；示意占位
-  admit
+  -- SOLUTION: 这是素数的核心性质（Euclid引理）
+  constructor
+  · intro hp
+    constructor
+    · exact Nat.Prime.one_lt hp
+    · intro a b hdiv
+      exact Nat.Prime.dvd_mul hp |>.mp hdiv
+  · intro ⟨hgt1, hdiv_prop⟩
+    -- 反向需要证明素数的完整定义
+    -- 需要证明：p > 1 且只有1和p两个因子
+    sorry  -- 完整证明需要更多关于素数定义的性质
 
 -- 练习5：中国剩余定理
 -- 对应国际标准：Chinese Remainder Theorem
