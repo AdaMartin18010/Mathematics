@@ -1,0 +1,317 @@
+# AI数学与科学知识体系 (2025)
+
+> **AI Mathematics and Science Knowledge System**
+>
+> 基于2025年10月最新研究成果，系统梳理与人工智能直接相关的数学与科学知识体系
+>
+> 对标世界顶尖大学课程体系：MIT、Stanford、CMU、UC Berkeley、Cambridge、ETH Zurich
+
+---
+
+## 目录
+
+- [AI数学与科学知识体系 (2025)](#ai数学与科学知识体系-2025)
+  - [目录](#目录)
+  - [📚 知识体系架构](#-知识体系架构)
+  - [🎯 体系总览](#-体系总览)
+    - [1. 数学理论基础模块](#1-数学理论基础模块)
+    - [2. 机器学习数学理论](#2-机器学习数学理论)
+    - [3. 形式化方法与证明](#3-形式化方法与证明)
+    - [4. 前沿研究与应用](#4-前沿研究与应用)
+  - [🌍 世界顶尖大学对标](#-世界顶尖大学对标)
+    - [MIT (麻省理工学院)](#mit-麻省理工学院)
+    - [Stanford University (斯坦福大学)](#stanford-university-斯坦福大学)
+    - [CMU (卡内基梅隆大学)](#cmu-卡内基梅隆大学)
+    - [UC Berkeley (加州大学伯克利分校)](#uc-berkeley-加州大学伯克利分校)
+    - [Cambridge University (剑桥大学)](#cambridge-university-剑桥大学)
+    - [ETH Zurich (苏黎世联邦理工学院)](#eth-zurich-苏黎世联邦理工学院)
+  - [📖 2025年重点研究方向](#-2025年重点研究方向)
+    - [1. **AI辅助数学推理与证明**](#1-ai辅助数学推理与证明)
+    - [2. **深度学习优化理论**](#2-深度学习优化理论)
+    - [3. **大语言模型数学基础**](#3-大语言模型数学基础)
+    - [4. **可验证AI系统**](#4-可验证ai系统)
+  - [🔬 核心数学工具](#-核心数学工具)
+    - [线性代数核心概念](#线性代数核心概念)
+    - [概率与统计核心](#概率与统计核心)
+    - [优化理论核心](#优化理论核心)
+    - [泛函分析核心](#泛函分析核心)
+  - [📝 学习路径建议](#-学习路径建议)
+    - [初级路径 (Foundation)](#初级路径-foundation)
+    - [中级路径 (Core)](#中级路径-core)
+    - [高级路径 (Advanced)](#高级路径-advanced)
+  - [🔗 相关资源](#-相关资源)
+    - [在线课程平台](#在线课程平台)
+    - [数学工具](#数学工具)
+    - [论文数据库](#论文数据库)
+  - [📊 知识体系特色](#-知识体系特色)
+    - [✅ 系统性](#-系统性)
+    - [✅ 严格性](#-严格性)
+    - [✅ 前沿性](#-前沿性)
+    - [✅ 实用性](#-实用性)
+  - [🎓 贡献者指南](#-贡献者指南)
+  - [📅 更新记录](#-更新记录)
+  - [📧 联系方式](#-联系方式)
+
+## 📚 知识体系架构
+
+本知识库采用**四层体系结构**，从理论基础到实践应用全面覆盖：
+
+```text
+第一层：数学理论基础 (Mathematical Foundations)
+第二层：计算与算法 (Computational Methods)
+第三层：AI核心理论 (AI Core Theory)
+第四层：形式化与验证 (Formal Methods & Verification)
+```
+
+---
+
+## 🎯 体系总览
+
+### 1. 数学理论基础模块
+
+- [01-线性代数与张量分析](./01-Mathematical-Foundations/01-Linear-Algebra/)
+- [02-概率论与统计学习](./01-Mathematical-Foundations/02-Probability-Statistics/)
+- [03-微积分与最优化理论](./01-Mathematical-Foundations/03-Calculus-Optimization/)
+- [04-信息论与编码理论](./01-Mathematical-Foundations/04-Information-Theory/)
+- [05-泛函分析与算子理论](./01-Mathematical-Foundations/05-Functional-Analysis/)
+
+### 2. 机器学习数学理论
+
+- [01-统计学习理论](./02-Machine-Learning-Theory/01-Statistical-Learning/)
+- [02-深度学习数学基础](./02-Machine-Learning-Theory/02-Deep-Learning-Math/)
+- [03-优化理论与算法](./02-Machine-Learning-Theory/03-Optimization/)
+- [04-强化学习数学基础](./02-Machine-Learning-Theory/04-Reinforcement-Learning/)
+- [05-生成模型理论](./02-Machine-Learning-Theory/05-Generative-Models/)
+
+### 3. 形式化方法与证明
+
+- [01-类型论与范畴论](./03-Formal-Methods/01-Type-Category-Theory/)
+- [02-自动定理证明](./03-Formal-Methods/02-Automated-Theorem-Proving/)
+- [03-程序验证与合成](./03-Formal-Methods/03-Program-Verification/)
+- [04-AI辅助数学证明](./03-Formal-Methods/04-AI-Assisted-Proof/)
+
+### 4. 前沿研究与应用
+
+- [01-大语言模型数学基础](./04-Frontiers/01-LLM-Mathematics/)
+- [02-量子机器学习](./04-Frontiers/02-Quantum-ML/)
+- [03-因果推断理论](./04-Frontiers/03-Causal-Inference/)
+- [04-神经符号AI](./04-Frontiers/04-Neuro-Symbolic-AI/)
+
+---
+
+## 🌍 世界顶尖大学对标
+
+### MIT (麻省理工学院)
+
+- **18.06** - Linear Algebra (Gilbert Strang)
+- **6.867** - Machine Learning
+- **18.065** - Matrix Methods in Data Analysis
+- **6.S191** - Introduction to Deep Learning
+
+### Stanford University (斯坦福大学)
+
+- **CS229** - Machine Learning (Andrew Ng)
+- **CS230** - Deep Learning
+- **CS224N** - Natural Language Processing
+- **STATS214** - Machine Learning Theory
+
+### CMU (卡内基梅隆大学)
+
+- **10-701** - Introduction to Machine Learning
+- **10-708** - Probabilistic Graphical Models
+- **11-785** - Deep Learning
+- **15-859** - Machine Learning Theory
+
+### UC Berkeley (加州大学伯克利分校)
+
+- **CS189** - Introduction to Machine Learning
+- **CS285** - Deep Reinforcement Learning
+- **STAT210A** - Theoretical Statistics
+
+### Cambridge University (剑桥大学)
+
+- **AI-Driven Mathematical Discovery** - 人工智能驱动的数学发现
+- **Advanced Machine Learning** - 高级机器学习
+
+### ETH Zurich (苏黎世联邦理工学院)
+
+- **Intelligent Systems Development** - 智能系统开发
+- **Deep Learning** - 深度学习理论与实践
+
+---
+
+## 📖 2025年重点研究方向
+
+### 1. **AI辅助数学推理与证明**
+
+- 形式化数学推理系统
+- 自动定理证明最新进展
+- 神经符号整合方法
+- **关键论文**：
+  - "Mathematics and Machine Creativity" (arXiv 2024)
+  - "AI Feynman: Physics-Inspired Symbolic Regression" (2019, 持续影响)
+  - "Neural Network Solves University Math Problems" (2021)
+
+### 2. **深度学习优化理论**
+
+- 神经网络收敛性分析
+- 损失景观几何
+- 泛化理论
+- 神经切线核(NTK)理论
+
+### 3. **大语言模型数学基础**
+
+- Transformer架构数学原理
+- 注意力机制的代数结构
+- 位置编码的几何解释
+- 涌现能力的理论分析
+
+### 4. **可验证AI系统**
+
+- 神经网络形式化验证
+- 鲁棒性证明
+- 可解释性的数学框架
+- 安全AI的理论保证
+
+---
+
+## 🔬 核心数学工具
+
+### 线性代数核心概念
+
+- 矩阵分解 (SVD, QR, Cholesky)
+- 特征值理论与谱分析
+- 张量运算与Einstein求和约定
+- 矩阵微分与梯度计算
+
+### 概率与统计核心
+
+- 概率测度论
+- 贝叶斯推断
+- 统计决策理论
+- 高维统计
+
+### 优化理论核心
+
+- 凸优化理论
+- 非凸优化方法
+- 随机优化算法
+- 变分方法
+
+### 泛函分析核心
+
+- Hilbert空间与再生核
+- 算子理论
+- 泛函微分
+- 最优传输理论
+
+---
+
+## 📝 学习路径建议
+
+### 初级路径 (Foundation)
+
+1. 线性代数基础 → 概率统计 → 微积分
+2. Python编程 → 数值计算
+3. 机器学习基础课程
+
+### 中级路径 (Core)
+
+1. 统计学习理论
+2. 深度学习数学原理
+3. 优化算法理论
+4. 信息论基础
+
+### 高级路径 (Advanced)
+
+1. 泛函分析与算子理论
+2. 形式化方法与类型论
+3. 高级优化理论
+4. 前沿研究论文阅读
+
+---
+
+## 🔗 相关资源
+
+### 在线课程平台
+
+- MIT OpenCourseWare
+- Stanford Online
+- Coursera / edX
+- Fast.ai
+
+### 数学工具
+
+- Lean Theorem Prover
+- Coq / Isabelle
+- JAX / PyTorch
+- Mathematica / SageMath
+
+### 论文数据库
+
+- arXiv.org (cs.LG, cs.AI, math.OC)
+- NeurIPS / ICML / ICLR Proceedings
+- Journal of Machine Learning Research
+- Mathematical Programming
+
+---
+
+## 📊 知识体系特色
+
+### ✅ 系统性
+
+- 完整的数学理论链条
+- 从基础到前沿的渐进式结构
+- 理论与应用的双向对应
+
+### ✅ 严格性
+
+- 形式化定义与定理
+- 严格的数学证明
+- 可验证的推理过程
+
+### ✅ 前沿性
+
+- 2025年最新研究成果
+- 顶级会议论文追踪
+- 新兴方向及时更新
+
+### ✅ 实用性
+
+- 对标顶尖大学课程
+- 配套代码实现
+- 工程应用案例
+
+---
+
+## 🎓 贡献者指南
+
+本知识库持续更新，欢迎贡献：
+
+- 补充最新论文解读
+- 完善数学推导细节
+- 添加代码实现示例
+- 纠正错误与改进表述
+
+---
+
+## 📅 更新记录
+
+- **2025-10-04**: 初始版本创建，建立四层知识体系架构
+- 对标MIT、Stanford、CMU等世界顶尖大学课程
+- 整合2025年最新AI数学研究进展
+
+---
+
+## 📧 联系方式
+
+如有问题或建议，欢迎通过以下方式联系：
+
+- 提交Issue
+- 发起Pull Request
+- 邮件讨论
+
+---
+
+**© 2025 AI Mathematics and Science Knowledge System**
+*Building the mathematical foundations for the AI era*
