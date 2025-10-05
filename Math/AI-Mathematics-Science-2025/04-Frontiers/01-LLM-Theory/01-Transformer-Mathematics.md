@@ -55,7 +55,7 @@
 Input Embedding + Positional Encoding
        ↓
 ┌──────────────────┐
-│  Transformer块  │ × N层
+│  Transformer块   │ × N层
 │  ├─ Multi-Head   │
 │  │  Self-Attention│
 │  ├─ Layer Norm   │

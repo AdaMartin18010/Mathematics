@@ -36,6 +36,7 @@
 **强化学习**研究智能体如何通过与环境交互学习最优行为策略。
 
 **核心要素**：
+
 - **状态 (State)**：环境的描述
 - **动作 (Action)**：智能体的选择
 - **奖励 (Reward)**：即时反馈
@@ -231,6 +232,7 @@ L(\theta) = \mathbb{E}[(R + \gamma \max_{a'} Q(s', a'; \theta^-) - Q(s, a; \thet
 $$
 
 **关键技术**：
+
 - Experience Replay
 - Target Network
 - Double DQN
@@ -446,4 +448,4 @@ if __name__ == "__main__":
 
 ---
 
-*最后更新：2025年10月*
+*最后更新：2025年10月*-
