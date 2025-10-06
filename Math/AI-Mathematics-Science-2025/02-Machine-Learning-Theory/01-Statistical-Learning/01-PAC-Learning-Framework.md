@@ -505,15 +505,13 @@ end PACLearning
 
 假设类 $\mathcal{H}$ 包含100个假设。要达到 $\epsilon = 0.1$, $\delta = 0.05$ 的PAC保证,需要多少样本?
 
-<details>
-<summary>解答</summary>
+解答:
 
 $$
 m \geq \frac{1}{2 \cdot 0.1^2} \left( \log 100 + \log \frac{2}{0.05} \right) = \frac{1}{0.02} (4.605 + 3.689) \approx 415
 $$
 
 需要至少 **415个样本**。
-</details>
 
 ---
 
@@ -525,14 +523,11 @@ $$
 - (b) 单调布尔函数
 - (c) 线性分类器 ($\mathbb{R}^d$)
 
-<details>
-<summary>解答</summary>
+解答:
 
 - (a) **不是**: $|\mathcal{H}| = 2^{2^n}$ (指数增长), 样本复杂度随$n$指数增长
 - (b) **是**: 单调函数数量较少,可用Dedekind数分析
 - (c) **是**: 虽然无限,但VC维有限($d+1$)
-
-</details>
 
 ---
 
@@ -542,8 +537,7 @@ $$
 
 证明:在不可知学习设定下,如果 $\mathcal{H}$ 满足一致收敛性,则ERM算法是不可知PAC学习算法。
 
-<details>
-<summary>证明思路</summary>
+证明思路:
 
 设 $h^* = \arg\min_{h \in \mathcal{H}} L_{\mathcal{D}}(h)$, $\hat{h} = \arg\min_{h \in \mathcal{H}} L_S(h)$
 
@@ -568,8 +562,7 @@ $$
 
 现代深度神经网络有数百万参数,样本数远小于参数数,但仍能很好泛化。这与PAC理论矛盾吗?给出你的分析。
 
-<details>
-<summary>讨论要点</summary>
+讨论要点:
 
 **非矛盾原因**:
 

@@ -12,9 +12,10 @@
   - [📚 子模块结构](#-子模块结构)
     - [1. 大语言模型理论 (LLM Theory)](#1-大语言模型理论-llm-theory)
     - [2. 扩散模型 (Diffusion Models)](#2-扩散模型-diffusion-models)
-    - [3. 神经符号AI (Neuro-Symbolic AI)](#3-神经符号ai-neuro-symbolic-ai)
-    - [4. 量子机器学习 (Quantum ML)](#4-量子机器学习-quantum-ml)
-    - [5. 2025最新研究论文汇总 ✅](#5-2025最新研究论文汇总-)
+    - [3. 因果推断 (Causal Inference) ✅](#3-因果推断-causal-inference-)
+    - [4. 神经符号AI (Neuro-Symbolic AI)](#4-神经符号ai-neuro-symbolic-ai)
+    - [5. 量子机器学习 (Quantum ML)](#5-量子机器学习-quantum-ml)
+    - [6. 2025最新研究论文汇总 ✅](#6-2025最新研究论文汇总-)
   - [🎯 学习路径](#-学习路径)
     - [快速浏览 (1周)](#快速浏览-1周)
     - [深入研究 (1-3个月)](#深入研究-1-3个月)
@@ -128,7 +129,42 @@ $$
 
 ---
 
-### 3. [神经符号AI (Neuro-Symbolic AI)](./03-Neuro-Symbolic-AI/)
+### 3. [因果推断 (Causal Inference)](./03-Causal-Inference/) ✅
+
+**核心思想**: 从相关到因果，理解"为什么"而非仅仅"是什么"
+
+**理论框架**:
+
+- Rubin因果模型 (潜在结果框架)
+- Pearl因果模型 (结构方程框架)
+- 因果图模型 (DAG, d-分离)
+- do-演算与因果识别
+
+**估计方法**:
+
+- 随机对照试验 (RCT)
+- 倾向得分匹配 (PSM)
+- 工具变量 (IV)
+- 双重差分 (DID)
+- 回归不连续 (RD)
+
+**机器学习应用**:
+
+- 因果表示学习
+- 反事实推理与解释性 (LIME, SHAP)
+- 因果强化学习
+- 迁移学习与域适应
+
+**2025前沿**:
+
+- 因果发现的深度学习方法
+- 因果LLM
+- 因果与公平性
+- 可验证的因果推断
+
+---
+
+### 4. [神经符号AI (Neuro-Symbolic AI)](./04-Neuro-Symbolic-AI/)
 
 **核心思想**: 结合神经网络与符号推理
 
@@ -155,7 +191,7 @@ $$
 
 ---
 
-### 4. [量子机器学习 (Quantum ML)](./04-Quantum-Machine-Learning/)
+### 5. [量子机器学习 (Quantum ML)](./05-Quantum-Machine-Learning/)
 
 **核心概念**:
 
@@ -180,7 +216,7 @@ $$
 
 ---
 
-### 5. [2025最新研究论文汇总](./2025-Latest-Research-Papers.md) ✅
+### 6. [2025最新研究论文汇总](./2025-Latest-Research-Papers.md) ✅
 
 **分类汇总**:
 
@@ -215,7 +251,12 @@ Day 3-4: 扩散模型
   ├─ Score-based方法
   └─ 应用案例
 
-Day 5-6: 神经符号AI
+Day 5: 因果推断
+  ├─ Rubin/Pearl框架
+  ├─ 因果识别与估计
+  └─ 机器学习应用
+
+Day 6: 神经符号AI
   ├─ 架构模式
   ├─ 应用场景
   └─ 前沿进展
