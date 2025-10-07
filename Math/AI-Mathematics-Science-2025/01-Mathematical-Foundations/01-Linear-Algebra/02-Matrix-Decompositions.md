@@ -142,6 +142,190 @@ $$
 
 ---
 
+**定理 2.1 的完整证明**:
+
+我们将分三部分证明谱定理的三个结论。
+
+**证明 (1): 特征值都是实数**:
+
+设 $\lambda$ 是 $A$ 的特征值，$v$ 是对应的特征向量（允许 $v$ 是复向量）。则：
+
+$$
+Av = \lambda v
+$$
+
+两边取共轭转置并左乘 $v^*$（$v^*$ 表示 $v$ 的共轭转置）：
+
+$$
+v^* A^* v^* = \bar{\lambda} v^* v^*
+$$
+
+由于 $A$ 是实对称矩阵，有 $A^* = A^T = A$，因此：
+
+$$
+v^* A v = \bar{\lambda} v^* v
+$$
+
+另一方面，由 $Av = \lambda v$，两边左乘 $v^*$：
+
+$$
+v^* A v = \lambda v^* v
+$$
+
+比较两式，得：
+
+$$
+\lambda v^* v = \bar{\lambda} v^* v
+$$
+
+由于 $v \neq 0$，有 $v^* v = \|v\|^2 > 0$，因此：
+
+$$
+\lambda = \bar{\lambda}
+$$
+
+这说明 $\lambda$ 是实数。 $\square$
+
+**证明 (2): 不同特征值对应的特征向量正交**:
+
+设 $\lambda_1 \neq \lambda_2$ 是 $A$ 的两个不同特征值，$v_1, v_2$ 是对应的特征向量。则：
+
+$$
+Av_1 = \lambda_1 v_1, \quad Av_2 = \lambda_2 v_2
+$$
+
+计算内积 $v_1^T A v_2$：
+
+$$
+v_1^T A v_2 = v_1^T (\lambda_2 v_2) = \lambda_2 (v_1^T v_2)
+$$
+
+另一方面，由于 $A$ 对称（$A^T = A$）：
+
+$$
+v_1^T A v_2 = (A^T v_1)^T v_2 = (A v_1)^T v_2 = (\lambda_1 v_1)^T v_2 = \lambda_1 (v_1^T v_2)
+$$
+
+因此：
+
+$$
+\lambda_2 (v_1^T v_2) = \lambda_1 (v_1^T v_2)
+$$
+
+$$
+(\lambda_2 - \lambda_1)(v_1^T v_2) = 0
+$$
+
+由于 $\lambda_1 \neq \lambda_2$，必有：
+
+$$
+v_1^T v_2 = 0
+$$
+
+即 $v_1$ 和 $v_2$ 正交。 $\square$
+
+**证明 (3): 可以正交对角化**:
+
+我们用数学归纳法证明。
+
+**基础步骤** ($n=1$): 显然成立。
+
+**归纳步骤**: 假设对所有 $(n-1) \times (n-1)$ 对称矩阵定理成立，现在证明对 $n \times n$ 对称矩阵 $A$ 也成立。
+
+1. 由证明(1)，$A$ 至少有一个实特征值 $\lambda_1$，设对应的单位特征向量为 $q_1$（$\|q_1\| = 1$）。
+
+2. 将 $q_1$ 扩充为 $\mathbb{R}^n$ 的标准正交基 $\{q_1, q_2, \ldots, q_n\}$。
+
+3. 构造正交矩阵 $Q_1 = [q_1 \mid q_2 \mid \cdots \mid q_n]$，则：
+
+    $$
+    Q_1^T A Q_1 = \begin{bmatrix} \lambda_1 & w^T \\ w & B \end{bmatrix}
+    $$
+
+    其中 $w \in \mathbb{R}^{n-1}$，$B \in \mathbb{R}^{(n-1) \times (n-1)}$。
+
+4. 由于 $Q_1^T A Q_1$ 仍是对称矩阵，必有 $w = 0$。证明如下：
+
+   矩阵 $Q_1^T A Q_1$ 的 $(1,2)$ 元素等于 $(2,1)$ 元素：
+
+   $$
+   (Q_1^T A Q_1)_{12} = q_1^T A q_2 = (A q_1)^T q_2 = (\lambda_1 q_1)^T q_2 = \lambda_1 (q_1^T q_2) = 0
+   $$
+
+   因此 $w = 0$。
+
+5. 现在：
+
+    $$
+    Q_1^T A Q_1 = \begin{bmatrix} \lambda_1 & 0 \\ 0 & B \end{bmatrix}
+    $$
+
+    其中 $B$ 是 $(n-1) \times (n-1)$ 对称矩阵。
+
+6. 由归纳假设，存在 $(n-1) \times (n-1)$ 正交矩阵 $Q_2$ 使得：
+
+    $$
+    Q_2^T B Q_2 = \Lambda' = \text{diag}(\lambda_2, \ldots, \lambda_n)
+    $$
+
+7. 令：
+
+    $$
+    Q_3 = \begin{bmatrix} 1 & 0 \\ 0 & Q_2 \end{bmatrix}
+    $$
+
+    则 $Q_3$ 是正交矩阵，且：
+
+    $$
+    Q_3^T (Q_1^T A Q_1) Q_3 = \begin{bmatrix} \lambda_1 & 0 \\ 0 & \Lambda' \end{bmatrix} = \Lambda
+    $$
+
+8. 令 $Q = Q_1 Q_3$，则 $Q$ 是正交矩阵，且：
+
+    $$
+    Q^T A Q = \Lambda
+    $$
+
+    即：
+
+    $$
+    A = Q \Lambda Q^T
+    $$
+
+这就完成了归纳证明。 $\square$
+
+**定理的几何意义**:
+
+谱定理表明，对称矩阵在某个标准正交基下的表示是对角矩阵。这意味着：
+
+- 对称矩阵对应的线性变换在其特征向量方向上只进行伸缩
+- 不同特征值对应的特征空间相互正交
+- 对称矩阵完全由其特征值和正交特征向量确定
+
+**应用示例**:
+
+考虑对称矩阵：
+
+$$
+A = \begin{bmatrix} 3 & 1 \\ 1 & 3 \end{bmatrix}
+$$
+
+特征值：$\lambda_1 = 4, \lambda_2 = 2$
+
+特征向量：$v_1 = \begin{bmatrix} 1 \\ 1 \end{bmatrix}, v_2 = \begin{bmatrix} 1 \\ -1 \end{bmatrix}$
+
+归一化后：$q_1 = \frac{1}{\sqrt{2}}\begin{bmatrix} 1 \\ 1 \end{bmatrix}, q_2 = \frac{1}{\sqrt{2}}\begin{bmatrix} 1 \\ -1 \end{bmatrix}$
+
+验证正交性：$q_1^T q_2 = \frac{1}{2}(1 \cdot 1 + 1 \cdot (-1)) = 0$ ✓
+
+正交对角化：
+
+$$
+A = \frac{1}{\sqrt{2}}\begin{bmatrix} 1 & 1 \\ 1 & -1 \end{bmatrix} \begin{bmatrix} 4 & 0 \\ 0 & 2 \end{bmatrix} \frac{1}{\sqrt{2}}\begin{bmatrix} 1 & 1 \\ 1 & -1 \end{bmatrix}
+$$
+
+---
+
 ### 3. 对角化
 
 **定义 3.1 (可对角化)**:
@@ -188,6 +372,158 @@ $$
 - $A A^T$ 的特征值也是 $\sigma_i^2$
 - $V$ 的列是 $A^T A$ 的特征向量
 - $U$ 的列是 $A A^T$ 的特征向量
+
+---
+
+**定理 1.1 的完整证明**:
+
+我们将构造性地证明SVD的存在性。
+
+**证明步骤**:
+
+**第一步：分析 $A^T A$**
+
+考虑矩阵 $A^T A \in \mathbb{R}^{n \times n}$。注意到：
+
+1. $A^T A$ 是对称矩阵：$(A^T A)^T = A^T (A^T)^T = A^T A$
+
+2. $A^T A$ 是半正定矩阵：对任意 $x \in \mathbb{R}^n$，
+   $$
+   x^T (A^T A) x = (Ax)^T (Ax) = \|Ax\|^2 \geq 0
+   $$
+
+**第二步：应用谱定理**:
+
+由于 $A^T A$ 是对称矩阵，根据谱定理，存在正交矩阵 $V \in \mathbb{R}^{n \times n}$ 和对角矩阵 $\Lambda$ 使得：
+
+$$
+A^T A = V \Lambda V^T
+$$
+
+其中 $\Lambda = \text{diag}(\lambda_1, \lambda_2, \ldots, \lambda_n)$，且 $\lambda_1 \geq \lambda_2 \geq \cdots \geq \lambda_n \geq 0$（所有特征值非负，因为 $A^T A$ 半正定）。
+
+设 $V = [v_1 \mid v_2 \mid \cdots \mid v_n]$，其中 $v_i$ 是对应于特征值 $\lambda_i$ 的单位特征向量。
+
+**第三步：定义奇异值**:
+
+定义奇异值为：
+
+$$
+\sigma_i = \sqrt{\lambda_i}, \quad i = 1, 2, \ldots, n
+$$
+
+假设前 $r$ 个奇异值为正（$\sigma_1 \geq \sigma_2 \geq \cdots \geq \sigma_r > 0$），后面的为零。这里 $r = \text{rank}(A)$。
+
+**第四步：构造左奇异向量 $U$**
+
+对于 $i = 1, 2, \ldots, r$，定义：
+
+$$
+u_i = \frac{1}{\sigma_i} A v_i
+$$
+
+我们需要验证 $\{u_1, u_2, \ldots, u_r\}$ 是正交的：
+
+$$
+u_i^T u_j = \frac{1}{\sigma_i \sigma_j} (Av_i)^T (Av_j) = \frac{1}{\sigma_i \sigma_j} v_i^T A^T A v_j
+$$
+
+由于 $A^T A v_j = \lambda_j v_j = \sigma_j^2 v_j$：
+
+$$
+u_i^T u_j = \frac{1}{\sigma_i \sigma_j} v_i^T (\sigma_j^2 v_j) = \frac{\sigma_j}{\sigma_i} v_i^T v_j = \frac{\sigma_j}{\sigma_i} \delta_{ij} = \delta_{ij}
+$$
+
+因此 $\{u_1, u_2, \ldots, u_r\}$ 是标准正交集。
+
+将 $\{u_1, u_2, \ldots, u_r\}$ 扩充为 $\mathbb{R}^m$ 的标准正交基 $\{u_1, u_2, \ldots, u_m\}$，构造正交矩阵：
+
+$$
+U = [u_1 \mid u_2 \mid \cdots \mid u_m] \in \mathbb{R}^{m \times m}
+$$
+
+**第五步：验证分解**:
+
+现在验证 $A = U \Sigma V^T$，其中 $\Sigma \in \mathbb{R}^{m \times n}$ 是广义对角矩阵：
+
+$$
+\Sigma_{ij} = \begin{cases}
+\sigma_i & \text{如果 } i = j \leq r \\
+0 & \text{否则}
+\end{cases}
+$$
+
+对于 $j = 1, 2, \ldots, n$，计算 $A v_j$：
+
+- 如果 $j \leq r$：
+  $$
+  A v_j = \sigma_j u_j = \sigma_j u_j = (U \Sigma V^T) v_j
+  $$
+  
+  因为：
+  $$
+  (U \Sigma V^T) v_j = U \Sigma e_j = U (\sigma_j e_j) = \sigma_j u_j
+  $$
+
+- 如果 $j > r$：
+  $$
+  \|A v_j\|^2 = v_j^T A^T A v_j = v_j^T (\lambda_j v_j) = \lambda_j \|v_j\|^2 = 0
+  $$
+  
+  因此 $A v_j = 0 = (U \Sigma V^T) v_j$
+
+由于 $\{v_1, v_2, \ldots, v_n\}$ 是 $\mathbb{R}^n$ 的标准正交基，而 $A$ 和 $U \Sigma V^T$ 在这组基上的作用相同，因此：
+
+$$
+A = U \Sigma V^T
+$$
+
+这就完成了SVD的存在性证明。 $\square$
+
+**唯一性说明**:
+
+奇异值的唯一性：奇异值 $\sigma_1 \geq \sigma_2 \geq \cdots \geq \sigma_r > 0$ 由 $A^T A$ 的特征值唯一确定。
+
+奇异向量的唯一性：
+
+- 如果所有非零奇异值互不相同，则对应的奇异向量在符号差异下是唯一的
+- 如果存在重复的奇异值，则对应的奇异向量张成的子空间是唯一的，但具体的正交基不唯一
+
+**计算示例**:
+
+考虑矩阵：
+
+$$
+A = \begin{bmatrix} 3 & 2 & 2 \\ 2 & 3 & -2 \end{bmatrix}
+$$
+
+**步骤1**: 计算 $A^T A$：
+
+$$
+A^T A = \begin{bmatrix} 3 & 2 \\ 2 & 3 \\ 2 & -2 \end{bmatrix} \begin{bmatrix} 3 & 2 & 2 \\ 2 & 3 & -2 \end{bmatrix} = \begin{bmatrix} 13 & 12 & 2 \\ 12 & 13 & -2 \\ 2 & -2 & 8 \end{bmatrix}
+$$
+
+**步骤2**: 计算特征值（省略详细计算）：
+
+$$
+\lambda_1 = 25, \quad \lambda_2 = 9, \quad \lambda_3 = 0
+$$
+
+**步骤3**: 奇异值：
+
+$$
+\sigma_1 = 5, \quad \sigma_2 = 3
+$$
+
+**步骤4**: 计算右奇异向量 $V$（$A^T A$ 的特征向量）
+
+**步骤5**: 计算左奇异向量 $U = AV\Sigma^{-1}$
+
+最终得到：
+
+$$
+A = U \begin{bmatrix} 5 & 0 & 0 \\ 0 & 3 & 0 \end{bmatrix} V^T
+$$
 
 ---
 

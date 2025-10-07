@@ -110,6 +110,204 @@ $$
 
 ---
 
+**性质的完整证明**:
+
+**证明1：单调性**:
+
+需要证明：若 $x_1 \leq x_2$，则 $F_X(x_1) \leq F_X(x_2)$
+
+**证明**:
+
+设 $x_1 \leq x_2$。注意到：
+
+$$
+\{X \leq x_1\} \subseteq \{X \leq x_2\}
+$$
+
+因为如果 $X(\omega) \leq x_1$，则 $X(\omega) \leq x_1 \leq x_2$，所以 $X(\omega) \leq x_2$。
+
+由概率的单调性（如果 $A \subseteq B$，则 $P(A) \leq P(B)$）：
+
+$$
+F_X(x_1) = P(X \leq x_1) \leq P(X \leq x_2) = F_X(x_2)
+$$
+
+$\square$
+
+---
+
+**证明2：右连续性**:
+
+需要证明：$\lim_{x \to a^+} F_X(x) = F_X(a)$
+
+**证明**:
+
+考虑递减序列 $x_n \downarrow a$（即 $x_1 > x_2 > \cdots > a$ 且 $\lim_{n \to \infty} x_n = a$）。
+
+定义事件序列：
+
+$$
+A_n = \{X \leq x_n\}
+$$
+
+**关键观察**:
+
+1. $A_1 \supseteq A_2 \supseteq A_3 \supseteq \cdots$ （递减序列）
+
+2. $\bigcap_{n=1}^\infty A_n = \{X \leq a\}$
+
+**证明第2点**:
+
+- 若 $\omega \in \bigcap_{n=1}^\infty A_n$，则对所有 $n$，$X(\omega) \leq x_n$。
+  
+  取极限：$X(\omega) \leq \lim_{n \to \infty} x_n = a$，所以 $\omega \in \{X \leq a\}$。
+
+- 反之，若 $\omega \in \{X \leq a\}$，则 $X(\omega) \leq a < x_n$ 对所有 $n$（因为 $x_n > a$）。
+  
+  所以 $\omega \in A_n$ 对所有 $n$，即 $\omega \in \bigcap_{n=1}^\infty A_n$。
+
+**应用测度的连续性**:
+
+对于递减事件序列，概率测度的连续性给出：
+
+$$
+\lim_{n \to \infty} P(A_n) = P\left(\bigcap_{n=1}^\infty A_n\right)
+$$
+
+即：
+
+$$
+\lim_{n \to \infty} F_X(x_n) = \lim_{n \to \infty} P(X \leq x_n) = P(X \leq a) = F_X(a)
+$$
+
+由于这对任意递减序列 $x_n \downarrow a$ 成立，我们有：
+
+$$
+\lim_{x \to a^+} F_X(x) = F_X(a)
+$$
+
+$\square$
+
+**注意**: CDF一般不是左连续的。左极限为：
+
+$$
+\lim_{x \to a^-} F_X(x) = P(X < a) = F_X(a) - P(X = a)
+$$
+
+如果 $P(X = a) > 0$（即 $a$ 是原子点），则CDF在 $a$ 处有跳跃。
+
+---
+
+**证明3：极限性**:
+
+需要证明：
+1. $\lim_{x \to -\infty} F_X(x) = 0$
+2. $\lim_{x \to \infty} F_X(x) = 1$
+
+**证明 (1)**:
+
+考虑递减序列 $x_n \to -\infty$（例如 $x_n = -n$）。
+
+定义事件序列：
+
+$$
+A_n = \{X \leq x_n\}
+$$
+
+则 $A_1 \supseteq A_2 \supseteq A_3 \supseteq \cdots$（递减）。
+
+**关键观察**: $\bigcap_{n=1}^\infty A_n = \emptyset$
+
+**证明**:
+
+假设存在 $\omega \in \bigcap_{n=1}^\infty A_n$，则对所有 $n$，$X(\omega) \leq x_n$。
+
+但 $x_n \to -\infty$，这意味着 $X(\omega) \leq -n$ 对所有 $n$，即 $X(\omega) = -\infty$。
+
+这与 $X$ 是实值随机变量矛盾（$X: \Omega \to \mathbb{R}$）。
+
+因此 $\bigcap_{n=1}^\infty A_n = \emptyset$。
+
+**应用测度的连续性**:
+
+$$
+\lim_{n \to \infty} P(A_n) = P\left(\bigcap_{n=1}^\infty A_n\right) = P(\emptyset) = 0
+$$
+
+即：
+
+$$
+\lim_{x \to -\infty} F_X(x) = 0
+$$
+
+$\square$
+
+**证明 (2)**:
+
+考虑递增序列 $x_n \to \infty$（例如 $x_n = n$）。
+
+定义事件序列：
+
+$$
+B_n = \{X \leq x_n\}
+$$
+
+则 $B_1 \subseteq B_2 \subseteq B_3 \subseteq \cdots$（递增）。
+
+**关键观察**: $\bigcup_{n=1}^\infty B_n = \Omega$
+
+**证明**:
+
+对于任意 $\omega \in \Omega$，$X(\omega)$ 是有限实数。
+
+选择 $n$ 足够大使得 $x_n > X(\omega)$，则 $\omega \in B_n$。
+
+因此 $\omega \in \bigcup_{n=1}^\infty B_n$，所以 $\Omega \subseteq \bigcup_{n=1}^\infty B_n$。
+
+反向包含显然，因此 $\bigcup_{n=1}^\infty B_n = \Omega$。
+
+**应用测度的连续性**:
+
+$$
+\lim_{n \to \infty} P(B_n) = P\left(\bigcup_{n=1}^\infty B_n\right) = P(\Omega) = 1
+$$
+
+即：
+
+$$
+\lim_{x \to \infty} F_X(x) = 1
+$$
+
+$\square$
+
+---
+
+**性质的几何意义**:
+
+1. **单调性**: CDF是阶梯函数或连续增函数，永不下降
+2. **右连续性**: CDF从右侧逼近每个点的值，跳跃发生在左侧
+3. **极限性**: CDF从0开始，最终达到1，反映了概率的归一化
+
+**应用示例**:
+
+考虑离散随机变量 $X \sim \text{Bernoulli}(p)$：
+
+$$
+F_X(x) = \begin{cases}
+0 & x < 0 \\
+1-p & 0 \leq x < 1 \\
+1 & x \geq 1
+\end{cases}
+$$
+
+验证性质：
+- 单调性: $0 \leq 1-p \leq 1$ ✓
+- 右连续性: 在 $x=0$ 和 $x=1$ 处右连续 ✓
+- 极限性: $\lim_{x \to -\infty} F_X(x) = 0$, $\lim_{x \to \infty} F_X(x) = 1$ ✓
+- 跳跃: 在 $x=0$ 处跳跃 $1-p$，在 $x=1$ 处跳跃 $p$
+
+---
+
 ### 3. 概率密度函数
 
 **定义 3.1 (概率密度函数, PDF)**:
@@ -452,6 +650,217 @@ $$
 $$
 X \sim \mathcal{N}(\mu, \sigma^2) \Rightarrow M_X(t) = \exp\left(\mu t + \frac{\sigma^2 t^2}{2}\right)
 $$
+
+---
+
+**MGF性质的完整证明**:
+
+**性质1：唯一性定理**
+
+**定理**: 若两个随机变量 $X$ 和 $Y$ 的MGF在0的某个邻域内存在且相等，则 $X$ 和 $Y$ 有相同的分布。
+
+**证明思路**（完整证明需要复分析）:
+
+MGF与特征函数的关系：$M_X(t) = \phi_X(-it)$（当MGF存在时）。
+
+特征函数唯一确定分布（Lévy唯一性定理）。
+
+因此，若 $M_X(t) = M_Y(t)$ 在0的邻域内，则 $\phi_X(s) = \phi_Y(s)$ 对纯虚数 $s = -it$ 成立。
+
+由解析延拓，这意味着 $\phi_X = \phi_Y$ 处处成立。
+
+因此 $X$ 和 $Y$ 有相同的分布。 $\square$
+
+**注意**: 这个定理的完整证明需要复分析和测度论的深入知识。在实践中，我们通常直接引用这个结果。
+
+---
+
+**性质2：矩的计算**
+
+**定理**: 若 $M_X(t)$ 在0的邻域内存在，则：
+
+$$
+E[X^n] = M_X^{(n)}(0) = \frac{d^n M_X}{dt^n}\bigg|_{t=0}
+$$
+
+**证明**:
+
+**第一步：Taylor展开**
+
+假设可以交换期望和求导（在MGF存在的条件下通常成立）：
+
+$$
+M_X(t) = E[e^{tX}] = E\left[\sum_{n=0}^\infty \frac{(tX)^n}{n!}\right]
+$$
+
+交换期望和求和（由单调收敛定理或控制收敛定理）：
+
+$$
+M_X(t) = \sum_{n=0}^\infty \frac{E[X^n]}{n!} t^n
+$$
+
+这是 $M_X(t)$ 在 $t=0$ 处的Taylor展开。
+
+**第二步：求导**
+
+对 $M_X(t)$ 求 $n$ 阶导数：
+
+$$
+M_X^{(n)}(t) = \frac{d^n}{dt^n} E[e^{tX}]
+$$
+
+交换期望和求导（在适当条件下）：
+
+$$
+M_X^{(n)}(t) = E\left[\frac{d^n}{dt^n} e^{tX}\right] = E[X^n e^{tX}]
+$$
+
+**第三步：在 $t=0$ 处求值**
+
+$$
+M_X^{(n)}(0) = E[X^n e^{0 \cdot X}] = E[X^n]
+$$
+
+$\square$
+
+**详细示例**:
+
+对于 $X \sim \mathcal{N}(0, 1)$，$M_X(t) = e^{t^2/2}$。
+
+**一阶矩**:
+
+$$
+M_X'(t) = e^{t^2/2} \cdot t
+$$
+
+$$
+E[X] = M_X'(0) = 0
+$$
+
+**二阶矩**:
+
+$$
+M_X''(t) = e^{t^2/2} \cdot (1 + t^2)
+$$
+
+$$
+E[X^2] = M_X''(0) = 1
+$$
+
+**三阶矩**:
+
+$$
+M_X'''(t) = e^{t^2/2} \cdot (3t + t^3)
+$$
+
+$$
+E[X^3] = M_X'''(0) = 0
+$$
+
+**四阶矩**:
+
+$$
+M_X^{(4)}(t) = e^{t^2/2} \cdot (3 + 6t^2 + t^4)
+$$
+
+$$
+E[X^4] = M_X^{(4)}(0) = 3
+$$
+
+这验证了标准正态分布的矩：$E[X] = 0$, $E[X^2] = 1$, $E[X^3] = 0$, $E[X^4] = 3$。
+
+---
+
+**性质3：独立和的MGF**
+
+**定理**: 若 $X$ 和 $Y$ 独立，则：
+
+$$
+M_{X+Y}(t) = M_X(t) \cdot M_Y(t)
+$$
+
+**证明**:
+
+$$
+M_{X+Y}(t) = E[e^{t(X+Y)}] = E[e^{tX} \cdot e^{tY}]
+$$
+
+由于 $X$ 和 $Y$ 独立，$e^{tX}$ 和 $e^{tY}$ 也独立（独立随机变量的函数仍独立）。
+
+因此，由期望的独立性性质：
+
+$$
+M_{X+Y}(t) = E[e^{tX}] \cdot E[e^{tY}] = M_X(t) \cdot M_Y(t)
+$$
+
+$\square$
+
+**应用示例**:
+
+**例1**: 正态分布的可加性
+
+若 $X \sim \mathcal{N}(\mu_1, \sigma_1^2)$，$Y \sim \mathcal{N}(\mu_2, \sigma_2^2)$ 独立，则：
+
+$$
+M_X(t) = \exp\left(\mu_1 t + \frac{\sigma_1^2 t^2}{2}\right)
+$$
+
+$$
+M_Y(t) = \exp\left(\mu_2 t + \frac{\sigma_2^2 t^2}{2}\right)
+$$
+
+$$
+M_{X+Y}(t) = M_X(t) \cdot M_Y(t) = \exp\left((\mu_1 + \mu_2) t + \frac{(\sigma_1^2 + \sigma_2^2) t^2}{2}\right)
+$$
+
+这是 $\mathcal{N}(\mu_1 + \mu_2, \sigma_1^2 + \sigma_2^2)$ 的MGF。
+
+因此 $X + Y \sim \mathcal{N}(\mu_1 + \mu_2, \sigma_1^2 + \sigma_2^2)$。
+
+**例2**: 泊松分布的可加性
+
+若 $X \sim \text{Poisson}(\lambda_1)$，$Y \sim \text{Poisson}(\lambda_2)$ 独立，则：
+
+$$
+M_X(t) = \exp(\lambda_1(e^t - 1))
+$$
+
+$$
+M_Y(t) = \exp(\lambda_2(e^t - 1))
+$$
+
+$$
+M_{X+Y}(t) = \exp((\lambda_1 + \lambda_2)(e^t - 1))
+$$
+
+因此 $X + Y \sim \text{Poisson}(\lambda_1 + \lambda_2)$。
+
+---
+
+**MGF的存在性**:
+
+**注意**: MGF不总是存在。
+
+**例子**: Cauchy分布
+
+Cauchy分布的MGF不存在（积分发散），但特征函数存在：
+
+$$
+\phi_X(t) = e^{-|t|}
+$$
+
+这就是为什么在理论工作中，特征函数比MGF更常用。
+
+---
+
+**MGF与中心极限定理**:
+
+MGF在证明中心极限定理时起关键作用（虽然通常使用特征函数）。
+
+**思路**: 
+1. 计算标准化和的MGF
+2. 证明它收敛到标准正态分布的MGF
+3. 由唯一性定理，得到分布收敛
 
 ---
 

@@ -274,6 +274,208 @@ $$
 
 ---
 
+**Hessian矩阵性质的完整证明**:
+
+**证明1：对称性（Schwarz定理）**:
+
+**定理（Schwarz）**: 若 $f: \mathbb{R}^n \to \mathbb{R}$ 是 $C^2$ 函数（二阶偏导数连续），则混合偏导数与求导顺序无关：
+
+$$
+\frac{\partial^2 f}{\partial x_i \partial x_j} = \frac{\partial^2 f}{\partial x_j \partial x_i}
+$$
+
+**证明**：
+
+考虑二元函数的情况（推广到多元是类似的）。设 $f(x, y)$ 在点 $(a, b)$ 附近二阶连续可微。
+
+定义差商：
+
+$$
+\Delta(h, k) = f(a+h, b+k) - f(a+h, b) - f(a, b+k) + f(a, b)
+$$
+
+**方法1：先对 $x$ 后对 $y$**
+
+固定 $y = b+k$，定义 $\phi(x) = f(x, b+k) - f(x, b)$，则：
+
+$$
+\Delta(h, k) = \phi(a+h) - \phi(a)
+$$
+
+由中值定理，存在 $\xi \in (a, a+h)$ 使得：
+
+$$
+\Delta(h, k) = h \phi'(\xi) = h \left[\frac{\partial f}{\partial x}(\xi, b+k) - \frac{\partial f}{\partial x}(\xi, b)\right]
+$$
+
+再次应用中值定理，存在 $\eta \in (b, b+k)$ 使得：
+
+$$
+\Delta(h, k) = hk \frac{\partial^2 f}{\partial y \partial x}(\xi, \eta)
+$$
+
+**方法2：先对 $y$ 后对 $x$**
+
+类似地，可以得到：
+
+$$
+\Delta(h, k) = hk \frac{\partial^2 f}{\partial x \partial y}(\xi', \eta')
+$$
+
+其中 $\xi' \in (a, a+h)$，$\eta' \in (b, b+k)$。
+
+当 $h, k \to 0$ 时，由于二阶偏导数连续：
+
+$$
+\frac{\partial^2 f}{\partial y \partial x}(\xi, \eta) \to \frac{\partial^2 f}{\partial y \partial x}(a, b)
+$$
+
+$$
+\frac{\partial^2 f}{\partial x \partial y}(\xi', \eta') \to \frac{\partial^2 f}{\partial x \partial y}(a, b)
+$$
+
+因此：
+
+$$
+\frac{\partial^2 f}{\partial x \partial y}(a, b) = \frac{\partial^2 f}{\partial y \partial x}(a, b)
+$$
+
+这证明了 Hessian 矩阵的对称性：$H = H^T$。 $\square$
+
+**证明2：正定性与凸性的关系**:
+
+**定理**: 设 $f: \mathbb{R}^n \to \mathbb{R}$ 是 $C^2$ 函数。
+
+(a) 若对所有 $\mathbf{x}$，$H(\mathbf{x}) \succeq 0$（半正定），则 $f$ 是凸函数。
+
+(b) 若对所有 $\mathbf{x}$，$H(\mathbf{x}) \succ 0$（正定），则 $f$ 是严格凸函数。
+
+**证明 (a)**：
+
+需要证明对任意 $\mathbf{x}, \mathbf{y} \in \mathbb{R}^n$ 和 $\lambda \in [0, 1]$：
+
+$$
+f(\lambda \mathbf{x} + (1-\lambda)\mathbf{y}) \leq \lambda f(\mathbf{x}) + (1-\lambda) f(\mathbf{y})
+$$
+
+定义 $\mathbf{z}(t) = \mathbf{y} + t(\mathbf{x} - \mathbf{y})$，$t \in [0, 1]$，以及：
+
+$$
+g(t) = f(\mathbf{z}(t))
+$$
+
+我们需要证明 $g$ 是凸函数，即 $g''(t) \geq 0$。
+
+计算一阶导数：
+
+$$
+g'(t) = \nabla f(\mathbf{z}(t))^T \mathbf{z}'(t) = \nabla f(\mathbf{z}(t))^T (\mathbf{x} - \mathbf{y})
+$$
+
+计算二阶导数：
+
+$$
+g''(t) = (\mathbf{x} - \mathbf{y})^T H(\mathbf{z}(t)) (\mathbf{x} - \mathbf{y})
+$$
+
+由于 $H(\mathbf{z}(t)) \succeq 0$（半正定），对任意向量 $\mathbf{v} = \mathbf{x} - \mathbf{y}$：
+
+$$
+g''(t) = \mathbf{v}^T H(\mathbf{z}(t)) \mathbf{v} \geq 0
+$$
+
+因此 $g(t)$ 是凸函数，这意味着 $f$ 是凸函数。 $\square$
+
+**证明 (b)**: 类似，但不等式是严格的。 $\square$
+
+**证明3：临界点的二阶充分条件**:
+
+**定理**: 设 $\nabla f(\mathbf{x}^*) = \mathbf{0}$（$\mathbf{x}^*$ 是临界点）。
+
+(a) 若 $H(\mathbf{x}^*) \succ 0$（正定），则 $\mathbf{x}^*$ 是严格局部极小值点。
+
+(b) 若 $H(\mathbf{x}^*) \prec 0$（负定），则 $\mathbf{x}^*$ 是严格局部极大值点。
+
+(c) 若 $H(\mathbf{x}^*)$ 不定（有正有负特征值），则 $\mathbf{x}^*$ 是鞍点。
+
+**证明 (a)**：
+
+使用二阶 Taylor 展开，对于 $\mathbf{x}^*$ 附近的点 $\mathbf{x}^* + \mathbf{h}$（$\|\mathbf{h}\|$ 很小）：
+
+$$
+f(\mathbf{x}^* + \mathbf{h}) = f(\mathbf{x}^*) + \nabla f(\mathbf{x}^*)^T \mathbf{h} + \frac{1}{2} \mathbf{h}^T H(\mathbf{x}^*) \mathbf{h} + o(\|\mathbf{h}\|^2)
+$$
+
+由于 $\nabla f(\mathbf{x}^*) = \mathbf{0}$：
+
+$$
+f(\mathbf{x}^* + \mathbf{h}) = f(\mathbf{x}^*) + \frac{1}{2} \mathbf{h}^T H(\mathbf{x}^*) \mathbf{h} + o(\|\mathbf{h}\|^2)
+$$
+
+因为 $H(\mathbf{x}^*) \succ 0$（正定），存在 $\lambda_{\min} > 0$ 使得：
+
+$$
+\mathbf{h}^T H(\mathbf{x}^*) \mathbf{h} \geq \lambda_{\min} \|\mathbf{h}\|^2
+$$
+
+因此：
+
+$$
+f(\mathbf{x}^* + \mathbf{h}) - f(\mathbf{x}^*) \geq \frac{\lambda_{\min}}{2} \|\mathbf{h}\|^2 + o(\|\mathbf{h}\|^2)
+$$
+
+当 $\|\mathbf{h}\|$ 足够小时，右边为正，因此：
+
+$$
+f(\mathbf{x}^* + \mathbf{h}) > f(\mathbf{x}^*)
+$$
+
+这证明了 $\mathbf{x}^*$ 是严格局部极小值点。 $\square$
+
+**证明 (b)**: 类似，但不等号反向。 $\square$
+
+**证明 (c)**：
+
+若 $H(\mathbf{x}^*)$ 不定，则存在特征值 $\lambda_1 > 0$ 和 $\lambda_2 < 0$，对应的特征向量为 $\mathbf{v}_1$ 和 $\mathbf{v}_2$。
+
+沿 $\mathbf{v}_1$ 方向（取 $\mathbf{h} = t\mathbf{v}_1$，$t$ 很小）：
+
+$$
+f(\mathbf{x}^* + t\mathbf{v}_1) - f(\mathbf{x}^*) \approx \frac{t^2}{2} \mathbf{v}_1^T H(\mathbf{x}^*) \mathbf{v}_1 = \frac{t^2}{2} \lambda_1 > 0
+$$
+
+沿 $\mathbf{v}_2$ 方向（取 $\mathbf{h} = t\mathbf{v}_2$）：
+
+$$
+f(\mathbf{x}^* + t\mathbf{v}_2) - f(\mathbf{x}^*) \approx \frac{t^2}{2} \lambda_2 < 0
+$$
+
+因此 $\mathbf{x}^*$ 既不是局部极小值也不是局部极大值，而是鞍点。 $\square$
+
+**实际应用示例**：
+
+考虑函数 $f(x, y) = x^2 - y^2$（马鞍面）。
+
+梯度：
+
+$$
+\nabla f = \begin{bmatrix} 2x \\ -2y \end{bmatrix}
+$$
+
+临界点：$(0, 0)$，因为 $\nabla f(0, 0) = \mathbf{0}$。
+
+Hessian矩阵：
+
+$$
+H = \begin{bmatrix} 2 & 0 \\ 0 & -2 \end{bmatrix}
+$$
+
+特征值：$\lambda_1 = 2 > 0$，$\lambda_2 = -2 < 0$
+
+由于 $H$ 不定（有正有负特征值），$(0, 0)$ 是鞍点。
+
+---
+
 ### 3. 二阶Taylor展开
 
 **定理 3.1 (二阶Taylor展开)**:

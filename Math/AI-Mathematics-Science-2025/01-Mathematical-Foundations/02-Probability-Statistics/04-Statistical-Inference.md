@@ -150,6 +150,258 @@ $$
 
 ---
 
+**定理 1.1 的完整证明**:
+
+我们将分别证明MLE的三个渐近性质。为简化记号，考虑标量参数 $\theta \in \mathbb{R}$（多维情况类似）。
+
+**正则条件**:
+
+1. 参数空间 $\Theta$ 包含真实参数 $\theta_0$ 的一个邻域
+2. 支撑集 $\{x : p(x; \theta) > 0\}$ 不依赖于 $\theta$
+3. $\log p(x; \theta)$ 关于 $\theta$ 三次可微
+4. 可以交换求导和积分的顺序
+5. Fisher信息 $I(\theta_0) > 0$ 且有限
+
+---
+
+**证明 (1): 相合性**:
+
+**证明思路**: 证明 $\hat{\theta}_n$ 最大化样本对数似然，而样本对数似然依概率收敛到期望对数似然，后者在 $\theta_0$ 处唯一最大。
+
+**第一步：定义目标函数**:
+
+令：
+
+- $\ell_n(\theta) = \frac{1}{n} \sum_{i=1}^n \log p(X_i; \theta)$ （样本平均对数似然）
+- $\ell(\theta) = \mathbb{E}[\log p(X; \theta)]$ （期望对数似然）
+
+**第二步：大数定律**:
+
+由强大数定律，对每个固定的 $\theta$：
+
+$$
+\ell_n(\theta) \xrightarrow{a.s.} \ell(\theta)
+$$
+
+**第三步：识别最大值点**:
+
+**引理**: $\ell(\theta)$ 在 $\theta = \theta_0$ 处唯一最大。
+
+**证明引理**: 使用Kullback-Leibler散度。对于 $\theta \neq \theta_0$：
+
+$$
+\ell(\theta) - \ell(\theta_0) = \mathbb{E}[\log p(X; \theta)] - \mathbb{E}[\log p(X; \theta_0)]
+$$
+
+$$
+= \mathbb{E}\left[\log \frac{p(X; \theta)}{p(X; \theta_0)}\right] = -\text{KL}(p_{\theta_0} \| p_\theta) < 0
+$$
+
+（KL散度非负，且仅当 $\theta = \theta_0$ 时为零）
+
+**第四步：一致收敛**:
+
+在紧集上，$\ell_n(\theta)$ 一致收敛到 $\ell(\theta)$（需要更强的条件，如可控性）。
+
+**第五步：结论**:
+
+由于 $\hat{\theta}_n$ 最大化 $\ell_n(\theta)$，而 $\ell_n(\theta)$ 一致收敛到在 $\theta_0$ 处唯一最大的 $\ell(\theta)$，因此：
+
+$$
+\hat{\theta}_n \xrightarrow{P} \theta_0
+$$
+
+$\square$
+
+---
+
+**证明 (2): 渐近正态性**:
+
+这是最重要也最技术性的部分。
+
+**第一步：Score函数**:
+
+定义**Score函数**：
+
+$$
+s(\theta) = \frac{\partial \log p(X; \theta)}{\partial \theta}
+$$
+
+**关键性质**:
+
+- $\mathbb{E}[s(\theta_0)] = 0$ （在真实参数下，Score的期望为零）
+- $\text{Var}(s(\theta_0)) = I(\theta_0)$ （Fisher信息）
+
+**证明第一个性质**:
+
+$$
+\mathbb{E}[s(\theta_0)] = \mathbb{E}\left[\frac{\partial \log p(X; \theta_0)}{\partial \theta}\right] = \int \frac{\partial p(x; \theta_0)}{\partial \theta} dx
+$$
+
+$$
+= \frac{\partial}{\partial \theta} \int p(x; \theta_0) dx = \frac{\partial}{\partial \theta} 1 = 0
+$$
+
+**第二步：MLE的一阶条件**:
+
+MLE $\hat{\theta}_n$ 满足：
+
+$$
+\frac{\partial \ell_n(\theta)}{\partial \theta}\bigg|_{\theta = \hat{\theta}_n} = \frac{1}{n} \sum_{i=1}^n s_i(\hat{\theta}_n) = 0
+$$
+
+其中 $s_i(\theta) = \frac{\partial \log p(X_i; \theta)}{\partial \theta}$。
+
+**第三步：Taylor展开**:
+
+在 $\theta_0$ 附近对Score函数求和进行Taylor展开：
+
+$$
+0 = \frac{1}{n} \sum_{i=1}^n s_i(\hat{\theta}_n) = \frac{1}{n} \sum_{i=1}^n s_i(\theta_0) + \frac{1}{n} \sum_{i=1}^n s_i'(\tilde{\theta}_n)(\hat{\theta}_n - \theta_0)
+$$
+
+其中 $\tilde{\theta}_n$ 在 $\theta_0$ 和 $\hat{\theta}_n$ 之间。
+
+重新整理：
+
+$$
+\sqrt{n}(\hat{\theta}_n - \theta_0) = -\left[\frac{1}{n} \sum_{i=1}^n s_i'(\tilde{\theta}_n)\right]^{-1} \cdot \frac{1}{\sqrt{n}} \sum_{i=1}^n s_i(\theta_0)
+$$
+
+**第四步：分析分子**:
+
+由中心极限定理，$\{s_i(\theta_0)\}$ 是独立同分布的，$\mathbb{E}[s_i(\theta_0)] = 0$，$\text{Var}(s_i(\theta_0)) = I(\theta_0)$，因此：
+
+$$
+\frac{1}{\sqrt{n}} \sum_{i=1}^n s_i(\theta_0) \xrightarrow{d} \mathcal{N}(0, I(\theta_0))
+$$
+
+**第五步：分析分母**:
+
+$$
+s_i'(\theta) = \frac{\partial^2 \log p(X_i; \theta)}{\partial \theta^2}
+$$
+
+由大数定律：
+
+$$
+\frac{1}{n} \sum_{i=1}^n s_i'(\tilde{\theta}_n) \xrightarrow{P} \mathbb{E}[s'(\theta_0)] = -I(\theta_0)
+$$
+
+（这里使用了 $\tilde{\theta}_n \xrightarrow{P} \theta_0$ 和连续性）
+
+**第六步：Slutsky定理**:
+
+结合第四步和第五步，应用Slutsky定理：
+
+$$
+\sqrt{n}(\hat{\theta}_n - \theta_0) = \frac{1}{\sqrt{n}} \sum_{i=1}^n s_i(\theta_0) \cdot \left[-\frac{1}{n} \sum_{i=1}^n s_i'(\tilde{\theta}_n)\right]^{-1}
+$$
+
+$$
+\xrightarrow{d} \mathcal{N}(0, I(\theta_0)) \cdot \frac{1}{I(\theta_0)} = \mathcal{N}(0, I(\theta_0)^{-1})
+$$
+
+因此：
+
+$$
+\sqrt{n}(\hat{\theta}_n - \theta_0) \xrightarrow{d} \mathcal{N}(0, I(\theta_0)^{-1})
+$$
+
+$\square$
+
+---
+
+**证明 (3): 渐近有效性**:
+
+**Cramér-Rao下界**:
+
+对于任何无偏估计量 $\hat{\theta}$：
+
+$$
+\text{Var}(\hat{\theta}) \geq \frac{1}{n I(\theta)}
+$$
+
+**证明Cramér-Rao下界**:
+
+设 $\hat{\theta}$ 是 $\theta$ 的无偏估计量，即 $\mathbb{E}[\hat{\theta}] = \theta$。
+
+对 $\theta$ 求导：
+
+$$
+\frac{\partial}{\partial \theta} \mathbb{E}[\hat{\theta}] = 1
+$$
+
+$$
+\int \hat{\theta}(x) \frac{\partial p(x; \theta)}{\partial \theta} dx = 1
+$$
+
+$$
+\int \hat{\theta}(x) p(x; \theta) \frac{\partial \log p(x; \theta)}{\partial \theta} dx = 1
+$$
+
+$$
+\mathbb{E}[\hat{\theta} \cdot s(\theta)] = 1
+$$
+
+由Cauchy-Schwarz不等式：
+
+$$
+1 = \mathbb{E}[\hat{\theta} \cdot s(\theta)]^2 \leq \mathbb{E}[\hat{\theta}^2] \cdot \mathbb{E}[s(\theta)^2] = \text{Var}(\hat{\theta}) \cdot I(\theta)
+$$
+
+（使用了 $\mathbb{E}[\hat{\theta}] = \theta$, $\mathbb{E}[s(\theta)] = 0$）
+
+因此：
+
+$$
+\text{Var}(\hat{\theta}) \geq \frac{1}{I(\theta)}
+$$
+
+对于 $n$ 个样本：
+
+$$
+\text{Var}(\hat{\theta}) \geq \frac{1}{n I(\theta)}
+$$
+
+$\square$
+
+**MLE达到下界**:
+
+从渐近正态性：
+
+$$
+\text{Var}(\hat{\theta}_n) \sim \frac{I(\theta_0)^{-1}}{n} = \frac{1}{n I(\theta_0)}
+$$
+
+因此MLE渐近地达到Cramér-Rao下界，是渐近有效的。 $\square$
+
+---
+
+**证明的关键要点**：
+
+1. **相合性**: 基于大数定律和KL散度的唯一性
+2. **渐近正态性**: 基于CLT和Taylor展开，这是最核心的结果
+3. **渐近有效性**: MLE的方差达到理论下界
+
+**几何直观**：
+
+- **Score函数** $s(\theta)$ 是对数似然的梯度，指向似然增加的方向
+- **Fisher信息** $I(\theta)$ 度量了Score函数的变异性，反映了数据提供的信息量
+- **MLE** 通过设置Score为零找到似然的最大值点
+
+**实际意义**：
+
+MLE的渐近性质保证了：
+
+1. 大样本下，MLE收敛到真实参数（相合性）
+2. MLE的分布趋于正态（可以构造置信区间）
+3. MLE是最优的（渐近有效性）
+
+这些性质使得MLE成为统计推断中最重要的方法之一。
+
+---
+
 ### 2. 矩估计 (Method of Moments)
 
 **思想**: 用样本矩估计总体矩。
@@ -402,6 +654,305 @@ $$
 
 ---
 
+**Wilks定理的证明**:
+
+**定理陈述（完整版）**:
+
+设 $X_1, \ldots, X_n$ 是来自密度函数 $f(x; \theta)$ 的独立同分布样本，其中 $\theta \in \Theta \subseteq \mathbb{R}^p$。
+
+考虑假设检验：
+
+- $H_0: \theta \in \Theta_0$（$\Theta_0$ 是 $q$ 维子空间，$q < p$）
+- $H_1: \theta \in \Theta$
+
+似然比统计量：
+
+$$
+\Lambda_n = \frac{\sup_{\theta \in \Theta_0} L_n(\theta)}{\sup_{\theta \in \Theta} L_n(\theta)}
+$$
+
+**定理**: 在正则条件下，当 $H_0$ 为真时：
+
+$$
+-2 \log \Lambda_n \xrightarrow{d} \chi^2_{p-q}
+$$
+
+其中 $p - q$ 是自由度（参数空间的维数差）。
+
+---
+
+**正则条件**:
+
+1. **参数空间**: $\Theta$ 是 $\mathbb{R}^p$ 的开集，$\Theta_0$ 是 $q$ 维光滑子流形
+2. **可识别性**: 不同的 $\theta$ 对应不同的分布
+3. **Fisher信息**: Fisher信息矩阵 $I(\theta)$ 在 $\Theta$ 上连续且正定
+4. **正则性**: 对数似然函数满足通常的正则性条件（可交换求导与积分顺序等）
+5. **真参数**: 真参数 $\theta_0 \in \Theta_0$（$H_0$ 为真）
+
+---
+
+**证明**:
+
+**第一步：MLE的渐近正态性**:
+
+在正则条件下，无约束MLE $\hat{\theta}_n$ 满足：
+
+$$
+\sqrt{n}(\hat{\theta}_n - \theta_0) \xrightarrow{d} N(0, I(\theta_0)^{-1})
+$$
+
+其中 $I(\theta_0)$ 是Fisher信息矩阵。
+
+**第二步：约束MLE**:
+
+令 $\tilde{\theta}_n$ 是约束MLE（在 $\Theta_0$ 上的MLE）。
+
+由于 $\Theta_0$ 是 $q$ 维子流形，可以用局部参数化：
+
+$$
+\theta = h(\psi), \quad \psi \in \mathbb{R}^q
+$$
+
+其中 $h: \mathbb{R}^q \to \Theta_0$ 是光滑嵌入。
+
+约束MLE $\tilde{\theta}_n$ 也满足渐近正态性（在 $\Theta_0$ 内）。
+
+**第三步：对数似然比的Taylor展开**:
+
+对数似然比：
+
+$$
+\log \Lambda_n = \ell_n(\tilde{\theta}_n) - \ell_n(\hat{\theta}_n)
+$$
+
+其中 $\ell_n(\theta) = \log L_n(\theta) = \sum_{i=1}^n \log f(X_i; \theta)$。
+
+在 $\theta_0$ 附近对 $\ell_n$ 进行二阶Taylor展开：
+
+$$
+\ell_n(\theta) = \ell_n(\theta_0) + \nabla \ell_n(\theta_0)^T (\theta - \theta_0) + \frac{1}{2} (\theta - \theta_0)^T H_n(\theta^*) (\theta - \theta_0)
+$$
+
+其中 $H_n(\theta) = \nabla^2 \ell_n(\theta)$ 是Hessian矩阵，$\theta^*$ 在 $\theta$ 和 $\theta_0$ 之间。
+
+**第四步：无约束MLE的展开**:
+
+由于 $\hat{\theta}_n$ 是无约束MLE，有 $\nabla \ell_n(\hat{\theta}_n) = 0$。
+
+在 $\hat{\theta}_n$ 附近展开：
+
+$$
+\ell_n(\theta_0) = \ell_n(\hat{\theta}_n) + \frac{1}{2} (\theta_0 - \hat{\theta}_n)^T H_n(\theta_1^*) (\theta_0 - \hat{\theta}_n)
+$$
+
+**第五步：约束MLE的展开**:
+
+类似地，在 $\tilde{\theta}_n$ 附近展开：
+
+$$
+\ell_n(\theta_0) = \ell_n(\tilde{\theta}_n) + \nabla \ell_n(\tilde{\theta}_n)^T (\theta_0 - \tilde{\theta}_n) + \frac{1}{2} (\theta_0 - \tilde{\theta}_n)^T H_n(\theta_2^*) (\theta_0 - \tilde{\theta}_n)
+$$
+
+但由于 $\tilde{\theta}_n$ 是约束MLE，梯度 $\nabla \ell_n(\tilde{\theta}_n)$ 在约束方向上为零，在垂直方向上非零。
+
+**第六步：关键观察**:
+
+由于 $\hat{\theta}_n$ 是全局最优，而 $\tilde{\theta}_n$ 是约束最优：
+
+$$
+\ell_n(\hat{\theta}_n) \geq \ell_n(\tilde{\theta}_n)
+$$
+
+因此：
+
+$$
+-2 \log \Lambda_n = 2[\ell_n(\hat{\theta}_n) - \ell_n(\tilde{\theta}_n)] \geq 0
+$$
+
+**第七步：渐近展开**:
+
+使用 $H_n(\theta) \xrightarrow{P} -n I(\theta_0)$（由大数定律）：
+
+$$
+\ell_n(\hat{\theta}_n) - \ell_n(\theta_0) \approx -\frac{n}{2} (\hat{\theta}_n - \theta_0)^T I(\theta_0) (\hat{\theta}_n - \theta_0)
+$$
+
+$$
+\ell_n(\tilde{\theta}_n) - \ell_n(\theta_0) \approx -\frac{n}{2} (\tilde{\theta}_n - \theta_0)^T I(\theta_0) (\tilde{\theta}_n - \theta_0)
+$$
+
+**第八步：投影解释**:
+
+令 $Z_n = \sqrt{n}(\hat{\theta}_n - \theta_0) \xrightarrow{d} N(0, I(\theta_0)^{-1})$。
+
+约束 $\theta \in \Theta_0$ 相当于线性约束（在一阶近似下）：
+
+$$
+A^T (\theta - \theta_0) = 0
+$$
+
+其中 $A$ 是 $p \times (p-q)$ 矩阵，列向量张成 $\Theta_0$ 的正交补空间。
+
+$\tilde{\theta}_n$ 是 $\hat{\theta}_n$ 在 $\Theta_0$ 上的投影（在Fisher度量下）。
+
+**第九步：二次型**:
+
+$$
+-2 \log \Lambda_n \approx n [(\hat{\theta}_n - \theta_0)^T I(\theta_0) (\hat{\theta}_n - \theta_0) - (\tilde{\theta}_n - \theta_0)^T I(\theta_0) (\tilde{\theta}_n - \theta_0)]
+$$
+
+令 $W = I(\theta_0)^{1/2}$，$Y_n = W \sqrt{n}(\hat{\theta}_n - \theta_0)$，则 $Y_n \xrightarrow{d} N(0, I_p)$。
+
+令 $P$ 是到约束子空间的正交投影矩阵（在标准内积下），则：
+
+$$
+-2 \log \Lambda_n \approx Y_n^T Y_n - (P Y_n)^T (P Y_n) = Y_n^T (I - P) Y_n
+$$
+
+**第十步：投影矩阵的性质**:
+
+$I - P$ 是到 $\Theta_0$ 的正交补空间的投影矩阵，秩为 $p - q$。
+
+因此 $I - P$ 有 $p - q$ 个特征值为 1，其余为 0。
+
+**第十一步：卡方分布**:
+
+对于标准正态向量 $Y \sim N(0, I_p)$ 和秩为 $r$ 的投影矩阵 $P$：
+
+$$
+Y^T P Y \sim \chi^2_r
+$$
+
+因此：
+
+$$
+-2 \log \Lambda_n \xrightarrow{d} \chi^2_{p-q}
+$$
+
+$\square$
+
+---
+
+**关键要点**:
+
+1. **自由度**: $p - q$ 是参数空间维数差，表示约束的"紧度"
+2. **投影解释**: 似然比检验等价于检验MLE到约束空间的"距离"
+3. **Fisher度量**: 使用Fisher信息矩阵定义的度量
+4. **正则条件**: 保证MLE的渐近正态性和Taylor展开的有效性
+
+---
+
+**Wilks定理的应用**:
+
+**例1：单参数检验**:
+
+检验 $H_0: \theta = \theta_0$ vs $H_1: \theta \neq \theta_0$（$p = 1, q = 0$）：
+
+$$
+-2 \log \Lambda_n = 2[\ell_n(\hat{\theta}_n) - \ell_n(\theta_0)] \xrightarrow{d} \chi^2_1
+$$
+
+**例2：嵌套模型比较**:
+
+模型1（完整）: $p$ 个参数  
+模型2（简化）: $q$ 个参数（$q < p$）
+
+$$
+-2 \log \Lambda_n = 2[\ell_n(\text{完整}) - \ell_n(\text{简化})] \xrightarrow{d} \chi^2_{p-q}
+$$
+
+**例3：正态分布方差检验**:
+
+$X_1, \ldots, X_n \sim N(\mu, \sigma^2)$，检验 $H_0: \sigma^2 = \sigma_0^2$ vs $H_1: \sigma^2 \neq \sigma_0^2$：
+
+对数似然：
+
+$$
+\ell_n(\mu, \sigma^2) = -\frac{n}{2} \log(2\pi) - \frac{n}{2} \log \sigma^2 - \frac{1}{2\sigma^2} \sum_{i=1}^n (X_i - \mu)^2
+$$
+
+无约束MLE: $\hat{\mu} = \bar{X}$, $\hat{\sigma}^2 = \frac{1}{n} \sum_{i=1}^n (X_i - \bar{X})^2$
+
+约束MLE（$\sigma^2 = \sigma_0^2$）: $\tilde{\mu} = \bar{X}$, $\tilde{\sigma}^2 = \sigma_0^2$
+
+似然比统计量：
+
+$$
+-2 \log \Lambda_n = n \log \frac{\sigma_0^2}{\hat{\sigma}^2} + n \frac{\hat{\sigma}^2}{\sigma_0^2} - n \xrightarrow{d} \chi^2_1
+$$
+
+**例4：线性回归系数检验**:
+
+完整模型: $Y = X\beta + \epsilon$（$p$ 个系数）  
+简化模型: $Y = X_0\beta_0 + \epsilon$（$q$ 个系数）
+
+$$
+-2 \log \Lambda_n = n \log \frac{\text{RSS}_0}{\text{RSS}} \xrightarrow{d} \chi^2_{p-q}
+$$
+
+其中 RSS 是残差平方和。
+
+---
+
+**Wilks定理的局限性**:
+
+1. **正则条件**: 需要满足严格的正则性条件
+2. **边界问题**: 当真参数在参数空间边界上时，结论可能不成立
+3. **小样本**: 渐近结果，小样本时可能不准确
+4. **模型错误指定**: 假设模型正确，否则结论无效
+
+---
+
+**与其他检验的关系**:
+
+**1. Wald检验**:
+
+$$
+W_n = n(\hat{\theta}_n - \theta_0)^T I(\hat{\theta}_n) (\hat{\theta}_n - \theta_0) \xrightarrow{d} \chi^2_{p-q}
+$$
+
+**2. Score检验（Rao检验）**:
+
+$$
+S_n = \frac{1}{n} \nabla \ell_n(\theta_0)^T I(\theta_0)^{-1} \nabla \ell_n(\theta_0) \xrightarrow{d} \chi^2_{p-q}
+$$
+
+**3. 三者的关系**:
+
+在 $H_0$ 下，三个统计量渐近等价：
+
+$$
+W_n \sim S_n \sim -2 \log \Lambda_n \xrightarrow{d} \chi^2_{p-q}
+$$
+
+但在有限样本中可能有差异：
+
+- Wald: 只需要无约束MLE
+- Score: 只需要约束MLE
+- LRT: 需要两个MLE，但通常功效最好
+
+---
+
+**数值例子**:
+
+设 $X_1, \ldots, X_{100} \sim N(\mu, 1)$，检验 $H_0: \mu = 0$ vs $H_1: \mu \neq 0$。
+
+观测到 $\bar{X} = 0.3$。
+
+对数似然比：
+
+$$
+-2 \log \Lambda = 100 \times (\bar{X} - 0)^2 = 100 \times 0.09 = 9
+$$
+
+临界值（$\alpha = 0.05$）: $\chi^2_1(0.95) = 3.841$
+
+由于 $9 > 3.841$，拒绝 $H_0$。
+
+p值: $P(\chi^2_1 > 9) \approx 0.0027$
+
+---
+
 ### 3. p值与多重检验
 
 **多重检验问题**:
@@ -561,6 +1112,227 @@ $$
 $$
 
 **优化目标**: $\max_q \text{ELBO}(q) \Leftrightarrow \min_q \text{KL}(q \| p)$
+
+---
+
+**ELBO的完整推导**:
+
+**目标**: 推导证据下界（ELBO）并说明为什么最大化ELBO等价于最小化KL散度。
+
+**第一步：从KL散度开始**:
+
+我们想要最小化变分分布 $q(\theta)$ 与后验 $p(\theta | X)$ 之间的KL散度：
+
+$$
+\text{KL}(q \| p) = \int q(\theta) \log \frac{q(\theta)}{p(\theta | X)} d\theta
+$$
+
+展开：
+
+$$
+\text{KL}(q \| p) = \int q(\theta) \log q(\theta) d\theta - \int q(\theta) \log p(\theta | X) d\theta
+$$
+
+$$
+= \mathbb{E}_q[\log q(\theta)] - \mathbb{E}_q[\log p(\theta | X)]
+$$
+
+**第二步：使用Bayes定理**:
+
+由Bayes定理：
+
+$$
+p(\theta | X) = \frac{p(X, \theta)}{p(X)} = \frac{p(X | \theta) p(\theta)}{p(X)}
+$$
+
+因此：
+
+$$
+\log p(\theta | X) = \log p(X, \theta) - \log p(X)
+$$
+
+**第三步：代入KL散度**:
+
+$$
+\text{KL}(q \| p) = \mathbb{E}_q[\log q(\theta)] - \mathbb{E}_q[\log p(X, \theta)] + \mathbb{E}_q[\log p(X)]
+$$
+
+由于 $\log p(X)$ 不依赖于 $\theta$，$\mathbb{E}_q[\log p(X)] = \log p(X)$：
+
+$$
+\text{KL}(q \| p) = \mathbb{E}_q[\log q(\theta)] - \mathbb{E}_q[\log p(X, \theta)] + \log p(X)
+$$
+
+**第四步：重新整理**:
+
+$$
+\log p(X) = \mathbb{E}_q[\log p(X, \theta)] - \mathbb{E}_q[\log q(\theta)] + \text{KL}(q \| p)
+$$
+
+定义 **ELBO**（证据下界）：
+
+$$
+\text{ELBO}(q) = \mathbb{E}_q[\log p(X, \theta)] - \mathbb{E}_q[\log q(\theta)]
+$$
+
+因此：
+
+$$
+\log p(X) = \text{ELBO}(q) + \text{KL}(q \| p)
+$$
+
+$\square$
+
+**第五步：ELBO是下界**:
+
+由于 $\text{KL}(q \| p) \geq 0$（KL散度的非负性），我们有：
+
+$$
+\log p(X) \geq \text{ELBO}(q)
+$$
+
+这就是为什么称为"证据下界"（Evidence Lower Bound）。
+
+**第六步：优化等价性**:
+
+从 $\log p(X) = \text{ELBO}(q) + \text{KL}(q \| p)$，我们看到：
+
+$$
+\max_q \text{ELBO}(q) \Leftrightarrow \min_q \text{KL}(q \| p)
+$$
+
+因为 $\log p(X)$ 不依赖于 $q$（它是固定的"证据"）。
+
+---
+
+**ELBO的两种等价形式**:
+
+**形式1**（期望形式）:
+
+$$
+\text{ELBO}(q) = \mathbb{E}_q[\log p(X, \theta)] - \mathbb{E}_q[\log q(\theta)]
+$$
+
+**形式2**（重建 + 正则化）:
+
+$$
+\text{ELBO}(q) = \mathbb{E}_q[\log p(X | \theta)] - \text{KL}(q(\theta) \| p(\theta))
+$$
+
+**推导形式2**:
+
+$$
+\text{ELBO}(q) = \mathbb{E}_q[\log p(X, \theta)] - \mathbb{E}_q[\log q(\theta)]
+$$
+
+$$
+= \mathbb{E}_q[\log p(X | \theta) + \log p(\theta)] - \mathbb{E}_q[\log q(\theta)]
+$$
+
+$$
+= \mathbb{E}_q[\log p(X | \theta)] + \mathbb{E}_q[\log p(\theta)] - \mathbb{E}_q[\log q(\theta)]
+$$
+
+$$
+= \mathbb{E}_q[\log p(X | \theta)] - \text{KL}(q(\theta) \| p(\theta))
+$$
+
+**解释**:
+
+- 第一项：**重建项**（reconstruction term），衡量生成数据的能力
+- 第二项：**正则化项**（regularization term），使 $q$ 接近先验 $p$
+
+---
+
+**在VAE中的应用**:
+
+在变分自编码器（VAE）中：
+
+- $\theta$ 变为潜在变量 $z$
+- $q(z | x)$ 是编码器（encoder）
+- $p(x | z)$ 是解码器（decoder）
+
+ELBO变为：
+
+$$
+\text{ELBO} = \mathbb{E}_{q_\phi(z|x)}[\log p_\theta(x | z)] - \text{KL}(q_\phi(z|x) \| p(z))
+$$
+
+**优化**:
+
+- 最大化重建项：解码器学习重建输入
+- 最小化KL项：编码器学习接近先验（通常是标准正态分布）
+
+---
+
+**ELBO梯度的计算**:
+
+**问题**: 如何计算 $\nabla_\phi \mathbb{E}_{q_\phi(z)}[f(z)]$？
+
+**方法1：REINFORCE（Score Function Estimator）**:
+
+$$
+\nabla_\phi \mathbb{E}_{q_\phi(z)}[f(z)] = \mathbb{E}_{q_\phi(z)}[f(z) \nabla_\phi \log q_\phi(z)]
+$$
+
+**方法2：重参数化技巧（Reparameterization Trick）**:
+
+若 $z = g(\phi, \epsilon)$，其中 $\epsilon \sim p(\epsilon)$：
+
+$$
+\nabla_\phi \mathbb{E}_{q_\phi(z)}[f(z)] = \mathbb{E}_{p(\epsilon)}[\nabla_\phi f(g(\phi, \epsilon))]
+$$
+
+**例子**（正态分布）:
+
+若 $q_\phi(z) = \mathcal{N}(\mu_\phi, \sigma_\phi^2)$，重参数化为：
+
+$$
+z = \mu_\phi + \sigma_\phi \cdot \epsilon, \quad \epsilon \sim \mathcal{N}(0, 1)
+$$
+
+则：
+
+$$
+\nabla_\phi \mathbb{E}_{q_\phi(z)}[f(z)] = \mathbb{E}_{\epsilon \sim \mathcal{N}(0,1)}[\nabla_\phi f(\mu_\phi + \sigma_\phi \cdot \epsilon)]
+$$
+
+这个梯度可以用蒙特卡洛估计，且方差较低。
+
+---
+
+**ELBO与EM算法的关系**:
+
+EM算法可以看作是变分推断的特殊情况：
+
+- **E步**: 固定参数，计算后验 $q(\theta) = p(\theta | X, \hat{\theta}^{(t)})$
+- **M步**: 固定后验，最大化ELBO关于参数
+
+在EM中，E步得到精确后验，而变分推断中 $q$ 是近似的。
+
+---
+
+**数值示例**:
+
+考虑简单的高斯混合模型：
+
+$$
+p(x) = \sum_{k=1}^K \pi_k \mathcal{N}(x | \mu_k, \sigma_k^2)
+$$
+
+**真实后验**（难以计算）:
+
+$$
+p(z | x) = \frac{\pi_z \mathcal{N}(x | \mu_z, \sigma_z^2)}{\sum_{k=1}^K \pi_k \mathcal{N}(x | \mu_k, \sigma_k^2)}
+$$
+
+**变分近似**:
+
+$$
+q(z) = \text{Categorical}(\phi_1, \ldots, \phi_K)
+$$
+
+最大化ELBO得到 $\phi$ 的最优值，近似真实后验。
 
 ---
 
