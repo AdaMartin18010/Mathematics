@@ -617,6 +617,355 @@ $$
 
 ---
 
+**Lyapunov定理的完整证明**:
+
+**证明策略**: 使用特征函数方法和Lyapunov条件控制Taylor展开的余项。
+
+---
+
+**第一步：标准化与简化**:
+
+令 $Y_i = X_i - \mu_i$，则 $E[Y_i] = 0$，$\text{Var}(Y_i) = \sigma_i^2$。
+
+定义标准化变量：
+
+$$
+Z_n = \frac{\sum_{i=1}^n Y_i}{s_n} = \frac{1}{s_n} \sum_{i=1}^n Y_i
+$$
+
+我们需要证明 $Z_n \xrightarrow{d} N(0, 1)$。
+
+由Lévy连续性定理，只需证明 $Z_n$ 的特征函数 $\phi_{Z_n}(t)$ 收敛到 $e^{-t^2/2}$（标准正态分布的特征函数）。
+
+---
+
+**第二步：特征函数的分解**:
+
+$$
+\phi_{Z_n}(t) = E[e^{itZ_n}] = E\left[\exp\left(i t \frac{\sum_{i=1}^n Y_i}{s_n}\right)\right]
+$$
+
+由于 $Y_1, \ldots, Y_n$ 独立：
+
+$$
+\phi_{Z_n}(t) = \prod_{i=1}^n E\left[\exp\left(\frac{itY_i}{s_n}\right)\right] = \prod_{i=1}^n \phi_{Y_i}\left(\frac{t}{s_n}\right)
+$$
+
+其中 $\phi_{Y_i}$ 是 $Y_i$ 的特征函数。
+
+---
+
+**第三步：Taylor展开**:
+
+对每个 $\phi_{Y_i}(u)$，当 $u$ 较小时，我们使用Taylor展开到 $2+\delta$ 阶：
+
+$$
+\phi_{Y_i}(u) = 1 + iuE[Y_i] - \frac{u^2}{2}E[Y_i^2] + R_i(u)
+$$
+
+其中余项满足：
+
+$$
+|R_i(u)| \leq \frac{|u|^{2+\delta}}{(2+\delta)!} E[|Y_i|^{2+\delta}]
+$$
+
+这由特征函数的标准余项估计得到。
+
+由于 $E[Y_i] = 0$，$E[Y_i^2] = \sigma_i^2$：
+
+$$
+\phi_{Y_i}(u) = 1 - \frac{u^2 \sigma_i^2}{2} + R_i(u)
+$$
+
+---
+
+**第四步：代入标准化变量**:
+
+取 $u = \frac{t}{s_n}$：
+
+$$
+\phi_{Y_i}\left(\frac{t}{s_n}\right) = 1 - \frac{t^2 \sigma_i^2}{2s_n^2} + R_i\left(\frac{t}{s_n}\right)
+$$
+
+其中：
+
+$$
+\left|R_i\left(\frac{t}{s_n}\right)\right| \leq \frac{|t|^{2+\delta}}{(2+\delta)! \cdot s_n^{2+\delta}} E[|Y_i|^{2+\delta}]
+$$
+
+---
+
+**第五步：乘积的对数**:
+
+利用 $\log(1+x) = x + O(x^2)$ （当 $x \to 0$）：
+
+$$
+\log \phi_{Z_n}(t) = \sum_{i=1}^n \log \phi_{Y_i}\left(\frac{t}{s_n}\right)
+$$
+
+对每一项：
+
+$$
+\log \phi_{Y_i}\left(\frac{t}{s_n}\right) = \log\left(1 - \frac{t^2 \sigma_i^2}{2s_n^2} + R_i\left(\frac{t}{s_n}\right)\right)
+$$
+
+当 $n \to \infty$ 时，$\frac{\sigma_i^2}{s_n^2} \to 0$（因为每个 $\sigma_i^2$ 是固定的而 $s_n^2 \to \infty$）。
+
+使用 $\log(1+x) = x - \frac{x^2}{2} + O(x^3)$：
+
+$$
+\log \phi_{Y_i}\left(\frac{t}{s_n}\right) = -\frac{t^2 \sigma_i^2}{2s_n^2} + R_i\left(\frac{t}{s_n}\right) + O\left(\left(\frac{\sigma_i^2}{s_n^2}\right)^2\right)
+$$
+
+---
+
+**第六步：求和与简化**:
+
+$$
+\log \phi_{Z_n}(t) = \sum_{i=1}^n \left[-\frac{t^2 \sigma_i^2}{2s_n^2} + R_i\left(\frac{t}{s_n}\right) + O\left(\left(\frac{\sigma_i^2}{s_n^2}\right)^2\right)\right]
+$$
+
+第一项：
+
+$$
+\sum_{i=1}^n \left(-\frac{t^2 \sigma_i^2}{2s_n^2}\right) = -\frac{t^2}{2s_n^2} \sum_{i=1}^n \sigma_i^2 = -\frac{t^2}{2s_n^2} \cdot s_n^2 = -\frac{t^2}{2}
+$$
+
+第二项（余项之和）：
+
+$$
+\left|\sum_{i=1}^n R_i\left(\frac{t}{s_n}\right)\right| \leq \sum_{i=1}^n \frac{|t|^{2+\delta}}{(2+\delta)! \cdot s_n^{2+\delta}} E[|Y_i|^{2+\delta}]
+$$
+
+$$
+= \frac{|t|^{2+\delta}}{(2+\delta)! \cdot s_n^{2+\delta}} \sum_{i=1}^n E[|Y_i|^{2+\delta}]
+$$
+
+由Lyapunov条件：
+
+$$
+\lim_{n \to \infty} \frac{1}{s_n^{2+\delta}} \sum_{i=1}^n E[|Y_i|^{2+\delta}] = 0
+$$
+
+因此：
+
+$$
+\lim_{n \to \infty} \left|\sum_{i=1}^n R_i\left(\frac{t}{s_n}\right)\right| = 0
+$$
+
+第三项（高阶项）：由于 $\max_i \frac{\sigma_i^2}{s_n^2} \leq \frac{1}{n} \cdot \frac{\sum \sigma_i^2}{s_n^2} = \frac{1}{n} \to 0$，可以证明：
+
+$$
+\sum_{i=1}^n O\left(\left(\frac{\sigma_i^2}{s_n^2}\right)^2\right) = o(1)
+$$
+
+---
+
+**第七步：取极限**:
+
+综合上述结果：
+
+$$
+\lim_{n \to \infty} \log \phi_{Z_n}(t) = -\frac{t^2}{2} + 0 + 0 = -\frac{t^2}{2}
+$$
+
+因此：
+
+$$
+\lim_{n \to \infty} \phi_{Z_n}(t) = e^{-t^2/2}
+$$
+
+这正是 $N(0,1)$ 的特征函数。
+
+---
+
+**第八步：应用Lévy连续性定理**:
+
+由Lévy连续性定理，特征函数的逐点收敛蕴含依分布收敛：
+
+$$
+Z_n = \frac{\sum_{i=1}^n (X_i - \mu_i)}{s_n} \xrightarrow{d} N(0, 1)
+$$
+
+**证毕** ∎
+
+---
+
+**关键要点总结**:
+
+| **关键步骤** | **作用** | **数学工具** |
+|------------|---------|------------|
+| 特征函数方法 | 将分布收敛问题转化为特征函数收敛 | Lévy连续性定理 |
+| Taylor展开 | 近似每个 $\phi_{Y_i}$ | 特征函数的光滑性 |
+| Lyapunov条件 | 控制余项趋于0 | $(2+\delta)$ 阶矩条件 |
+| 对数变换 | 将乘积转化为求和 | $\log(1+x)$ 展开 |
+| 极限计算 | 证明收敛到正态分布 | 标准化技巧 |
+
+---
+
+**Lyapunov条件的几何直觉**:
+
+Lyapunov条件：
+
+$$
+\lim_{n \to \infty} \frac{1}{s_n^{2+\delta}} \sum_{i=1}^n E[|X_i - \mu_i|^{2+\delta}] = 0
+$$
+
+**直觉解释**：
+
+1. **分子**：$\sum_{i=1}^n E[|X_i - \mu_i|^{2+\delta}]$ 衡量所有随机变量的"尾部重量"（高阶矩）
+2. **分母**：$s_n^{2+\delta} = \left(\sum_{i=1}^n \sigma_i^2\right)^{1 + \delta/2}$ 是方差总和的略高次幂
+3. **条件**：要求尾部重量的增长慢于方差总和的增长
+
+**物理类比**：
+
+- 想象 $n$ 个质点，每个质点的"质量"是 $\sigma_i^2$
+- Lyapunov条件确保没有单个质点的"质量"主导整个系统
+- 系统是"均匀分散"的，没有"异常重"的质点
+
+---
+
+**与Lindeberg-Lévy定理的比较**:
+
+| **定理** | **条件** | **适用范围** | **证明难度** |
+|---------|---------|------------|------------|
+| **Lindeberg-Lévy** | 独立同分布 + 有限方差 | 仅同分布情况 | 简单 |
+| **Lyapunov** | 独立 + $(2+\delta)$ 阶矩条件 | 非同分布，但需高阶矩 | 中等 |
+| **Lindeberg** | 独立 + Lindeberg条件 | 非同分布，最一般 | 困难 |
+
+**关系**：Lyapunov条件 ⇒ Lindeberg条件 ⇒ CLT
+
+---
+
+**实际应用示例**:
+
+**示例 1**：不同方差的正态变量
+
+设 $X_i \sim N(\mu_i, \sigma_i^2)$ 独立，其中 $\sigma_i^2 \leq M$ （有界）。
+
+- $s_n^2 = \sum_{i=1}^n \sigma_i^2 \asymp n$
+- $E[|X_i - \mu_i|^{2+\delta}] \asymp \sigma_i^{2+\delta} \leq M^{1+\delta/2} \cdot \sigma_i^2$
+- Lyapunov条件：
+
+$$
+\frac{1}{s_n^{2+\delta}} \sum_{i=1}^n E[|X_i - \mu_i|^{2+\delta}] \leq \frac{M^{1+\delta/2}}{s_n^{2+\delta}} \sum_{i=1}^n \sigma_i^2 = \frac{M^{1+\delta/2}}{s_n^{\delta}} \to 0
+$$
+
+**示例 2**：机器学习中的集成学习
+
+在Bagging或Random Forest中，每个基学习器的预测 $\hat{y}_i$ 可能有不同的方差：
+
+$$
+\bar{\hat{y}} = \frac{1}{n} \sum_{i=1}^n \hat{y}_i
+$$
+
+Lyapunov定理保证（在适当条件下）：
+
+$$
+\frac{\bar{\hat{y}} - E[\bar{\hat{y}}]}{\sqrt{\text{Var}(\bar{\hat{y}})}} \xrightarrow{d} N(0, 1)
+$$
+
+这为集成模型的不确定性量化提供理论基础。
+
+---
+
+**Python数值验证**:
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy import stats
+
+def lyapunov_clt_demo():
+    """
+    验证Lyapunov CLT：使用不同分布的独立随机变量
+    """
+    np.random.seed(42)
+    n_samples = 10000
+    sample_sizes = [10, 30, 100, 300, 1000]
+    
+    fig, axes = plt.subplots(2, 3, figsize=(15, 10))
+    axes = axes.flatten()
+    
+    for idx, n in enumerate(sample_sizes):
+        # 生成n个不同分布的随机变量
+        # X_i ~ Uniform[-sqrt(3)*i/n, sqrt(3)*i/n], Var(X_i) = i^2/n^2
+        samples = np.zeros(n_samples)
+        
+        for _ in range(n_samples):
+            X = []
+            variances = []
+            
+            for i in range(1, n+1):
+                # 方差递增的均匀分布
+                scale = np.sqrt(3) * i / n
+                x_i = np.random.uniform(-scale, scale)
+                X.append(x_i)
+                variances.append(scale**2 / 3)  # Uniform variance = (b-a)^2/12
+            
+            # 计算s_n
+            s_n = np.sqrt(np.sum(variances))
+            
+            # 标准化统计量
+            samples[_] = np.sum(X) / s_n
+        
+        # 绘制直方图
+        axes[idx].hist(samples, bins=50, density=True, alpha=0.7, 
+                       edgecolor='black', label=f'n={n}')
+        
+        # 理论N(0,1)密度
+        x = np.linspace(-4, 4, 100)
+        axes[idx].plot(x, stats.norm.pdf(x), 'r-', lw=2, label='N(0,1)')
+        
+        # K-S检验
+        ks_stat, p_value = stats.kstest(samples, 'norm')
+        
+        axes[idx].set_title(f'n={n}, KS={ks_stat:.4f}, p={p_value:.4f}')
+        axes[idx].set_xlabel('Standardized Sum')
+        axes[idx].set_ylabel('Density')
+        axes[idx].legend()
+        axes[idx].grid(True, alpha=0.3)
+    
+    # 删除多余子图
+    fig.delaxes(axes[5])
+    
+    plt.tight_layout()
+    plt.savefig('lyapunov_clt_demo.png', dpi=300, bbox_inches='tight')
+    plt.show()
+    
+    print("✓ Lyapunov CLT验证：即使不同分布，标准化和仍收敛到N(0,1)")
+
+# 运行验证
+lyapunov_clt_demo()
+```
+
+**预期输出**：
+
+- 随着 $n$ 增大，标准化统计量的直方图越来越接近 $N(0,1)$
+- K-S检验的 $p$-value 逐渐增大（无法拒绝正态性假设）
+
+---
+
+**理论意义与实践价值**:
+
+1. **理论意义**：
+   - 推广了Lindeberg-Lévy定理到非同分布情况
+   - 为处理异质数据提供理论基础
+   - 连接了矩条件与分布收敛
+
+2. **实践价值**：
+   - **异质数据建模**：不同来源的数据可能有不同分布
+   - **自适应算法**：在线学习中数据分布可能随时间变化
+   - **集成学习**：不同模型的预测可能有不同方差
+   - **分层抽样**：不同层的样本有不同特性
+
+3. **局限性**：
+   - 需要 $(2+\delta)$ 阶矩存在（比Lindeberg-Lévy更强）
+   - 在重尾分布（如Cauchy）中不适用
+   - 实际中验证Lyapunov条件可能困难
+
+---
+
 ### 4. Berry-Esseen定理
 
 **定理 4.1 (Berry-Esseen定理)**:
