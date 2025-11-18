@@ -81,4 +81,83 @@ theorem ring_pow_add (R : Type) [MyRing R] (a : R) (m n : ℕ) : a^(m + n) = a^m
   | zero => simp [pow_zero, mul_one]
   | succ k ih => simp [pow_succ, ih, mul_assoc]
 
+-- ============================================
+-- 环论基础定理（使用mathlib4标准定义）
+-- ============================================
+
+-- 理想判别法
+theorem ideal_criterion {R : Type*} [CommRing R] (I : Set R) (h_ne : I.Nonempty) :
+  (∀ a b : R, a ∈ I → b ∈ I → a - b ∈ I) ∧
+  (∀ a : R, a ∈ I → ∀ r : R, r * a ∈ I) ↔
+  ∃ (J : Ideal R), ↑J = I := by
+  -- 使用mathlib4的Ideal定义
+  constructor
+  · -- 充分性：如果I满足理想判别条件，则I是理想
+    intro ⟨h_add, h_mul⟩
+    -- 构造理想
+    use {
+      carrier := I
+      add_mem' := by
+        -- 需要证明：如果a, b ∈ I，则a + b ∈ I
+        intro a b ha hb
+        -- 由h_add，a - (-b) = a + b ∈ I
+        have : a - (-b) ∈ I := h_add a (-b) ha (by
+          -- 需要证明-b ∈ I
+          -- 由h_mul，(-1) * b ∈ I
+          have : (-1 : R) * b ∈ I := h_mul b hb (-1)
+          rwa [neg_one_mul] at this)
+        rwa [sub_neg_eq_add] at this
+      zero_mem' := by
+        -- 需要证明：0 ∈ I
+        -- 由h_ne，存在a ∈ I
+        obtain ⟨a, ha⟩ := h_ne
+        -- 由h_add，a - a = 0 ∈ I
+        have : a - a ∈ I := h_add a a ha ha
+        rwa [sub_self] at this
+      smul_mem' := by
+        -- 需要证明：如果r : R，a ∈ I，则r • a ∈ I
+        -- 在交换环中，r • a = r * a
+        intro r a ha
+        exact h_mul a ha r
+    }
+    rfl
+  · -- 必要性：如果I是理想，则满足判别条件
+    intro ⟨J, h_eq⟩
+    constructor
+    · -- 加法封闭性
+      intro a b ha hb
+      rw [← h_eq] at ha hb
+      -- 由理想性质，a - b ∈ J
+      exact J.sub_mem ha hb
+    · -- 乘法吸收性
+      intro a ha r
+      rw [← h_eq] at ha
+      -- 由理想性质，r * a ∈ J
+      exact J.smul_mem r ha
+
+-- 环同态基本定理
+theorem first_isomorphism_theorem_ring {R S : Type*} [CommRing R] [CommRing S]
+  (φ : R →+* S) :
+  R ⧸ (RingHom.ker φ) ≃+* RingHom.range φ := by
+  -- 使用mathlib4的quotientKerEquivRange
+  exact RingHom.quotientKerEquivRange φ
+
+-- 极大理想 ↔ 商环是域
+theorem maximal_iff_quotient_field {R : Type*} [CommRing R] (M : Ideal R) :
+  M.IsMaximal ↔ IsField (R ⧸ M) := by
+  -- 使用mathlib4的Ideal.Quotient.maximal_ideal_iff_is_field_quotient
+  exact Ideal.Quotient.maximal_ideal_iff_is_field_quotient M
+
+-- 素理想 ↔ 商环是整环
+theorem prime_iff_quotient_domain {R : Type*} [CommRing R] (P : Ideal R) :
+  P.IsPrime ↔ IsDomain (R ⧸ P) := by
+  -- 使用mathlib4的Ideal.Quotient.isDomain_iff_prime
+  exact Ideal.Quotient.isDomain_iff_prime P
+
+-- 有限整环是域
+theorem finite_integral_domain_is_field {R : Type*} [CommRing R] [IsDomain R] [Fintype R] :
+  IsField R := by
+  -- 使用Fintype.fieldOfDomain
+  exact Fintype.fieldOfDomain R
+
 end Exercises.Algebra
