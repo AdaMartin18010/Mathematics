@@ -159,11 +159,11 @@ $$
 **证明第2点**:
 
 - 若 $\omega \in \bigcap_{n=1}^\infty A_n$，则对所有 $n$，$X(\omega) \leq x_n$。
-  
+
   取极限：$X(\omega) \leq \lim_{n \to \infty} x_n = a$，所以 $\omega \in \{X \leq a\}$。
 
 - 反之，若 $\omega \in \{X \leq a\}$，则 $X(\omega) \leq a < x_n$ 对所有 $n$（因为 $x_n > a$）。
-  
+
   所以 $\omega \in A_n$ 对所有 $n$，即 $\omega \in \bigcap_{n=1}^\infty A_n$。
 
 **应用测度的连续性**:
@@ -201,6 +201,7 @@ $$
 **证明3：极限性**:
 
 需要证明：
+
 1. $\lim_{x \to -\infty} F_X(x) = 0$
 2. $\lim_{x \to \infty} F_X(x) = 1$
 
@@ -301,6 +302,7 @@ F_X(x) = \begin{cases}
 $$
 
 验证性质：
+
 - 单调性: $0 \leq 1-p \leq 1$ ✓
 - 右连续性: 在 $x=0$ 和 $x=1$ 处右连续 ✓
 - 极限性: $\lim_{x \to -\infty} F_X(x) = 0$, $\lim_{x \to \infty} F_X(x) = 1$ ✓
@@ -350,7 +352,7 @@ $$
 P(X = 1) = p, \quad P(X = 0) = 1 - p
 $$
 
-**期望**: $E[X] = p$  
+**期望**: $E[X] = p$
 **方差**: $\text{Var}(X) = p(1-p)$
 
 **应用**: 二分类问题
@@ -367,7 +369,7 @@ $$
 P(X = k) = \binom{n}{k} p^k (1-p)^{n-k}
 $$
 
-**期望**: $E[X] = np$  
+**期望**: $E[X] = np$
 **方差**: $\text{Var}(X) = np(1-p)$
 
 **应用**: $n$ 次独立伯努利试验中成功的次数
@@ -384,7 +386,7 @@ $$
 P(X = k) = \frac{\lambda^k e^{-\lambda}}{k!}
 $$
 
-**期望**: $E[X] = \lambda$  
+**期望**: $E[X] = \lambda$
 **方差**: $\text{Var}(X) = \lambda$
 
 **应用**: 单位时间内事件发生的次数
@@ -406,7 +408,7 @@ f_X(x) = \begin{cases}
 \end{cases}
 $$
 
-**期望**: $E[X] = \frac{a+b}{2}$  
+**期望**: $E[X] = \frac{a+b}{2}$
 **方差**: $\text{Var}(X) = \frac{(b-a)^2}{12}$
 
 ---
@@ -421,7 +423,7 @@ $$
 f_X(x) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)
 $$
 
-**期望**: $E[X] = \mu$  
+**期望**: $E[X] = \mu$
 **方差**: $\text{Var}(X) = \sigma^2$
 
 **性质**:
@@ -444,7 +446,7 @@ $$
 f_X(x) = \lambda e^{-\lambda x}, \quad x \geq 0
 $$
 
-**期望**: $E[X] = \frac{1}{\lambda}$  
+**期望**: $E[X] = \frac{1}{\lambda}$
 **方差**: $\text{Var}(X) = \frac{1}{\lambda^2}$
 
 **性质**: **无记忆性** $P(X > s + t | X > s) = P(X > t)$
@@ -655,7 +657,7 @@ $$
 
 **MGF性质的完整证明**:
 
-**性质1：唯一性定理**
+**性质1：唯一性定理**:
 
 **定理**: 若两个随机变量 $X$ 和 $Y$ 的MGF在0的某个邻域内存在且相等，则 $X$ 和 $Y$ 有相同的分布。
 
@@ -675,7 +677,7 @@ MGF与特征函数的关系：$M_X(t) = \phi_X(-it)$（当MGF存在时）。
 
 ---
 
-**性质2：矩的计算**
+**性质2：矩的计算**:
 
 **定理**: 若 $M_X(t)$ 在0的邻域内存在，则：
 
@@ -685,7 +687,7 @@ $$
 
 **证明**:
 
-**第一步：Taylor展开**
+**第一步：Taylor展开**:
 
 假设可以交换期望和求导（在MGF存在的条件下通常成立）：
 
@@ -701,7 +703,7 @@ $$
 
 这是 $M_X(t)$ 在 $t=0$ 处的Taylor展开。
 
-**第二步：求导**
+**第二步：求导**:
 
 对 $M_X(t)$ 求 $n$ 阶导数：
 
@@ -771,7 +773,7 @@ $$
 
 ---
 
-**性质3：独立和的MGF**
+**性质3：独立和的MGF**:
 
 **定理**: 若 $X$ 和 $Y$ 独立，则：
 
@@ -857,7 +859,8 @@ $$
 
 MGF在证明中心极限定理时起关键作用（虽然通常使用特征函数）。
 
-**思路**: 
+**思路**:
+
 1. 计算标准化和的MGF
 2. 证明它收敛到标准正态分布的MGF
 3. 由唯一性定理，得到分布收敛
@@ -982,7 +985,7 @@ from scipy.special import comb
 def plot_distributions():
     """可视化常见概率分布"""
     fig, axes = plt.subplots(2, 3, figsize=(15, 10))
-    
+
     # 伯努利分布
     ax = axes[0, 0]
     p = 0.7
@@ -992,7 +995,7 @@ def plot_distributions():
     ax.set_title(f'Bernoulli(p={p})')
     ax.set_xlabel('x')
     ax.set_ylabel('P(X=x)')
-    
+
     # 二项分布
     ax = axes[0, 1]
     n, p = 10, 0.5
@@ -1002,7 +1005,7 @@ def plot_distributions():
     ax.set_title(f'Binomial(n={n}, p={p})')
     ax.set_xlabel('x')
     ax.set_ylabel('P(X=x)')
-    
+
     # 泊松分布
     ax = axes[0, 2]
     lambda_ = 3
@@ -1012,7 +1015,7 @@ def plot_distributions():
     ax.set_title(f'Poisson(λ={lambda_})')
     ax.set_xlabel('x')
     ax.set_ylabel('P(X=x)')
-    
+
     # 均匀分布
     ax = axes[1, 0]
     a, b = 0, 1
@@ -1023,7 +1026,7 @@ def plot_distributions():
     ax.set_title(f'Uniform(a={a}, b={b})')
     ax.set_xlabel('x')
     ax.set_ylabel('f(x)')
-    
+
     # 正态分布
     ax = axes[1, 1]
     mu, sigma = 0, 1
@@ -1034,7 +1037,7 @@ def plot_distributions():
     ax.set_title(f'Normal(μ={mu}, σ²={sigma**2})')
     ax.set_xlabel('x')
     ax.set_ylabel('f(x)')
-    
+
     # 指数分布
     ax = axes[1, 2]
     lambda_ = 1
@@ -1045,7 +1048,7 @@ def plot_distributions():
     ax.set_title(f'Exponential(λ={lambda_})')
     ax.set_xlabel('x')
     ax.set_ylabel('f(x)')
-    
+
     plt.tight_layout()
     # plt.show()
 
@@ -1054,37 +1057,37 @@ def plot_distributions():
 def central_limit_theorem_demo():
     """演示中心极限定理"""
     np.random.seed(42)
-    
+
     # 原始分布 (均匀分布)
     n_samples = 1000
     sample_sizes = [1, 5, 30, 100]
-    
+
     fig, axes = plt.subplots(2, 2, figsize=(12, 10))
     axes = axes.flatten()
-    
+
     for idx, n in enumerate(sample_sizes):
         # 生成样本均值
         sample_means = []
         for _ in range(n_samples):
             sample = np.random.uniform(0, 1, n)
             sample_means.append(np.mean(sample))
-        
+
         # 绘制直方图
         ax = axes[idx]
         ax.hist(sample_means, bins=30, density=True, alpha=0.7, edgecolor='black')
-        
+
         # 理论正态分布
         mu = 0.5  # 均匀分布的期望
         sigma = 1/np.sqrt(12*n)  # 样本均值的标准差
         x = np.linspace(0, 1, 100)
         pdf = stats.norm.pdf(x, mu, sigma)
         ax.plot(x, pdf, 'r-', linewidth=2, label='Theoretical Normal')
-        
+
         ax.set_title(f'Sample Size n={n}')
         ax.set_xlabel('Sample Mean')
         ax.set_ylabel('Density')
         ax.legend()
-    
+
     plt.suptitle('Central Limit Theorem: Sample Means of Uniform(0,1)', fontsize=14)
     plt.tight_layout()
     # plt.show()
@@ -1094,36 +1097,36 @@ def central_limit_theorem_demo():
 def maximum_likelihood_estimation():
     """最大似然估计示例"""
     np.random.seed(42)
-    
+
     # 生成数据
     true_mu = 2.0
     true_sigma = 1.5
     n = 100
     data = np.random.normal(true_mu, true_sigma, n)
-    
+
     # MLE估计
     mu_mle = np.mean(data)
     sigma_mle = np.std(data, ddof=0)  # 使用n而不是n-1
-    
+
     print("=== 最大似然估计 ===")
     print(f"真实参数: μ={true_mu}, σ={true_sigma}")
     print(f"MLE估计: μ̂={mu_mle:.4f}, σ̂={sigma_mle:.4f}")
-    
+
     # 可视化
     plt.figure(figsize=(10, 6))
-    
+
     # 数据直方图
     plt.hist(data, bins=20, density=True, alpha=0.7, edgecolor='black', label='Data')
-    
+
     # 真实分布
     x = np.linspace(data.min(), data.max(), 100)
     pdf_true = stats.norm.pdf(x, true_mu, true_sigma)
     plt.plot(x, pdf_true, 'r-', linewidth=2, label=f'True: N({true_mu}, {true_sigma**2})')
-    
+
     # MLE拟合的分布
     pdf_mle = stats.norm.pdf(x, mu_mle, sigma_mle)
     plt.plot(x, pdf_mle, 'b--', linewidth=2, label=f'MLE: N({mu_mle:.2f}, {sigma_mle**2:.2f})')
-    
+
     plt.xlabel('x')
     plt.ylabel('Density')
     plt.title('Maximum Likelihood Estimation')
@@ -1138,35 +1141,35 @@ def bayesian_inference_demo():
     # 先验: Beta(α, β)
     alpha_prior = 2
     beta_prior = 2
-    
+
     # 数据: 10次投掷，7次正面
     n_heads = 7
     n_tails = 3
-    
+
     # 后验: Beta(α + n_heads, β + n_tails)
     alpha_post = alpha_prior + n_heads
     beta_post = beta_prior + n_tails
-    
+
     # 可视化
     p = np.linspace(0, 1, 100)
-    
+
     prior = stats.beta.pdf(p, alpha_prior, beta_prior)
     likelihood = stats.binom.pmf(n_heads, n_heads + n_tails, p)
     posterior = stats.beta.pdf(p, alpha_post, beta_post)
-    
+
     plt.figure(figsize=(10, 6))
     plt.plot(p, prior, 'b-', label=f'Prior: Beta({alpha_prior}, {beta_prior})', linewidth=2)
-    plt.plot(p, likelihood / likelihood.max() * prior.max(), 'g--', 
+    plt.plot(p, likelihood / likelihood.max() * prior.max(), 'g--',
              label=f'Likelihood (scaled)', linewidth=2)
     plt.plot(p, posterior, 'r-', label=f'Posterior: Beta({alpha_post}, {beta_post})', linewidth=2)
-    
+
     plt.xlabel('p (probability of heads)')
     plt.ylabel('Density')
     plt.title('Bayesian Inference: Coin Flip')
     plt.legend()
     plt.grid(True, alpha=0.3)
     # plt.show()
-    
+
     print("\n=== 贝叶斯推断 ===")
     print(f"先验均值: {alpha_prior/(alpha_prior+beta_prior):.4f}")
     print(f"后验均值: {alpha_post/(alpha_post+beta_post):.4f}")
@@ -1177,21 +1180,21 @@ def bayesian_inference_demo():
 def monte_carlo_integration():
     """蒙特卡洛积分示例"""
     np.random.seed(42)
-    
+
     # 计算 E[X^2] where X ~ N(0, 1)
     # 理论值: 1
-    
+
     sample_sizes = [10, 100, 1000, 10000]
     estimates = []
-    
+
     for n in sample_sizes:
         samples = np.random.normal(0, 1, n)
         estimate = np.mean(samples**2)
         estimates.append(estimate)
         print(f"n={n:5d}: E[X²] ≈ {estimate:.6f}")
-    
+
     print(f"\n理论值: E[X²] = 1.000000")
-    
+
     # 可视化收敛
     plt.figure(figsize=(10, 6))
     plt.semilogx(sample_sizes, estimates, 'bo-', markersize=8, label='MC Estimate')
@@ -1206,19 +1209,19 @@ def monte_carlo_integration():
 
 if __name__ == "__main__":
     print("=== 随机变量与分布示例 ===\n")
-    
+
     print("1. 常见分布可视化")
     plot_distributions()
-    
+
     print("\n2. 中心极限定理")
     central_limit_theorem_demo()
-    
+
     print("\n3. 最大似然估计")
     maximum_likelihood_estimation()
-    
+
     print("\n4. 贝叶斯推断")
     bayesian_inference_demo()
-    
+
     print("\n5. 蒙特卡洛积分")
     monte_carlo_integration()
 ```

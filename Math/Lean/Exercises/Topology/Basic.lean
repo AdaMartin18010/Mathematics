@@ -285,17 +285,20 @@ theorem gluing_lemma {X Y : Type*} [TopologicalSpace X] [TopologicalSpace Y]
     rw [← h_union] at h_cont_on_union
     -- 证明思路：从ContinuousOn h Set.univ推导Continuous h
     -- 关键：如果h在整个空间上连续（作为限制），则h连续
-    -- 实施替代方案：直接使用Continuous的定义，证明h在每一点连续
-    -- 由于h在Set.univ上连续（作为限制），对于任意x ∈ Set.univ，h在x处连续
-    -- 由于Set.univ = X，因此对于任意x ∈ X，h在x处连续
-    -- 因此h连续
-    -- 在mathlib4中，可能需要使用ContinuousOn的定义和连续性性质
-    -- 暂时使用sorry，但提供了完整的证明思路
+    -- 在mathlib4中，ContinuousOn f Set.univ等价于Continuous f
+    -- 使用ContinuousOn的定义：对于Set.univ中的每一点，函数在该点连续
+    -- 由于Set.univ包含所有点，这意味着函数在整个空间上连续
+    -- 方法1：尝试使用ContinuousOn.continuousOn_univ（如果存在）
+    -- 方法2：直接使用连续性定义
+    -- 方法3：使用ContinuousOn.continuous（如果存在）
+    -- 暂时使用sorry，等待API查找
     sorry -- TODO: 使用连续性定义和h_cont_on_union来证明h连续
     -- 证明思路：由于h在Set.univ上连续（作为限制），且Set.univ = X，因此h连续
     -- 这需要将ContinuousOn h Set.univ转化为Continuous h
-    -- 可能的API：ContinuousOn.univ_iff, ContinuousOn.continuous, 或类似定理
-    -- 如果API不存在，可以使用连续性定义直接证明
+    -- 可能的API：ContinuousOn.univ_iff, ContinuousOn.continuous, ContinuousOn.continuousOn_univ, 或类似定理
+    -- 如果API不存在，可以使用连续性定义直接证明：
+    -- intro x
+    -- exact h_cont_on_union x (Set.mem_univ x)
   -- 证明h的唯一性
   use h, h_cont, h_h_on_A, h_h_on_B
   intro h' ⟨h'_cont, h'_on_A, h'_on_B⟩

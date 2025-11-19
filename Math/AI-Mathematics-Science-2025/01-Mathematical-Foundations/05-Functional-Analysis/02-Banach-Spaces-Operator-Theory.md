@@ -114,6 +114,7 @@ $$
 $\mathbb{R}^n$ 和 $\mathbb{C}^n$ 在任何范数下都是Banach空间。
 
 **常用范数**:
+
 - $\ell^1$ 范数: $\|x\|_1 = \sum_{i=1}^n |x_i|$
 - $\ell^2$ 范数 (欧几里得范数): $\|x\|_2 = \sqrt{\sum_{i=1}^n |x_i|^2}$
 - $\ell^\infty$ 范数: $\|x\|_\infty = \max_{i} |x_i|$
@@ -416,6 +417,7 @@ $J: X \to X^{**}$ 是等距嵌入：$\|J(x)\|_{X^{**}} = \|x\|_X$。
 如果 $J$ 是满射，即 $J(X) = X^{**}$，则称 $X$ 是**自反的**。
 
 **例**:
+
 - $\ell^p$ ($1 < p < \infty$) 是自反的
 - $L^p$ ($1 < p < \infty$) 是自反的
 - $\ell^1, \ell^\infty, L^1, L^\infty, C(K)$ 不是自反的
@@ -569,15 +571,15 @@ from scipy import linalg
 # 1. Banach空间示例
 class BanachSpace:
     """Banach空间抽象类"""
-    
+
     def norm(self, x):
         """范数"""
         raise NotImplementedError
-    
+
     def distance(self, x, y):
         """度量"""
         return self.norm(x - y)
-    
+
     def is_cauchy(self, sequence, tol=1e-6):
         """检查是否为Cauchy序列"""
         n = len(sequence)
@@ -590,10 +592,10 @@ class BanachSpace:
 
 class LpSpace(BanachSpace):
     """ℓᵖ空间"""
-    
+
     def __init__(self, p=2):
         self.p = p
-    
+
     def norm(self, x):
         """ℓᵖ范数"""
         if self.p == np.inf:
@@ -605,15 +607,15 @@ class LpSpace(BanachSpace):
 # 2. 线性算子
 class LinearOperator:
     """线性算子"""
-    
+
     def __init__(self, matrix):
         self.matrix = np.array(matrix)
         self.shape = self.matrix.shape
-    
+
     def __call__(self, x):
         """应用算子"""
         return self.matrix @ x
-    
+
     def operator_norm(self, p=2):
         """算子范数"""
         if p == 2:
@@ -627,15 +629,15 @@ class LinearOperator:
             return np.max(np.sum(np.abs(self.matrix), axis=1))
         else:
             raise ValueError(f"Unsupported norm: {p}")
-    
+
     def is_bounded(self):
         """检查是否有界"""
         return np.isfinite(self.operator_norm())
-    
+
     def adjoint(self):
         """对偶算子 (共轭转置)"""
         return LinearOperator(self.matrix.conj().T)
-    
+
     def compose(self, other):
         """算子复合"""
         return LinearOperator(self.matrix @ other.matrix)
@@ -644,13 +646,13 @@ class LinearOperator:
 # 3. 紧算子示例
 class CompactOperator(LinearOperator):
     """紧算子"""
-    
+
     def is_compact(self, tol=1e-10):
         """检查是否紧 (通过奇异值)"""
         # 紧算子的奇异值趋于0
         s = np.linalg.svd(self.matrix, compute_uv=False)
         return np.all(s[-1] < tol) or len(s) < min(self.shape)
-    
+
     def rank(self):
         """秩"""
         return np.linalg.matrix_rank(self.matrix)
@@ -659,25 +661,25 @@ class CompactOperator(LinearOperator):
 # 4. 谱理论
 class SpectralAnalysis:
     """谱分析"""
-    
+
     def __init__(self, operator):
         self.operator = operator
         self.matrix = operator.matrix
-    
+
     def spectrum(self):
         """计算谱 (特征值)"""
         eigenvalues = np.linalg.eigvals(self.matrix)
         return eigenvalues
-    
+
     def spectral_radius(self):
         """谱半径"""
         eigenvalues = self.spectrum()
         return np.max(np.abs(eigenvalues))
-    
+
     def point_spectrum(self, tol=1e-10):
         """点谱 (特征值)"""
         return self.spectrum()
-    
+
     def resolvent(self, lambda_val):
         """预解算子 (T - λI)^(-1)"""
         n = self.matrix.shape[0]
@@ -687,18 +689,18 @@ class SpectralAnalysis:
             return LinearOperator(R)
         except np.linalg.LinAlgError:
             raise ValueError(f"{lambda_val} is in the spectrum")
-    
+
     def verify_spectral_radius_formula(self, max_n=10):
         """验证谱半径公式"""
         r_true = self.spectral_radius()
-        
+
         powers = []
         for n in range(1, max_n+1):
             T_n = np.linalg.matrix_power(self.matrix, n)
             norm_n = np.linalg.norm(T_n, ord=2)
             r_n = norm_n**(1/n)
             powers.append(r_n)
-        
+
         return r_true, powers
 
 
@@ -706,7 +708,7 @@ class SpectralAnalysis:
 def hahn_banach_extension(subspace_func, subspace_basis, full_space_dim):
     """
     Hahn-Banach延拓 (简化版)
-    
+
     subspace_func: 子空间上的线性泛函
     subspace_basis: 子空间的基
     full_space_dim: 全空间维数
@@ -718,16 +720,16 @@ def hahn_banach_extension(subspace_func, subspace_basis, full_space_dim):
         v_norm = np.linalg.norm(v)
         if v_norm > 0:
             subspace_norm = max(subspace_norm, abs(val) / v_norm)
-    
+
     # 延拓到全空间 (保持相同范数)
     def extended_func(x):
         # 投影到子空间
         proj = np.zeros_like(x)
         for v in subspace_basis:
             proj += (x @ v) / (v @ v) * v
-        
+
         return subspace_func(proj)
-    
+
     return extended_func, subspace_norm
 
 
@@ -740,28 +742,28 @@ def visualize_operator_spectrum():
         [0, 2, 1],
         [0, 0, 2]
     ])
-    
+
     op = LinearOperator(A)
     spec = SpectralAnalysis(op)
-    
+
     # 计算谱
     eigenvalues = spec.spectrum()
     r = spec.spectral_radius()
-    
+
     # 验证谱半径公式
     r_true, r_approx = spec.verify_spectral_radius_formula(max_n=20)
-    
+
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 6))
-    
+
     # 绘制谱
-    ax1.scatter(eigenvalues.real, eigenvalues.imag, s=100, c='red', 
+    ax1.scatter(eigenvalues.real, eigenvalues.imag, s=100, c='red',
                marker='x', linewidths=3, label='Eigenvalues')
-    
+
     # 绘制谱半径圆
     theta = np.linspace(0, 2*np.pi, 100)
-    ax1.plot(r * np.cos(theta), r * np.sin(theta), 'b--', 
+    ax1.plot(r * np.cos(theta), r * np.sin(theta), 'b--',
             label=f'Spectral radius = {r:.3f}')
-    
+
     ax1.axhline(y=0, color='k', linestyle='-', alpha=0.3)
     ax1.axvline(x=0, color='k', linestyle='-', alpha=0.3)
     ax1.set_xlabel('Real part')
@@ -770,7 +772,7 @@ def visualize_operator_spectrum():
     ax1.legend()
     ax1.grid(True, alpha=0.3)
     ax1.axis('equal')
-    
+
     # 验证谱半径公式
     ax2.plot(range(1, len(r_approx)+1), r_approx, 'o-', label='||T^n||^(1/n)')
     ax2.axhline(y=r_true, color='r', linestyle='--', label=f'True r(T) = {r_true:.3f}')
@@ -779,7 +781,7 @@ def visualize_operator_spectrum():
     ax2.set_title('Spectral Radius Formula Verification')
     ax2.legend()
     ax2.grid(True, alpha=0.3)
-    
+
     plt.tight_layout()
     # plt.show()
 
@@ -789,44 +791,44 @@ def demo_banach_spaces():
     print("=" * 60)
     print("Banach空间与算子理论示例")
     print("=" * 60 + "\n")
-    
+
     # 1. ℓᵖ空间
     print("1. ℓᵖ空间范数比较")
     x = np.array([1, 2, 3, 4, 5])
-    
+
     for p in [1, 2, np.inf]:
         space = LpSpace(p)
         print(f"   ||x||_{p} = {space.norm(x):.4f}")
-    
+
     # 2. 线性算子
     print("\n2. 线性算子")
     A = np.array([[1, 2], [3, 4]])
     op = LinearOperator(A)
-    
+
     print(f"   算子矩阵:\n{A}")
     print(f"   算子2-范数: {op.operator_norm(2):.4f}")
     print(f"   算子∞-范数: {op.operator_norm(np.inf):.4f}")
-    
+
     # 3. 紧算子
     print("\n3. 紧算子")
     B = np.array([[1, 0], [0, 0.1]])
     compact_op = CompactOperator(B)
     print(f"   秩: {compact_op.rank()}")
     print(f"   是否紧: {compact_op.is_compact()}")
-    
+
     # 4. 谱分析
     print("\n4. 谱分析")
     spec = SpectralAnalysis(op)
     eigenvalues = spec.spectrum()
     r = spec.spectral_radius()
-    
+
     print(f"   特征值: {eigenvalues}")
     print(f"   谱半径: {r:.4f}")
-    
+
     # 5. 可视化
     print("\n5. 生成可视化...")
     visualize_operator_spectrum()
-    
+
     print("\n所有示例完成！")
 
 
@@ -923,4 +925,4 @@ $$
 
 ---
 
-*最后更新：2025年10月*
+*最后更新：2025年10月*:

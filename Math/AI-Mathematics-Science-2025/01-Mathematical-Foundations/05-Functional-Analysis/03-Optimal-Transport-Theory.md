@@ -474,28 +474,28 @@ from scipy.spatial.distance import cdist
 def optimal_transport_lp(a, b, C):
     """
     精确最优传输 (线性规划)
-    
+
     a: 源分布 (n,)
     b: 目标分布 (m,)
     C: 代价矩阵 (n, m)
     """
     n, m = C.shape
-    
+
     # 线性规划: min c^T x, s.t. A_eq x = b_eq, x >= 0
     c = C.flatten()
-    
+
     # 约束: 行和 = a, 列和 = b
     A_eq = np.zeros((n + m, n * m))
     b_eq = np.concatenate([a, b])
-    
+
     for i in range(n):
         A_eq[i, i*m:(i+1)*m] = 1
-    
+
     for j in range(m):
         A_eq[n+j, j::m] = 1
-    
+
     result = linprog(c, A_eq=A_eq, b_eq=b_eq, method='highs')
-    
+
     if result.success:
         return result.x.reshape(n, m), result.fun
     else:
@@ -506,40 +506,40 @@ def optimal_transport_lp(a, b, C):
 def sinkhorn(a, b, C, epsilon=0.1, max_iter=1000, tol=1e-9):
     """
     Sinkhorn算法 (熵正则化最优传输)
-    
+
     a: 源分布 (n,)
     b: 目标分布 (m,)
     C: 代价矩阵 (n, m)
     epsilon: 熵正则化参数
     """
     n, m = C.shape
-    
+
     # K = exp(-C/epsilon)
     K = np.exp(-C / epsilon)
-    
+
     # 初始化
     u = np.ones(n)
     v = np.ones(m)
-    
+
     for _ in range(max_iter):
         u_old = u.copy()
-        
+
         # 更新 u
         u = a / (K @ v)
-        
+
         # 更新 v
         v = b / (K.T @ u)
-        
+
         # 检查收敛
         if np.linalg.norm(u - u_old) < tol:
             break
-    
+
     # 计算传输计划
     pi = np.diag(u) @ K @ np.diag(v)
-    
+
     # 计算代价
     cost = np.sum(pi * C)
-    
+
     return pi, cost
 
 
@@ -547,7 +547,7 @@ def sinkhorn(a, b, C, epsilon=0.1, max_iter=1000, tol=1e-9):
 def wasserstein_distance(X, Y, a=None, b=None, p=2, method='sinkhorn', **kwargs):
     """
     计算Wasserstein距离
-    
+
     X: 源样本 (n, d)
     Y: 目标样本 (m, d)
     a: 源权重 (n,), 默认均匀
@@ -556,15 +556,15 @@ def wasserstein_distance(X, Y, a=None, b=None, p=2, method='sinkhorn', **kwargs)
     method: 'lp' 或 'sinkhorn'
     """
     n, m = len(X), len(Y)
-    
+
     if a is None:
         a = np.ones(n) / n
     if b is None:
         b = np.ones(m) / m
-    
+
     # 计算代价矩阵
     C = cdist(X, Y, metric='euclidean') ** p
-    
+
     # 求解最优传输
     if method == 'lp':
         pi, cost = optimal_transport_lp(a, b, C)
@@ -572,7 +572,7 @@ def wasserstein_distance(X, Y, a=None, b=None, p=2, method='sinkhorn', **kwargs)
         pi, cost = sinkhorn(a, b, C, **kwargs)
     else:
         raise ValueError(f"Unknown method: {method}")
-    
+
     return cost ** (1/p), pi
 
 
@@ -580,29 +580,29 @@ def wasserstein_distance(X, Y, a=None, b=None, p=2, method='sinkhorn', **kwargs)
 def wasserstein_barycenter(distributions, weights=None, epsilon=0.1, max_iter=100):
     """
     计算Wasserstein重心
-    
+
     distributions: 分布列表 [(X_1, a_1), (X_2, a_2), ...]
     weights: 权重 (k,)
     """
     k = len(distributions)
-    
+
     if weights is None:
         weights = np.ones(k) / k
-    
+
     # 初始化重心 (使用第一个分布)
     X_bar, a_bar = distributions[0]
-    
+
     for _ in range(max_iter):
         # 计算到每个分布的传输计划
         plans = []
         for (X, a), w in zip(distributions, weights):
             _, pi = wasserstein_distance(X_bar, X, a_bar, a, method='sinkhorn', epsilon=epsilon)
             plans.append(pi)
-        
+
         # 更新重心
         # (简化版: 这里应该用更复杂的算法)
         break
-    
+
     return X_bar, a_bar
 
 
@@ -610,50 +610,50 @@ def wasserstein_barycenter(distributions, weights=None, epsilon=0.1, max_iter=10
 def visualize_optimal_transport():
     """可视化最优传输"""
     np.random.seed(42)
-    
+
     # 生成两个2D分布
     n, m = 20, 30
     X = np.random.randn(n, 2)
     Y = np.random.randn(m, 2) + np.array([3, 0])
-    
+
     a = np.ones(n) / n
     b = np.ones(m) / m
-    
+
     # 计算最优传输
     C = cdist(X, Y, metric='euclidean') ** 2
     pi_lp, cost_lp = optimal_transport_lp(a, b, C)
     pi_sink, cost_sink = sinkhorn(a, b, C, epsilon=0.1)
-    
+
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 6))
-    
+
     # 精确最优传输
     ax1.scatter(X[:, 0], X[:, 1], c='blue', s=100, alpha=0.6, label='Source')
     ax1.scatter(Y[:, 0], Y[:, 1], c='red', s=100, alpha=0.6, label='Target')
-    
+
     for i in range(n):
         for j in range(m):
             if pi_lp[i, j] > 1e-6:
-                ax1.plot([X[i, 0], Y[j, 0]], [X[i, 1], Y[j, 1]], 
+                ax1.plot([X[i, 0], Y[j, 0]], [X[i, 1], Y[j, 1]],
                         'k-', alpha=pi_lp[i, j] * n * 2, linewidth=1)
-    
+
     ax1.set_title(f'Exact OT (LP)\nCost: {cost_lp:.4f}')
     ax1.legend()
     ax1.grid(True, alpha=0.3)
-    
+
     # Sinkhorn算法
     ax2.scatter(X[:, 0], X[:, 1], c='blue', s=100, alpha=0.6, label='Source')
     ax2.scatter(Y[:, 0], Y[:, 1], c='red', s=100, alpha=0.6, label='Target')
-    
+
     for i in range(n):
         for j in range(m):
             if pi_sink[i, j] > 1e-6:
-                ax2.plot([X[i, 0], Y[j, 0]], [X[i, 1], Y[j, 1]], 
+                ax2.plot([X[i, 0], Y[j, 0]], [X[i, 1], Y[j, 1]],
                         'k-', alpha=pi_sink[i, j] * n * 2, linewidth=1)
-    
+
     ax2.set_title(f'Sinkhorn OT (ε=0.1)\nCost: {cost_sink:.4f}')
     ax2.legend()
     ax2.grid(True, alpha=0.3)
-    
+
     plt.tight_layout()
     # plt.show()
 
@@ -662,7 +662,7 @@ def visualize_optimal_transport():
 def wasserstein_gan_loss(real_samples, fake_samples, critic):
     """
     Wasserstein GAN损失
-    
+
     real_samples: 真实样本
     fake_samples: 生成样本
     critic: 判别器 (1-Lipschitz函数)
@@ -670,10 +670,10 @@ def wasserstein_gan_loss(real_samples, fake_samples, critic):
     # W1距离的对偶形式
     real_scores = critic(real_samples)
     fake_scores = critic(fake_samples)
-    
+
     # Wasserstein距离估计
     w_distance = np.mean(real_scores) - np.mean(fake_scores)
-    
+
     return w_distance
 
 
@@ -682,31 +682,31 @@ def demo_optimal_transport():
     print("=" * 60)
     print("最优传输理论示例")
     print("=" * 60 + "\n")
-    
+
     # 1. 一维情况
     print("1. 一维Wasserstein距离")
     X = np.array([[0], [1], [2]])
     Y = np.array([[0.5], [1.5], [2.5]])
-    
+
     w_dist, _ = wasserstein_distance(X, Y, p=1, method='lp')
     print(f"   W1距离: {w_dist:.4f}")
-    
+
     # 2. 二维情况
     print("\n2. 二维Wasserstein距离")
     np.random.seed(42)
     X = np.random.randn(10, 2)
     Y = np.random.randn(10, 2) + 2
-    
+
     w2_lp, _ = wasserstein_distance(X, Y, p=2, method='lp')
     w2_sink, _ = wasserstein_distance(X, Y, p=2, method='sinkhorn', epsilon=0.1)
-    
+
     print(f"   W2距离 (LP): {w2_lp:.4f}")
     print(f"   W2距离 (Sinkhorn): {w2_sink:.4f}")
-    
+
     # 3. 可视化
     print("\n3. 生成可视化...")
     visualize_optimal_transport()
-    
+
     print("\n所有示例完成！")
 
 
