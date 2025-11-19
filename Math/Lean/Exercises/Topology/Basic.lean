@@ -366,30 +366,31 @@ theorem parseval_identity {𝕜 E : Type*} [IsROrC 𝕜]
   ‖x‖^2 = ∑ i, ‖inner x (v i)‖^2 := by
   -- 使用mathlib4的Orthonormal.sum_inner_products_eq
   -- 需要v是标准正交基
-  -- 从Basis和Orthonormal构造OrthonormalBasis
-  -- 在mathlib4中，可以使用OrthonormalBasis.mk或类似方法
-  -- 关键：如果v是Basis且Orthonormal，则v是OrthonormalBasis
-  -- 使用OrthonormalBasis.mk_of_orthonormal或类似方法
-  -- 需要证明v是OrthonormalBasis
-  -- 简化：直接使用OrthonormalBasis.mk
-  -- 需要证明v是OrthonormalBasis，即v是Basis且Orthonormal
-  -- 由于v已经是Basis且Orthonormal，可以使用OrthonormalBasis.mk
-  -- 或者使用OrthonormalBasis.ofRepr或类似方法
-  -- 简化：使用OrthonormalBasis.mk_of_orthonormal
-  -- 需要查找正确的API
-  -- 可能的API：OrthonormalBasis.mk, OrthonormalBasis.ofBasis, OrthonormalBasis.mkOfOrthonormal
-  -- 由于v是Basis且Orthonormal，且E是有限维（Fintype ι），v应该是OrthonormalBasis
-  -- 使用OrthonormalBasis.mk或类似方法
-  -- 简化：直接使用OrthonormalBasis.mk，需要提供repr等
-  -- 或者使用OrthonormalBasis.ofRepr
-  -- 由于v是Basis，v有repr : E ≃ₗ[𝕜] ι →₀ 𝕜
-  -- 且v是Orthonormal，因此v是OrthonormalBasis
-  -- 使用OrthonormalBasis.mk_of_orthonormal或类似方法
-  -- 需要查找正确的API
+  -- 实施替代方案：从Basis和Orthonormal构造OrthonormalBasis
+  -- 证明步骤：
+  -- 1. 理解问题：v是Basis且Orthonormal，需要证明v是OrthonormalBasis
+  --    - OrthonormalBasis是Basis的子类型，要求基向量是标准正交的
+  --    - 由于v已经是Basis且Orthonormal，v应该可以构造为OrthonormalBasis
+  -- 2. 构造OrthonormalBasis：
+  --    - 方法1：使用OrthonormalBasis.mk：需要提供repr和orthonormal证明
+  --    - 方法2：使用OrthonormalBasis.ofBasis：从Basis和Orthonormal构造
+  --    - 方法3：使用OrthonormalBasis.mkOfOrthonormal：从Orthonormal和span性质构造
+  -- 3. 使用OrthonormalBasis的Parseval恒等式：
+  --    - 如果v是OrthonormalBasis，则可以使用OrthonormalBasis.sum_inner_products_eq
+  --    - 或者使用Orthonormal.sum_inner_products_eq（如果存在）
+  -- 可能的API：
+  --    - OrthonormalBasis.mk：从repr和orthonormal构造
+  --    - OrthonormalBasis.ofBasis：从Basis和Orthonormal构造
+  --    - OrthonormalBasis.mkOfOrthonormal：从Orthonormal和span性质构造
+  --    - OrthonormalBasis.sum_inner_products_eq：Parseval恒等式
+  --    - Orthonormal.sum_inner_products_eq：如果存在，可以直接使用
   sorry -- TODO: 使用OrthonormalBasis.mk或类似方法从Basis和Orthonormal构造OrthonormalBasis
-  -- 或者直接使用Orthonormal.sum_inner_products_eq（如果存在）
-  -- 如果mathlib4有Orthonormal.sum_inner_products_eq，可以直接使用
-  -- 但需要v是OrthonormalBasis，因此需要构造
+  -- 替代方案：
+  -- 1. 使用OrthonormalBasis.mk：从v.repr和hv构造OrthonormalBasis
+  -- 2. 使用OrthonormalBasis.ofBasis：如果存在，直接从v和hv构造
+  -- 3. 使用OrthonormalBasis.mkOfOrthonormal：从hv和v.span_eq_top构造
+  -- 4. 如果mathlib4有Orthonormal.sum_inner_products_eq，可以直接使用（不需要构造OrthonormalBasis）
+  -- 5. 手动证明：使用Basis的性质和Orthonormal的性质，直接展开定义证明
 
 -- ============================================
 -- 微分流形基础定理（使用mathlib4标准定义）
@@ -425,17 +426,36 @@ theorem inverse_function_theorem_manifold {𝕜 : Type*} [NontriviallyNormedFiel
     Function.Bijective (f ∘ Set.inclusion (Set.subset_univ U)) ∧
     MDifferentiableOn I I' (Function.invFun (f ∘ Set.inclusion (Set.subset_univ U))) V := by
   -- 使用mathlib4的逆函数定理
-  -- 在mathlib4中，逆函数定理（流形版本）通常表述为：
-  -- 如果f在x处可微，且mfderiv I I' f x是双射，则f在x的邻域内是局部微分同胚
-  -- 可能的API：mfderiv_toContinuousLinearEquiv, mfderiv_bijective_iff,
-  -- HasStrictFDerivAt.localInverse, 或类似的逆函数定理
-  -- 需要查找正确的API名称
-  -- 简化：使用HasStrictFDerivAt.localInverse或类似定理
-  -- 但需要将mfderiv的条件转化为HasStrictFDerivAt的条件
-  -- 或者直接使用流形版本的逆函数定理
-  -- 可能的API：MDifferentiableAt.localInverse, mfderiv_bijective_iff_localInverse
-  -- 需要查找正确的API
+  -- 实施替代方案：使用流形版本的逆函数定理
+  -- 证明步骤：
+  -- 1. 理解问题：逆函数定理（流形版本）表述为：
+  --    - 如果f在x处可微（MDifferentiableAt），且mfderiv I I' f x是双射
+  --    - 则f在x的邻域内是局部微分同胚
+  --    - 即存在x的邻域U和f(x)的邻域V，使得f: U → V是双射且可微
+  --    - 且逆映射f⁻¹: V → U也是可微的
+  -- 2. 可能的API：
+  --    - mfderiv_toContinuousLinearEquiv：将mfderiv转化为ContinuousLinearEquiv
+  --    - mfderiv_bijective_iff：mfderiv是双射的等价条件
+  --    - HasStrictFDerivAt.localInverse：Banach空间版本的逆函数定理
+  --    - MDifferentiableAt.localInverse：流形版本的逆函数定理
+  --    - mfderiv_bijective_iff_localInverse：mfderiv双射与局部逆的等价性
+  -- 3. 在mathlib4中，逆函数定理（流形版本）通常需要：
+  --    - f在x处可微（MDifferentiableAt）
+  --    - mfderiv I I' f x是双射（Function.Bijective）
+  --    - 结论：存在局部逆，且局部逆可微
+  -- 可能的API：
+  --    - mfderiv_toContinuousLinearEquiv：将mfderiv转化为ContinuousLinearEquiv
+  --    - mfderiv_bijective_iff：mfderiv是双射的等价条件
+  --    - HasStrictFDerivAt.localInverse：Banach空间版本的逆函数定理
+  --    - MDifferentiableAt.localInverse：流形版本的逆函数定理
+  --    - mfderiv_bijective_iff_localInverse：mfderiv双射与局部逆的等价性
+  --    - 或者直接使用流形版本的逆函数定理API
   sorry -- TODO: 使用mathlib4的逆函数定理（流形版本），需要查找正确的API名称
+  -- 替代方案：
+  -- 1. 使用MDifferentiableAt.localInverse：如果存在，直接使用
+  -- 2. 使用mfderiv_bijective_iff_localInverse：如果存在，从mfderiv双射推导局部逆
+  -- 3. 使用HasStrictFDerivAt.localInverse：将mfderiv转化为HasStrictFDerivAt，然后使用Banach空间版本的逆函数定理
+  -- 4. 手动证明：使用流形上的局部坐标，将问题转化为Banach空间上的逆函数定理
 
 -- ============================================
 -- 赋范空间基础定理（使用mathlib4标准定义）
