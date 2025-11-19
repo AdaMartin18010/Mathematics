@@ -873,10 +873,27 @@ theorem integration_by_substitution
       exact ContinuousOn.comp hf hφ (Set.mapsTo_image φ (Set.Icc a b))
     have h_deriv_cont : ContinuousOn (deriv φ) (Set.Icc a b) := by
       -- 由hφ'，φ在(a, b)内可导，需要证明deriv φ在[a, b]上连续
-      -- 简化处理：假设deriv φ在[a, b]上连续（这需要额外的条件）
-      -- 在实际应用中，通常需要假设deriv φ在[a, b]上连续
-      -- 这里我们假设这个条件已经满足
-      sorry -- TODO: 从DifferentiableAt推导deriv的连续性（需要额外条件）
+      -- 注意：从DifferentiableAt推导deriv的连续性通常需要额外的条件
+      -- 实施替代方案：添加额外的前提条件
+      -- 证明步骤：
+      -- 1. 理解问题：DifferentiableAt只保证导数存在，不保证导数连续
+      --    - 存在函数在某点可导但导数在该点不连续（例如：f(x) = x^2 sin(1/x)在x=0处）
+      --    - 因此需要额外条件来保证deriv的连续性
+      -- 2. 可能的条件：
+      --    a) ContDiff：如果φ在[a, b]上ContDiff（连续可微），则deriv φ连续
+      --    b) 直接假设：假设deriv φ在[a, b]上连续（作为前提条件）
+      -- 3. 在标准定理中，通常需要假设deriv φ在[a, b]上连续（或ContDiff）
+      -- 4. 如果只有DifferentiableAt，不能直接推导deriv的连续性
+      -- 可能的API：
+      --    - ContDiff.continuous_deriv：如果φ是ContDiff，则deriv φ连续
+      --    - 或者直接使用前提条件：h_deriv_cont : ContinuousOn (deriv φ) (Set.Icc a b)
+      sorry -- TODO: 从DifferentiableAt推导deriv的连续性需要额外条件（如ContDiff或deriv的连续性）
+      -- 建议：在定理前提中添加h_deriv_cont : ContinuousOn (deriv φ) (Set.Icc a b)
+      -- 或者添加h_cont_diff : ContDiffOn ℝ 1 φ (Set.Icc a b)
+      -- 替代方案：
+      -- 1. 修改定理前提，添加h_deriv_cont : ContinuousOn (deriv φ) (Set.Icc a b)
+      -- 2. 或者添加h_cont_diff : ContDiffOn ℝ 1 φ (Set.Icc a b)，然后使用ContDiff.continuous_deriv
+      -- 3. 在实际应用中，通常需要假设deriv φ在[a, b]上连续
     have h_product_cont : ContinuousOn (fun x => f (φ x) * deriv φ x) (Set.Icc a b) := by
       -- 两个连续函数的乘积连续
       exact ContinuousOn.mul h_f_comp_cont h_deriv_cont
@@ -905,7 +922,27 @@ theorem integration_by_parts
       -- 需要证明deriv v在[a, b]上连续
       -- 简化处理：假设deriv v在[a, b]上连续（这需要额外的条件）
       have h_deriv_v_cont : ContinuousOn (deriv v) (Set.Icc a b) := by
-        sorry -- TODO: 从DifferentiableAt推导deriv的连续性（需要额外条件）
+        -- 注意：从DifferentiableAt推导deriv的连续性通常需要额外的条件
+        -- 实施替代方案：添加额外的前提条件
+        -- 证明步骤：
+        -- 1. 理解问题：DifferentiableAt只保证导数存在，不保证导数连续
+        --    - 存在函数在某点可导但导数在该点不连续
+        --    - 因此需要额外条件来保证deriv的连续性
+        -- 2. 可能的条件：
+        --    a) ContDiff：如果v在[a, b]上ContDiff（连续可微），则deriv v连续
+        --    b) 直接假设：假设deriv v在[a, b]上连续（作为前提条件）
+        -- 3. 在标准定理中，通常需要假设deriv v在[a, b]上连续（或ContDiff）
+        -- 4. 如果只有DifferentiableAt，不能直接推导deriv的连续性
+        -- 可能的API：
+        --    - ContDiff.continuous_deriv：如果v是ContDiff，则deriv v连续
+        --    - 或者直接使用前提条件：h_deriv_v_cont : ContinuousOn (deriv v) (Set.Icc a b)
+        sorry -- TODO: 从DifferentiableAt推导deriv的连续性需要额外条件（如ContDiff或deriv的连续性）
+        -- 建议：在定理前提中添加h_deriv_v_cont : ContinuousOn (deriv v) (Set.Icc a b)
+        -- 或者添加h_cont_diff_v : ContDiffOn ℝ 1 v (Set.Icc a b)
+        -- 替代方案：
+        -- 1. 修改定理前提，添加h_deriv_v_cont : ContinuousOn (deriv v) (Set.Icc a b)
+        -- 2. 或者添加h_cont_diff_v : ContDiffOn ℝ 1 v (Set.Icc a b)，然后使用ContDiff.continuous_deriv
+        -- 3. 在实际应用中，通常需要假设deriv v在[a, b]上连续
       exact ContinuousOn.mul hu_cont h_deriv_v_cont
     exact continuousOn_intervalIntegrable h_product_cont hab.le
 
@@ -917,7 +954,27 @@ theorem integration_by_parts
       -- 需要证明deriv u在[a, b]上连续
       -- 简化处理：假设deriv u在[a, b]上连续（这需要额外的条件）
       have h_deriv_u_cont : ContinuousOn (deriv u) (Set.Icc a b) := by
-        sorry -- TODO: 从DifferentiableAt推导deriv的连续性（需要额外条件）
+        -- 注意：从DifferentiableAt推导deriv的连续性通常需要额外的条件
+        -- 实施替代方案：添加额外的前提条件
+        -- 证明步骤：
+        -- 1. 理解问题：DifferentiableAt只保证导数存在，不保证导数连续
+        --    - 存在函数在某点可导但导数在该点不连续
+        --    - 因此需要额外条件来保证deriv的连续性
+        -- 2. 可能的条件：
+        --    a) ContDiff：如果u在[a, b]上ContDiff（连续可微），则deriv u连续
+        --    b) 直接假设：假设deriv u在[a, b]上连续（作为前提条件）
+        -- 3. 在标准定理中，通常需要假设deriv u在[a, b]上连续（或ContDiff）
+        -- 4. 如果只有DifferentiableAt，不能直接推导deriv的连续性
+        -- 可能的API：
+        --    - ContDiff.continuous_deriv：如果u是ContDiff，则deriv u连续
+        --    - 或者直接使用前提条件：h_deriv_u_cont : ContinuousOn (deriv u) (Set.Icc a b)
+        sorry -- TODO: 从DifferentiableAt推导deriv的连续性需要额外条件（如ContDiff或deriv的连续性）
+        -- 建议：在定理前提中添加h_deriv_u_cont : ContinuousOn (deriv u) (Set.Icc a b)
+        -- 或者添加h_cont_diff_u : ContDiffOn ℝ 1 u (Set.Icc a b)
+        -- 替代方案：
+        -- 1. 修改定理前提，添加h_deriv_u_cont : ContinuousOn (deriv u) (Set.Icc a b)
+        -- 2. 或者添加h_cont_diff_u : ContDiffOn ℝ 1 u (Set.Icc a b)，然后使用ContDiff.continuous_deriv
+        -- 3. 在实际应用中，通常需要假设deriv u在[a, b]上连续
       exact ContinuousOn.mul h_deriv_u_cont hv_cont
     exact continuousOn_intervalIntegrable h_product_cont hab.le
 
@@ -1078,19 +1135,112 @@ theorem ratio_test (a : ℕ → ℝ) (ha : ∀ n, a n > 0) :
   constructor
   · -- ρ < 1 蕴含收敛
     intro h_ρ_lt_one
-    -- 如果liminf < 1，则存在N使得对所有n ≥ N，a(n+1)/a(n) < r < 1
+    -- 如果liminf < 1，则存在r < 1和N使得对所有n ≥ N，a(n+1)/a(n) < r
     -- 因此a(n) < a(N) * r^(n-N)，由几何级数比较得出收敛
-    sorry -- TODO: 使用几何级数比较
+    -- 证明思路：
+    -- 1. 由于liminf < 1，存在r使得ρ < r < 1
+    -- 2. 由liminf的定义，存在N使得对所有n ≥ N，a(n+1)/a(n) < r
+    -- 3. 因此a(n) < a(N) * r^(n-N) = (a(N) / r^N) * r^n
+    -- 4. 由于几何级数∑r^n收敛（当r < 1），由比较判别法，∑a(n)收敛
+    -- 简化：直接使用比较判别法
+    -- 需要构造一个收敛的几何级数来比较
+    -- 由于liminf < 1，存在r < 1和N使得对所有n ≥ N，a(n+1)/a(n) < r
+    -- 因此a(n) < a(N) * r^(n-N)，而∑r^n收敛
+    -- 使用比较判别法：如果0 ≤ a(n) ≤ b(n)且∑b(n)收敛，则∑a(n)收敛
+    -- 这里b(n) = a(N) * r^(n-N)（当n ≥ N时），∑b(n)收敛
+    -- 因此∑a(n)收敛
+    -- 证明思路：
+    -- 1. 由于liminf < 1，存在r使得ρ < r < 1
+    -- 2. 由liminf的定义，存在N使得对所有n ≥ N，a(n+1)/a(n) < r
+    -- 3. 因此a(n) < a(N) * r^(n-N) = (a(N) / r^N) * r^n
+    -- 4. 由于几何级数∑r^n收敛（当r < 1），由比较判别法，∑a(n)收敛
+    -- 实施替代方案：使用liminf的性质和几何级数比较判别法
+    -- 证明步骤：
+    -- 1. 由于liminf < 1，存在r使得ρ < r < 1
+    -- 2. 使用liminf_lt_iff_eventually_lt：如果liminf < r，则存在N使得对所有n ≥ N，a(n+1)/a(n) < r
+    -- 3. 因此对所有n ≥ N，a(n+1) < r * a(n)
+    -- 4. 通过归纳，对所有n ≥ N，a(n) < a(N) * r^(n-N)
+    -- 5. 由于∑(a(N) * r^(n-N)) = a(N) * ∑r^(n-N)收敛（当r < 1），由比较判别法，∑a(n)收敛
+    -- 方法1：使用liminf的性质（如liminf_lt_iff_eventually_lt）和几何级数比较判别法
+    -- 方法2：直接使用liminf的定义展开
+    -- 方法3：使用Filter.eventually和几何级数比较判别法
+    -- 方法4：使用比较判别法的API
+    -- 可能的API：liminf_lt_iff_eventually_lt, Filter.eventually_atTop,
+    -- 几何级数收敛定理, 比较判别法API, HasSum.geometric_series
+    -- 需要查找正确的API名称
+    sorry -- TODO: 使用liminf的性质和几何级数比较判别法
+    -- 替代方案：如果API不存在，可以：
+    -- 1. 直接使用liminf的定义展开：liminf f = lim (inf_{k≥n} f k)
+    -- 2. 使用Filter.eventually构造eventually条件：∃ N, ∀ n ≥ N, a(n+1)/a(n) < r
+    -- 3. 通过归纳证明a(n) < a(N) * r^(n-N)对所有n ≥ N成立
+    -- 4. 使用几何级数的收敛性：∑r^n收敛当r < 1
+    -- 5. 使用比较判别法：如果0 ≤ a(n) ≤ b(n)且∑b(n)收敛，则∑a(n)收敛
   · -- ρ > 1 蕴含发散
     intro h_ρ_gt_one
     -- 如果liminf > 1，则存在N使得对所有n ≥ N，a(n+1)/a(n) > 1
     -- 因此a(n)不趋于0，级数发散
     by_contra h_conv
-    have : Filter.Tendsto a Filter.atTop (𝓝 0) := by
-      -- 如果级数收敛，则通项趋于0
-      sorry -- TODO: 使用级数收敛的性质
-    -- 但ρ > 1意味着a(n)不趋于0，矛盾
-    sorry -- TODO: 完成矛盾证明
+    -- 如果级数收敛，则通项趋于0（这是级数收敛的必要条件）
+    have h_tendsto_zero : Filter.Tendsto a Filter.atTop (𝓝 0) := by
+      -- 使用级数收敛的性质：如果∑a_n收敛，则a_n → 0
+      -- 这可以通过部分和序列的Cauchy性质得到
+      -- 如果∑a_n收敛，则s(n+1) - s(n) = a(n+1) → 0
+      obtain ⟨S, h_tendsto_sum⟩ := h_conv
+      -- s(n+1) = s(n) + a(n+1)，因此a(n+1) = s(n+1) - s(n)
+      -- 由于s(n) → S，我们有s(n+1) → S，因此a(n+1) → 0
+      have h_tendsto_sum_succ : Filter.Tendsto (fun n => ∑ k in Finset.range (n + 1), a k) Filter.atTop (𝓝 S) := by
+        -- 使用tendsto_nhds_of_tendsto_nhds_within和tendsto_succ
+        have : (fun n => ∑ k in Finset.range (n + 1), a k) = (fun n => ∑ k in Finset.range n, a k) ∘ (fun n => n + 1) := by
+          ext n
+          simp
+        rw [this]
+        exact Filter.Tendsto.comp h_tendsto_sum (Filter.tendsto_add_atTop_nat 1)
+      -- a(n+1) = s(n+1) - s(n)
+      have h_a_eq : (fun n => a (n + 1)) = (fun n => (∑ k in Finset.range (n + 1), a k) - (∑ k in Finset.range n, a k)) := by
+        ext n
+        simp [Finset.sum_range_succ]
+      rw [h_a_eq]
+      -- 使用tendsto_sub
+      exact Filter.Tendsto.sub h_tendsto_sum_succ h_tendsto_sum
+    -- 但ρ > 1意味着存在N使得对所有n ≥ N，a(n+1)/a(n) > 1
+    -- 因此a(n+1) > a(n) > 0，这意味着a(n)不趋于0（实际上趋于正数或无穷）
+    -- 这与h_tendsto_zero矛盾
+    -- 使用liminf的性质：如果liminf > 1，则存在无穷多个n使得a(n+1)/a(n) > 1
+    -- 这意味着存在子列使得a(n+1)/a(n) > 1，因此a(n)不趋于0
+    -- 简化处理：直接使用liminf的定义
+    -- 如果liminf f > c，则对于任意c' < liminf f，存在无穷多个n使得f n > c'
+    -- 这里liminf (a(n+1)/a(n)) > 1，因此存在无穷多个n使得a(n+1)/a(n) > 1
+      -- 这意味着a(n)不趋于0（因为如果a(n) → 0，则a(n+1)/a(n)可能趋于∞，但这里我们要求比值>1，意味着a(n+1) > a(n) > 0）
+      -- 实际上，如果存在无穷多个n使得a(n+1) > a(n) > 0，则a(n)不趋于0
+      -- 这与h_tendsto_zero矛盾
+      -- 简化：直接证明如果存在无穷多个n使得a(n+1) > a(n) > 0，则a(n)不趋于0
+      have h_not_tendsto_zero : ¬Filter.Tendsto a Filter.atTop (𝓝 0) := by
+        -- 证明思路：如果liminf (a(n+1)/a(n)) > 1，则存在无穷多个n使得a(n+1)/a(n) > 1
+        -- 这意味着存在子列n_k使得a(n_k+1) > a(n_k) > 0
+        -- 因此a(n_k) ≥ a(n_0) > 0，不趋于0
+        -- 实施替代方案：使用liminf的性质证明存在无穷多个n使得a(n+1)/a(n) > 1
+        -- 证明步骤：
+        -- 1. 使用liminf_gt_iff_frequently_gt：如果liminf > 1，则存在无穷多个n使得a(n+1)/a(n) > 1
+        -- 2. 这意味着存在无穷多个n使得a(n+1) > a(n)
+        -- 3. 通过归纳，存在无穷多个n使得a(n) > a(N)（对于某个N）
+        -- 4. 因此a(n)不趋于0（因为存在无穷多个n使得a(n) > a(N) > 0）
+        -- 5. 这与级数收敛的必要条件（通项趋于0）矛盾
+        -- 方法1：使用liminf的性质（如liminf_gt_iff_frequently_gt）证明存在无穷多个n使得a(n+1)/a(n) > 1
+        -- 方法2：直接使用liminf的定义展开
+        -- 方法3：使用Filter.frequently和liminf的性质
+        -- 方法4：使用子列的性质
+        -- 可能的API：liminf_gt_iff_frequently_gt, Filter.frequently_atTop,
+        -- liminf_le_of_frequently_le, Filter.frequently_iff, 或类似定理
+        -- 需要查找正确的API名称
+        sorry -- TODO: 使用liminf的性质证明存在无穷多个n使得a(n+1)/a(n) > 1
+        -- 替代方案：如果API不存在，可以：
+        -- 1. 直接使用liminf的定义展开：liminf f = lim (inf_{k≥n} f k)
+        -- 2. 使用Filter.frequently构造frequently条件：∃ 无穷多个n, a(n+1)/a(n) > 1
+        -- 3. 使用子列的性质：构造一个子列使得a(n_k+1)/a(n_k) > 1对所有k成立
+        -- 4. 通过归纳证明a(n_k)不趋于0
+        -- 5. 使用级数收敛的必要条件：如果∑a_n收敛，则a_n → 0
+    -- 这与h_tendsto_zero矛盾
+    exact h_not_tendsto_zero h_tendsto_zero
 
 -- 根式判别法
 theorem root_test (a : ℕ → ℝ) (ha : ∀ n, a n ≥ 0) :
@@ -1100,19 +1250,97 @@ theorem root_test (a : ℕ → ℝ) (ha : ∀ n, a n ≥ 0) :
   constructor
   · -- ρ < 1 蕴含收敛
     intro h_ρ_lt_one
-    -- 如果limsup < 1，则存在N使得对所有n ≥ N，a(n)^(1/n) < r < 1
+    -- 如果limsup < 1，则存在r < 1和N使得对所有n ≥ N，a(n)^(1/n) < r
     -- 因此a(n) < r^n，由几何级数比较得出收敛
-    sorry -- TODO: 使用几何级数比较
+    -- 证明思路：
+    -- 1. 由于limsup < 1，存在r使得ρ < r < 1
+    -- 2. 由limsup的定义，存在N使得对所有n ≥ N，a(n)^(1/n) < r
+    -- 3. 因此a(n) < r^n
+    -- 4. 由于几何级数∑r^n收敛（当r < 1），由比较判别法，∑a(n)收敛
+    -- 简化：直接使用比较判别法
+    -- 需要构造一个收敛的几何级数来比较
+    -- 由于limsup < 1，存在r < 1和N使得对所有n ≥ N，a(n) < r^n
+    -- 而∑r^n收敛（当r < 1）
+    -- 使用比较判别法：如果0 ≤ a(n) ≤ b(n)且∑b(n)收敛，则∑a(n)收敛
+    -- 这里b(n) = r^n（当n ≥ N时），∑b(n)收敛
+    -- 因此∑a(n)收敛
+    -- 证明思路：
+    -- 1. 由于limsup < 1，存在r使得ρ < r < 1
+    -- 2. 由limsup的定义，存在N使得对所有n ≥ N，a(n)^(1/n) < r
+    -- 3. 因此a(n) < r^n
+    -- 4. 由于几何级数∑r^n收敛（当r < 1），由比较判别法，∑a(n)收敛
+    -- 实施替代方案：使用limsup的性质和几何级数比较判别法
+    -- 证明步骤：
+    -- 1. 由于limsup < 1，存在r使得ρ < r < 1
+    -- 2. 使用limsup_lt_iff_eventually_lt：如果limsup < r，则存在N使得对所有n ≥ N，a(n)^(1/n) < r
+    -- 3. 因此对所有n ≥ N，a(n) < r^n
+    -- 4. 由于几何级数∑r^n收敛（当r < 1），由比较判别法，∑a(n)收敛
+    -- 方法1：使用limsup的性质（如limsup_lt_iff_eventually_lt）和几何级数比较判别法
+    -- 方法2：直接使用limsup的定义展开
+    -- 方法3：使用Filter.eventually和几何级数比较判别法
+    -- 方法4：使用比较判别法的API
+    -- 可能的API：limsup_lt_iff_eventually_lt, Filter.eventually_atTop,
+    -- 几何级数收敛定理, 比较判别法API, HasSum.geometric_series
+    -- 需要查找正确的API名称
+    sorry -- TODO: 使用limsup的性质和几何级数比较判别法
+    -- 替代方案：如果API不存在，可以：
+    -- 1. 直接使用limsup的定义展开：limsup f = lim (sup_{k≥n} f k)
+    -- 2. 使用Filter.eventually构造eventually条件：∃ N, ∀ n ≥ N, a(n)^(1/n) < r
+    -- 3. 因此对所有n ≥ N，a(n) < r^n
+    -- 4. 使用几何级数的收敛性：∑r^n收敛当r < 1
+    -- 5. 使用比较判别法：如果0 ≤ a(n) ≤ b(n)且∑b(n)收敛，则∑a(n)收敛
   · -- ρ > 1 蕴含发散
     intro h_ρ_gt_one
     -- 如果limsup > 1，则存在无穷多个n使得a(n)^(1/n) > 1
     -- 因此a(n) > 1，通项不趋于0，级数发散
     by_contra h_conv
-    have : Filter.Tendsto a Filter.atTop (𝓝 0) := by
-      -- 如果级数收敛，则通项趋于0
-      sorry -- TODO: 使用级数收敛的性质
-    -- 但ρ > 1意味着a(n)不趋于0，矛盾
-    sorry -- TODO: 完成矛盾证明
+    -- 如果级数收敛，则通项趋于0（这是级数收敛的必要条件）
+    have h_tendsto_zero : Filter.Tendsto a Filter.atTop (𝓝 0) := by
+      -- 使用级数收敛的性质：如果∑a_n收敛，则a_n → 0
+      obtain ⟨S, h_tendsto_sum⟩ := h_conv
+      have h_tendsto_sum_succ : Filter.Tendsto (fun n => ∑ k in Finset.range (n + 1), a k) Filter.atTop (𝓝 S) := by
+        have : (fun n => ∑ k in Finset.range (n + 1), a k) = (fun n => ∑ k in Finset.range n, a k) ∘ (fun n => n + 1) := by
+          ext n
+          simp
+        rw [this]
+        exact Filter.Tendsto.comp h_tendsto_sum (Filter.tendsto_add_atTop_nat 1)
+      have h_a_eq : (fun n => a (n + 1)) = (fun n => (∑ k in Finset.range (n + 1), a k) - (∑ k in Finset.range n, a k)) := by
+        ext n
+        simp [Finset.sum_range_succ]
+      rw [h_a_eq]
+      exact Filter.Tendsto.sub h_tendsto_sum_succ h_tendsto_sum
+    -- 但ρ > 1意味着存在无穷多个n使得a(n)^(1/n) > 1，即a(n) > 1
+    -- 这与h_tendsto_zero矛盾（因为如果a(n) → 0，则不能有无穷多个n使得a(n) > 1）
+    -- 使用limsup的性质：如果limsup > 1，则存在无穷多个n使得a(n)^(1/n) > 1
+    -- 这意味着存在无穷多个n使得a(n) > 1，因此a(n)不趋于0
+    -- 这与h_tendsto_zero矛盾
+    have h_not_tendsto_zero : ¬Filter.Tendsto a Filter.atTop (𝓝 0) := by
+      -- 如果limsup (a(n)^(1/n)) > 1，则存在无穷多个n使得a(n)^(1/n) > 1
+      -- 这意味着a(n) > 1，因此a(n)不趋于0
+      -- 证明思路：如果limsup (a(n)^(1/n)) > 1，则存在无穷多个n使得a(n)^(1/n) > 1
+      -- 这意味着a(n) > 1，因此a(n)不趋于0
+      -- 实施替代方案：使用limsup的性质证明存在无穷多个n使得a(n) > 1
+      -- 证明步骤：
+      -- 1. 使用limsup_gt_iff_frequently_gt：如果limsup > 1，则存在无穷多个n使得a(n)^(1/n) > 1
+      -- 2. 这意味着存在无穷多个n使得a(n) > 1
+      -- 3. 因此a(n)不趋于0（因为存在无穷多个n使得a(n) > 1）
+      -- 4. 这与级数收敛的必要条件（通项趋于0）矛盾
+      -- 方法1：使用limsup的性质（如limsup_gt_iff_frequently_gt）证明存在无穷多个n使得a(n)^(1/n) > 1
+      -- 方法2：直接使用limsup的定义展开
+      -- 方法3：使用Filter.frequently和limsup的性质
+      -- 方法4：使用子列的性质
+      -- 可能的API：limsup_gt_iff_frequently_gt, Filter.frequently_atTop,
+      -- limsup_le_of_frequently_le, Filter.frequently_iff, 或类似定理
+      -- 需要查找正确的API名称
+      sorry -- TODO: 使用limsup的性质证明存在无穷多个n使得a(n) > 1
+      -- 替代方案：如果API不存在，可以：
+      -- 1. 直接使用limsup的定义展开：limsup f = lim (sup_{k≥n} f k)
+      -- 2. 使用Filter.frequently构造frequently条件：∃ 无穷多个n, a(n)^(1/n) > 1
+      -- 3. 因此存在无穷多个n使得a(n) > 1
+      -- 4. 使用子列的性质：构造一个子列使得a(n_k) > 1对所有k成立
+      -- 5. 使用级数收敛的必要条件：如果∑a_n收敛，则a_n → 0
+    -- 这与h_tendsto_zero矛盾
+    exact h_not_tendsto_zero h_tendsto_zero
 
 -- Leibniz交错级数判别法
 theorem leibniz_test (a : ℕ → ℝ)
@@ -1129,24 +1357,245 @@ theorem leibniz_test (a : ℕ → ℝ)
     intro n
     -- s(2n+2) - s(2n) = (-1)^(2n+1) * a(2n+1) + (-1)^(2n+2) * a(2n+2)
     -- = -a(2n+1) + a(2n+2) ≥ 0（因为a递减）
-    sorry -- TODO: 完成证明
+    -- 计算s(2n+2) - s(2n)
+    have h_diff : s (2 * (n + 1)) - s (2 * n) = (-1) ^ (2 * n + 1) * a (2 * n + 1) + (-1) ^ (2 * n + 2) * a (2 * n + 2) := by
+      -- s(2n+2) = s(2n) + (-1)^(2n+1) * a(2n+1) + (-1)^(2n+2) * a(2n+2)
+      simp [s]
+      rw [Finset.sum_range_succ, Finset.sum_range_succ]
+      ring
+    -- (-1)^(2n+1) = -1, (-1)^(2n+2) = 1
+    have h_pow1 : (-1 : ℝ) ^ (2 * n + 1) = -1 := by
+      simp [pow_add, pow_mul]
+    have h_pow2 : (-1 : ℝ) ^ (2 * n + 2) = 1 := by
+      simp [pow_add, pow_mul]
+    rw [h_diff, h_pow1, h_pow2]
+    -- -a(2n+1) + a(2n+2) = a(2n+2) - a(2n+1) ≥ 0（因为a递减）
+    have h_decr_local : a (2 * n + 2) ≤ a (2 * n + 1) := ha_decr (2 * n + 1)
+    linarith
   have h_even_bounded : ∃ M, ∀ n, s (2 * n) ≤ M := by
-    -- s(2n) ≤ s(1) = a(0)
+    -- s(2n) ≤ s(1) = a(0)（因为s(2n)单调递增，且s(1) = a(0)）
     use a 0
     intro n
-    sorry -- TODO: 完成证明
+    -- 需要证明s(2n) ≤ s(1)
+    -- 由于s(2n)单调递增，且s(0) = 0 ≤ s(1) = a(0)
+    -- 实际上，s(2n) ≤ s(2n+1) ≤ s(1) = a(0)
+    -- 但更直接的是：s(2n) ≤ s(2n+1) = s(2n) + (-1)^(2n) * a(2n) = s(2n) + a(2n) ≥ s(2n)
+    -- 实际上，s(2n+1) = s(2n) - a(2n) ≤ s(2n)
+    -- 而s(2n+1) ≤ s(1) = a(0)（因为s(2n+1)单调递减）
+    -- 因此s(2n) ≤ s(2n+1) ≤ s(1) = a(0)
+    -- 简化：直接使用s(2n) ≤ s(2n+1) ≤ s(1)
+    have h_odd_decr : ∀ n, s (2 * n + 1) ≤ s 1 := by
+      intro n
+      -- s(2n+1)单调递减，且s(1) = a(0)
+      -- 需要证明s(2n+1) ≤ s(1)
+      -- 直接证明s(2n+3) ≤ s(2n+1)，然后使用归纳法
+      induction n with
+      | zero =>
+        -- s(1) ≤ s(1)
+        rfl.le
+      | succ n' ih =>
+        -- s(2(n'+1)+1) = s(2n'+3) ≤ s(2n'+1) ≤ s(1)
+        -- 直接证明s(2n'+3) ≤ s(2n'+1)
+        have h_odd_mono_local : s (2 * n' + 3) ≤ s (2 * n' + 1) := by
+          -- s(2n'+3) - s(2n'+1) = (-1)^(2n'+2) * a(2n'+2) + (-1)^(2n'+3) * a(2n'+3)
+          -- = a(2n'+2) - a(2n'+3) ≥ 0（因为a递减）
+          have h_diff : s (2 * n' + 3) - s (2 * n' + 1) = (-1) ^ (2 * n' + 2) * a (2 * n' + 2) + (-1) ^ (2 * n' + 3) * a (2 * n' + 3) := by
+            simp [s]
+            rw [Finset.sum_range_succ, Finset.sum_range_succ]
+            ring
+          have h_pow2 : (-1 : ℝ) ^ (2 * n' + 2) = 1 := by
+            simp [pow_add, pow_mul]
+          have h_pow3 : (-1 : ℝ) ^ (2 * n' + 3) = -1 := by
+            simp [pow_add, pow_mul]
+          rw [h_diff, h_pow2, h_pow3]
+          have h_decr_local : a (2 * n' + 3) ≤ a (2 * n' + 2) := ha_decr (2 * n' + 2)
+          linarith
+        exact le_trans h_odd_mono_local ih
+    -- 使用h_odd_decr和s(2n) ≤ s(2n+1)
+    have h_even_le_odd : ∀ n, s (2 * n) ≤ s (2 * n + 1) := by
+      intro n
+      -- s(2n+1) = s(2n) + (-1)^(2n) * a(2n) = s(2n) + a(2n) ≥ s(2n)
+      simp [s]
+      rw [Finset.sum_range_succ]
+      have h_pow : (-1 : ℝ) ^ (2 * n) = 1 := by
+        simp [pow_mul]
+      rw [h_pow]
+      -- s(2n) + a(2n) ≥ s(2n)
+      linarith [ha_pos (2 * n)]
+    -- 结合h_even_le_odd和h_odd_decr
+    have h_s1_eq : s 1 = a 0 := by
+      simp [s]
+      simp [Finset.sum_range_succ, Finset.sum_range_one]
+    use a 0
+    intro n
+    rw [← h_s1_eq]
+    exact le_trans (h_even_le_odd n) (h_odd_decr n)
   have h_odd_mono : ∀ n, s (2 * n + 3) ≤ s (2 * n + 1) := by
     intro n
-    -- 类似地，s(2n+1)单调递减
-    sorry -- TODO: 完成证明
+    -- s(2n+3) - s(2n+1) = (-1)^(2n+2) * a(2n+2) + (-1)^(2n+3) * a(2n+3)
+    -- = a(2n+2) - a(2n+3) ≥ 0（因为a递减）
+    -- 计算s(2n+3) - s(2n+1)
+    have h_diff : s (2 * n + 3) - s (2 * n + 1) = (-1) ^ (2 * n + 2) * a (2 * n + 2) + (-1) ^ (2 * n + 3) * a (2 * n + 3) := by
+      simp [s]
+      rw [Finset.sum_range_succ, Finset.sum_range_succ]
+      ring
+    -- (-1)^(2n+2) = 1, (-1)^(2n+3) = -1
+    have h_pow2 : (-1 : ℝ) ^ (2 * n + 2) = 1 := by
+      simp [pow_add, pow_mul]
+    have h_pow3 : (-1 : ℝ) ^ (2 * n + 3) = -1 := by
+      simp [pow_add, pow_mul]
+    rw [h_diff, h_pow2, h_pow3]
+    -- a(2n+2) - a(2n+3) ≥ 0（因为a递减）
+    have h_decr_local : a (2 * n + 3) ≤ a (2 * n + 2) := ha_decr (2 * n + 2)
+    linarith
   have h_odd_bounded : ∃ m, ∀ n, m ≤ s (2 * n + 1) := by
-    -- s(2n+1) ≥ s(0) = 0
+    -- s(2n+1) ≥ s(1) = a(0)（因为s(2n+1)单调递减，且s(1) = a(0)）
+    -- 实际上，s(2n+1) ≥ s(2n+2) ≥ s(2n) ≥ s(0) = 0
+    -- 但更直接的是：s(2n+1) ≥ s(2n+2) = s(2n+1) + (-1)^(2n+1) * a(2n+1) = s(2n+1) - a(2n+1) ≤ s(2n+1)
+    -- 实际上，s(2n+2) = s(2n+1) - a(2n+1) ≤ s(2n+1)
+    -- 而s(2n+2) ≥ s(0) = 0（因为s(2n)单调递增）
+    -- 因此s(2n+1) ≥ s(2n+2) ≥ s(0) = 0
+    -- 简化：直接使用s(2n+1) ≥ s(2n+2) ≥ s(0)
+    have h_even_incr : ∀ n, s (2 * n) ≤ s (2 * (n + 1)) := h_even_mono
+    have h_odd_le_even : ∀ n, s (2 * n + 1) ≥ s (2 * n + 2) := by
+      intro n
+      -- s(2n+2) = s(2n+1) + (-1)^(2n+1) * a(2n+1) = s(2n+1) - a(2n+1) ≤ s(2n+1)
+      simp [s]
+      rw [Finset.sum_range_succ]
+      have h_pow : (-1 : ℝ) ^ (2 * n + 1) = -1 := by
+        simp [pow_add, pow_mul]
+      rw [h_pow]
+      -- s(2n+1) - a(2n+1) ≤ s(2n+1)
+      linarith [ha_pos (2 * n + 1)]
+    have h_s0_eq : s 0 = 0 := by
+      simp [s]
     use 0
     intro n
-    sorry -- TODO: 完成证明
+    rw [← h_s0_eq]
+    -- s(2n+1) ≥ s(2n+2) ≥ s(2n) ≥ s(0) = 0
+    -- 需要证明s(2n) ≥ s(0)
+    have h_even_ge_zero : ∀ n, s (2 * n) ≥ s 0 := by
+      intro n
+      -- s(2n)单调递增，且s(0) = 0
+      induction n with
+      | zero => rfl.le
+      | succ n' ih => exact le_trans ih (h_even_incr n')
+    -- s(2n+1) ≥ s(2n+2) ≥ s(2n) ≥ s(0) = 0
+    exact le_trans (h_odd_le_even n) (h_even_ge_zero (n + 1))
   -- 由单调有界定理，s(2n)和s(2n+1)都收敛
   -- 且它们的极限相等（因为a(n) → 0）
-  sorry -- TODO: 完成收敛性证明
+  -- 首先证明s(2n)收敛
+  have h_even_mono_full : ∀ n, s (2 * n) ≤ s (2 * (n + 1)) := h_even_mono
+  obtain ⟨L_even, h_tendsto_even, _⟩ := monotone_bounded_converges (fun n => s (2 * n)) h_even_mono_full h_even_bounded
+  -- 然后证明s(2n+1)收敛（需要转换为单调递增的形式）
+  -- s(2n+1)单调递减，因此-s(2n+1)单调递增
+  have h_neg_odd_mono : ∀ n, -s (2 * n + 3) ≤ -s (2 * n + 1) := by
+    intro n
+    linarith [h_odd_mono n]
+  have h_neg_odd_bounded : ∃ M, ∀ n, -s (2 * n + 1) ≤ M := by
+    obtain ⟨m, hm⟩ := h_odd_bounded
+    use -m
+    intro n
+    linarith [hm n]
+  obtain ⟨L_neg_odd, h_tendsto_neg_odd, _⟩ := monotone_bounded_converges (fun n => -s (2 * n + 1)) h_neg_odd_mono h_neg_odd_bounded
+  -- 因此s(2n+1)收敛到-L_neg_odd
+  have h_tendsto_odd : Filter.Tendsto (fun n => s (2 * n + 1)) Filter.atTop (𝓝 (-L_neg_odd)) := by
+    have : (fun n => s (2 * n + 1)) = (fun n => -(-s (2 * n + 1))) := by
+      ext n
+      ring
+    rw [this]
+    exact Filter.Tendsto.neg h_tendsto_neg_odd
+  -- 现在证明L_even = -L_neg_odd（即s(2n)和s(2n+1)的极限相等）
+  -- 关键：s(2n+1) - s(2n) = (-1)^(2n) * a(2n) = a(2n) → 0
+  have h_diff_tendsto : Filter.Tendsto (fun n => s (2 * n + 1) - s (2 * n)) Filter.atTop (𝓝 0) := by
+    -- s(2n+1) - s(2n) = a(2n) → 0（因为a(n) → 0）
+    have h_diff_eq : (fun n => s (2 * n + 1) - s (2 * n)) = (fun n => a (2 * n)) := by
+      ext n
+      simp [s]
+      rw [Finset.sum_range_succ]
+      have h_pow : (-1 : ℝ) ^ (2 * n) = 1 := by
+        simp [pow_mul]
+      rw [h_pow]
+      ring
+    rw [h_diff_eq]
+    -- 如果a(n) → 0，则a(2n) → 0（使用tendsto_comp）
+    have : (fun n => a (2 * n)) = a ∘ (fun n => 2 * n) := rfl
+    rw [this]
+    -- 需要证明如果a(n) → 0，则a(2n) → 0
+    -- 这可以通过tendsto_comp得到，但需要证明2n → ∞
+    -- 简化：直接使用ha_lim和子列的性质
+    -- 实际上，a(2n)是a(n)的子列，因此a(2n) → 0
+    -- 使用Filter.Tendsto.comp
+    have h_twice : Filter.Tendsto (fun n => 2 * n) Filter.atTop Filter.atTop := by
+      -- 2n → ∞当n → ∞
+      exact Filter.tendsto_atTop_atTop_of_monotone (fun n m h => by linarith) (fun b => by use b; linarith)
+    exact Filter.Tendsto.comp ha_lim h_twice
+  -- 由s(2n+1) - s(2n) → 0和s(2n) → L_even，s(2n+1) → -L_neg_odd
+  -- 我们有L_even = -L_neg_odd
+  have h_limit_eq : L_even = -L_neg_odd := by
+    -- 使用tendsto_sub和h_diff_tendsto
+    -- s(2n+1) - s(2n) → (-L_neg_odd) - L_even = 0
+    have h_sub_tendsto : Filter.Tendsto (fun n => s (2 * n + 1) - s (2 * n)) Filter.atTop (𝓝 ((-L_neg_odd) - L_even)) := by
+      exact Filter.Tendsto.sub h_tendsto_odd h_tendsto_even
+    -- 因此(-L_neg_odd) - L_even = 0，即L_even = -L_neg_odd
+    have h_unique : ∀ L₁ L₂, Filter.Tendsto (fun n => s (2 * n + 1) - s (2 * n)) Filter.atTop (𝓝 L₁) →
+      Filter.Tendsto (fun n => s (2 * n + 1) - s (2 * n)) Filter.atTop (𝓝 L₂) → L₁ = L₂ := by
+      intro L₁ L₂ h1 h2
+      exact tendsto_nhds_unique h1 h2
+    have h_eq_zero : (-L_neg_odd) - L_even = 0 := h_unique ((-L_neg_odd) - L_even) 0 h_sub_tendsto h_diff_tendsto
+    linarith
+  -- 现在证明整个级数收敛到L_even
+  -- 使用子列收敛的性质：如果s(2n) → L和s(2n+1) → L，则s(n) → L
+  use L_even
+  -- 对于任意ε > 0，存在N1和N2使得对所有n ≥ N1，|s(2n) - L_even| < ε
+  -- 和对所有n ≥ N2，|s(2n+1) - L_even| < ε
+  -- 取N = max(2*N1, 2*N2+1)，则对所有n ≥ N，|s(n) - L_even| < ε
+  rw [Metric.tendsto_atTop]
+  intro ε hε
+  obtain ⟨N1, hN1⟩ := Metric.tendsto_atTop.mp h_tendsto_even ε hε
+  have h_limit_eq_symm : -L_neg_odd = L_even := h_limit_eq.symm
+  rw [h_limit_eq_symm] at h_tendsto_odd
+  obtain ⟨N2, hN2⟩ := Metric.tendsto_atTop.mp h_tendsto_odd ε hε
+  -- 取N = max(2*N1, 2*N2+1)
+  use max (2 * N1) (2 * N2 + 1)
+  intro n hn
+  -- 根据n的奇偶性分别处理
+  by_cases h_even : Even n
+  · -- n是偶数，n = 2k
+    obtain ⟨k, rfl⟩ := h_even
+    -- 需要2k ≥ 2*N1，即k ≥ N1
+    have h_k_ge : k ≥ N1 := by
+      have : 2 * k ≥ 2 * N1 := by
+        have h_max : max (2 * N1) (2 * N2 + 1) ≤ 2 * k := hn
+        linarith
+      linarith
+    -- 因此|s(2k) - L_even| < ε
+    exact hN1 k h_k_ge
+  · -- n是奇数，n = 2k+1
+    -- 需要证明n是奇数
+    have h_odd : Odd n := by
+      -- 如果n不是偶数，则n是奇数
+      -- 使用Nat.even_iff_not_odd和Nat.odd_iff_not_even
+      -- 但更直接的是：如果n不是偶数，则n mod 2 = 1，因此n = 2*(n/2) + 1
+      -- 使用Nat.div_add_mod和n mod 2 = 1
+      have h_mod : n % 2 = 1 := by
+        -- 如果n不是偶数，则n mod 2 = 1
+        exact Nat.mod_two_ne_zero.mp (Nat.not_even_iff.mp h_even)
+      use n / 2
+      -- 需要证明n = 2*(n/2) + 1
+      -- 使用Nat.div_add_mod：n = 2*(n/2) + (n mod 2)
+      rw [Nat.div_add_mod n 2, h_mod]
+    obtain ⟨k, hk⟩ := h_odd
+    -- 需要2k+1 ≥ 2*N2+1，即k ≥ N2
+    have h_k_ge : k ≥ N2 := by
+      rw [hk] at hn
+      have : 2 * k + 1 ≥ 2 * N2 + 1 := by
+        have h_max : max (2 * N1) (2 * N2 + 1) ≤ 2 * k + 1 := hn
+        linarith
+      linarith
+    -- 因此|s(2k+1) - L_even| < ε
+    rw [hk]
+    exact hN2 k h_k_ge
 
 -- 幂级数收敛半径
 def PowerSeriesRadius (a : ℕ → ℝ) : ℝ :=
@@ -1166,6 +1615,21 @@ theorem power_series_continuous_in_radius
   intro f h_radius x hx
   -- 需要证明f在x处连续
   -- 这需要证明幂级数在x的邻域内一致收敛
+  -- 证明思路：
+  -- 1. 在收敛半径内的任意紧致集上，幂级数一致收敛
+  -- 2. 一致收敛的连续函数序列的极限函数连续
+  -- 3. 因此f在x处连续
+  -- 方法1：使用一致收敛性和连续性的定理（如UniformContinuous.continuous）
+  -- 方法2：使用幂级数的一致收敛性定理
+  -- 方法3：使用Weierstrass M-判别法证明一致收敛
+  -- 方法4：直接使用幂级数的连续性定理
+  -- 可能的API：UniformContinuous.continuous, UniformConvergence.continuous,
+  -- PowerSeries.continuousOn_ball, 或类似定理
+  -- 需要查找正确的API名称
   sorry -- TODO: 使用一致收敛性和连续性
+  -- 替代方案：如果API不存在，可以：
+  -- 1. 使用Weierstrass M-判别法证明一致收敛
+  -- 2. 使用一致收敛的连续函数序列的极限函数连续
+  -- 3. 直接使用幂级数的连续性性质
 
 end Exercises.Analysis
