@@ -55,12 +55,12 @@
 单变量微积分:
     f: ℝ → ℝ
     导数: f'(x)
-    
+
 多元微积分:
     f: ℝⁿ → ℝ
     偏导数: ∂f/∂xᵢ
     梯度: ∇f = [∂f/∂x₁, ..., ∂f/∂xₙ]ᵀ
-    
+
 深度学习:
     损失函数: L: ℝᵈ → ℝ (d = 参数数量)
     优化: θ* = argmin L(θ)
@@ -490,15 +490,15 @@ def compute_gradient(f, x, h=1e-5):
     """数值计算梯度"""
     n = len(x)
     grad = np.zeros(n)
-    
+
     for i in range(n):
         x_plus = x.copy()
         x_plus[i] += h
         x_minus = x.copy()
         x_minus[i] -= h
-        
+
         grad[i] = (f(x_plus) - f(x_minus)) / (2 * h)
-    
+
     return grad
 
 
@@ -507,27 +507,27 @@ def compute_hessian(f, x, h=1e-5):
     """数值计算Hessian矩阵"""
     n = len(x)
     H = np.zeros((n, n))
-    
+
     for i in range(n):
         for j in range(n):
             x_pp = x.copy()
             x_pp[i] += h
             x_pp[j] += h
-            
+
             x_pm = x.copy()
             x_pm[i] += h
             x_pm[j] -= h
-            
+
             x_mp = x.copy()
             x_mp[i] -= h
             x_mp[j] += h
-            
+
             x_mm = x.copy()
             x_mm[i] -= h
             x_mm[j] -= h
-            
+
             H[i, j] = (f(x_pp) - f(x_pm) - f(x_mp) + f(x_mm)) / (4 * h * h)
-    
+
     return H
 
 
@@ -536,17 +536,17 @@ def gradient_descent(f, grad_f, x0, lr=0.01, max_iter=1000, tol=1e-6):
     """梯度下降算法"""
     x = x0.copy()
     trajectory = [x.copy()]
-    
+
     for i in range(max_iter):
         grad = grad_f(x)
-        
+
         if np.linalg.norm(grad) < tol:
             print(f"Converged in {i} iterations")
             break
-        
+
         x = x - lr * grad
         trajectory.append(x.copy())
-    
+
     return x, np.array(trajectory)
 
 
@@ -555,22 +555,22 @@ def gradient_descent_armijo(f, grad_f, x0, max_iter=1000, tol=1e-6, c=0.5, rho=0
     """带Armijo线搜索的梯度下降"""
     x = x0.copy()
     trajectory = [x.copy()]
-    
+
     for i in range(max_iter):
         grad = grad_f(x)
-        
+
         if np.linalg.norm(grad) < tol:
             print(f"Converged in {i} iterations")
             break
-        
+
         # Armijo线搜索
         lr = 1.0
         while f(x - lr * grad) > f(x) - c * lr * np.dot(grad, grad):
             lr *= rho
-        
+
         x = x - lr * grad
         trajectory.append(x.copy())
-    
+
     return x, np.array(trajectory)
 
 
@@ -579,26 +579,26 @@ def newton_method(f, grad_f, hess_f, x0, max_iter=100, tol=1e-6):
     """牛顿法"""
     x = x0.copy()
     trajectory = [x.copy()]
-    
+
     for i in range(max_iter):
         grad = grad_f(x)
-        
+
         if np.linalg.norm(grad) < tol:
             print(f"Converged in {i} iterations")
             break
-        
+
         H = hess_f(x)
-        
+
         # 求解 H * d = -grad
         try:
             d = np.linalg.solve(H, -grad)
         except np.linalg.LinAlgError:
             print("Singular Hessian, using gradient descent step")
             d = -grad
-        
+
         x = x + d
         trajectory.append(x.copy())
-    
+
     return x, np.array(trajectory)
 
 
@@ -629,24 +629,24 @@ def visualize_optimization():
     """可视化优化过程"""
     # 初始点
     x0 = np.array([-1.5, 2.0])
-    
+
     # 运行不同算法
     x_gd, traj_gd = gradient_descent(rosenbrock, rosenbrock_grad, x0, lr=0.001, max_iter=5000)
     x_armijo, traj_armijo = gradient_descent_armijo(rosenbrock, rosenbrock_grad, x0, max_iter=1000)
     x_newton, traj_newton = newton_method(rosenbrock, rosenbrock_grad, rosenbrock_hess, x0, max_iter=50)
-    
+
     # 绘制等高线
     x_range = np.linspace(-2, 2, 100)
     y_range = np.linspace(-1, 3, 100)
     X, Y = np.meshgrid(x_range, y_range)
     Z = np.zeros_like(X)
-    
+
     for i in range(X.shape[0]):
         for j in range(X.shape[1]):
             Z[i, j] = rosenbrock(np.array([X[i, j], Y[i, j]]))
-    
+
     plt.figure(figsize=(15, 5))
-    
+
     # 梯度下降
     plt.subplot(1, 3, 1)
     plt.contour(X, Y, Z, levels=np.logspace(-1, 3, 20), cmap='gray', alpha=0.3)
@@ -656,7 +656,7 @@ def visualize_optimization():
     plt.xlabel('x')
     plt.ylabel('y')
     plt.legend()
-    
+
     # Armijo线搜索
     plt.subplot(1, 3, 2)
     plt.contour(X, Y, Z, levels=np.logspace(-1, 3, 20), cmap='gray', alpha=0.3)
@@ -666,7 +666,7 @@ def visualize_optimization():
     plt.xlabel('x')
     plt.ylabel('y')
     plt.legend()
-    
+
     # 牛顿法
     plt.subplot(1, 3, 3)
     plt.contour(X, Y, Z, levels=np.logspace(-1, 3, 20), cmap='gray', alpha=0.3)
@@ -676,10 +676,10 @@ def visualize_optimization():
     plt.xlabel('x')
     plt.ylabel('y')
     plt.legend()
-    
+
     plt.tight_layout()
     # plt.show()
-    
+
     print(f"GD iterations: {len(traj_gd)}")
     print(f"GD + Armijo iterations: {len(traj_armijo)}")
     print(f"Newton iterations: {len(traj_newton)}")
@@ -687,24 +687,24 @@ def visualize_optimization():
 
 if __name__ == "__main__":
     print("=== 多元微积分示例 ===")
-    
+
     # 测试梯度计算
     x = np.array([1.0, 2.0])
     grad_numerical = compute_gradient(rosenbrock, x)
     grad_analytical = rosenbrock_grad(x)
-    
+
     print(f"\n数值梯度: {grad_numerical}")
     print(f"解析梯度: {grad_analytical}")
     print(f"误差: {np.linalg.norm(grad_numerical - grad_analytical)}")
-    
+
     # 测试Hessian计算
     hess_numerical = compute_hessian(rosenbrock, x)
     hess_analytical = rosenbrock_hess(x)
-    
+
     print(f"\n数值Hessian:\n{hess_numerical}")
     print(f"解析Hessian:\n{hess_analytical}")
     print(f"误差: {np.linalg.norm(hess_numerical - hess_analytical)}")
-    
+
     # 可视化优化
     print("\n=== 优化算法对比 ===")
     visualize_optimization()

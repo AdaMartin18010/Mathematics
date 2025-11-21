@@ -188,7 +188,7 @@ def mutual_information(joint_prob):
     """计算互信息"""
     p_x = joint_prob.sum(axis=1)
     p_y = joint_prob.sum(axis=0)
-    
+
     mi = 0
     for i in range(len(p_x)):
         for j in range(len(p_y)):

@@ -854,7 +854,7 @@ $$
 
 **例2：嵌套模型比较**:
 
-模型1（完整）: $p$ 个参数  
+模型1（完整）: $p$ 个参数
 模型2（简化）: $q$ 个参数（$q < p$）
 
 $$
@@ -883,7 +883,7 @@ $$
 
 **例4：线性回归系数检验**:
 
-完整模型: $Y = X\beta + \epsilon$（$p$ 个系数）  
+完整模型: $Y = X\beta + \epsilon$（$p$ 个系数）
 简化模型: $Y = X_0\beta_0 + \epsilon$（$q$ 个系数）
 
 $$
@@ -1482,7 +1482,7 @@ def mle_general(data, log_likelihood, theta0):
     """一般MLE (数值优化)"""
     def neg_log_lik(theta):
         return -log_likelihood(data, theta)
-    
+
     result = minimize(neg_log_lik, theta0)
     return result.x
 
@@ -1493,10 +1493,10 @@ def confidence_interval_normal(data, alpha=0.05):
     n = len(data)
     mean = np.mean(data)
     se = stats.sem(data)  # 标准误
-    
+
     # t分布临界值
     t_crit = stats.t.ppf(1 - alpha/2, n - 1)
-    
+
     ci = (mean - t_crit * se, mean + t_crit * se)
     return ci
 
@@ -1505,14 +1505,14 @@ def bootstrap_ci(data, statistic, n_bootstrap=10000, alpha=0.05):
     """Bootstrap置信区间"""
     n = len(data)
     bootstrap_stats = []
-    
+
     for _ in range(n_bootstrap):
         # 有放回抽样
         sample = np.random.choice(data, size=n, replace=True)
         bootstrap_stats.append(statistic(sample))
-    
+
     bootstrap_stats = np.array(bootstrap_stats)
-    
+
     # 百分位法
     ci = np.percentile(bootstrap_stats, [100*alpha/2, 100*(1-alpha/2)])
     return ci
@@ -1524,16 +1524,16 @@ def t_test_one_sample(data, mu0, alpha=0.05):
     n = len(data)
     mean = np.mean(data)
     se = stats.sem(data)
-    
+
     # 检验统计量
     t_stat = (mean - mu0) / se
-    
+
     # p值 (双侧)
     p_value = 2 * (1 - stats.t.cdf(abs(t_stat), n - 1))
-    
+
     # 决策
     reject = p_value < alpha
-    
+
     return {
         't_statistic': t_stat,
         'p_value': p_value,
@@ -1547,18 +1547,18 @@ def t_test_two_sample(data1, data2, alpha=0.05):
     n1, n2 = len(data1), len(data2)
     mean1, mean2 = np.mean(data1), np.mean(data2)
     var1, var2 = np.var(data1, ddof=1), np.var(data2, ddof=1)
-    
+
     # 合并方差
     sp2 = ((n1 - 1) * var1 + (n2 - 1) * var2) / (n1 + n2 - 2)
-    
+
     # 检验统计量
     t_stat = (mean1 - mean2) / np.sqrt(sp2 * (1/n1 + 1/n2))
-    
+
     # p值
     p_value = 2 * (1 - stats.t.cdf(abs(t_stat), n1 + n2 - 2))
-    
+
     reject = p_value < alpha
-    
+
     return {
         't_statistic': t_stat,
         'p_value': p_value,
@@ -1569,40 +1569,40 @@ def t_test_two_sample(data1, data2, alpha=0.05):
 # 4. 贝叶斯推断
 class BayesianInference:
     """贝叶斯推断"""
-    
+
     @staticmethod
     def beta_binomial(x, n, alpha_prior=1, beta_prior=1):
         """Beta-Binomial共轭"""
         # 后验参数
         alpha_post = alpha_prior + x
         beta_post = beta_prior + n - x
-        
+
         # 后验均值
         mean_post = alpha_post / (alpha_post + beta_post)
-        
+
         # 可信区间
         ci = stats.beta.ppf([0.025, 0.975], alpha_post, beta_post)
-        
+
         return {
             'posterior_alpha': alpha_post,
             'posterior_beta': beta_post,
             'posterior_mean': mean_post,
             'credible_interval': ci
         }
-    
+
     @staticmethod
     def normal_normal(data, mu0=0, tau2=1, sigma2=1):
         """Normal-Normal共轭"""
         n = len(data)
         xbar = np.mean(data)
-        
+
         # 后验参数
         tau2_post = 1 / (1/tau2 + n/sigma2)
         mu_post = tau2_post * (mu0/tau2 + n*xbar/sigma2)
-        
+
         # 可信区间
         ci = stats.norm.ppf([0.025, 0.975], mu_post, np.sqrt(tau2_post))
-        
+
         return {
             'posterior_mean': mu_post,
             'posterior_variance': tau2_post,
@@ -1613,99 +1613,99 @@ class BayesianInference:
 # 5. MCMC
 class MetropolisHastings:
     """Metropolis-Hastings算法"""
-    
+
     def __init__(self, log_target, proposal_std=1.0):
         self.log_target = log_target
         self.proposal_std = proposal_std
-    
+
     def sample(self, n_samples, theta0, burn_in=1000):
         """采样"""
         theta = theta0
         samples = []
         n_accept = 0
-        
+
         for i in range(n_samples + burn_in):
             # 提议
             theta_prop = theta + np.random.normal(0, self.proposal_std, size=theta.shape)
-            
+
             # 接受概率
             log_alpha = self.log_target(theta_prop) - self.log_target(theta)
-            
+
             if np.log(np.random.rand()) < log_alpha:
                 theta = theta_prop
                 n_accept += 1
-            
+
             if i >= burn_in:
                 samples.append(theta.copy())
-        
+
         accept_rate = n_accept / (n_samples + burn_in)
         return np.array(samples), accept_rate
 
 
 class GibbsSampler:
     """Gibbs采样"""
-    
+
     def __init__(self, conditional_samplers):
         """
         conditional_samplers: 列表，每个元素是条件采样函数
         conditional_samplers[i](theta, i) 返回 theta_i | theta_{-i} 的样本
         """
         self.conditional_samplers = conditional_samplers
-    
+
     def sample(self, n_samples, theta0, burn_in=1000):
         """采样"""
         theta = theta0.copy()
         samples = []
-        
+
         for i in range(n_samples + burn_in):
             # 逐个更新
             for j, sampler in enumerate(self.conditional_samplers):
                 theta[j] = sampler(theta, j)
-            
+
             if i >= burn_in:
                 samples.append(theta.copy())
-        
+
         return np.array(samples)
 
 
 # 6. 变分推断
 class VariationalInference:
     """变分推断"""
-    
+
     @staticmethod
     def elbo(data, q_params, log_likelihood, log_prior, log_q):
         """计算ELBO"""
         # 从q采样
         z_samples = log_q['sample'](q_params, n_samples=1000)
-        
+
         # E_q[log p(x, z)]
         log_joint = log_likelihood(data, z_samples) + log_prior(z_samples)
-        
+
         # E_q[log q(z)]
         log_q_z = log_q['log_prob'](z_samples, q_params)
-        
+
         elbo = np.mean(log_joint - log_q_z)
         return elbo
-    
+
     @staticmethod
-    def mean_field_vi(data, log_likelihood, log_prior, q_family, 
+    def mean_field_vi(data, log_likelihood, log_prior, q_family,
                       n_iter=1000, lr=0.01):
         """平均场变分推断"""
         # 初始化变分参数
         q_params = q_family['init']()
-        
+
         for i in range(n_iter):
             # 计算ELBO梯度 (使用自动微分或重参数化)
             grad = q_family['grad_elbo'](data, q_params, log_likelihood, log_prior)
-            
+
             # 梯度上升
             q_params = q_family['update'](q_params, grad, lr)
-            
+
             if i % 100 == 0:
-                elbo = VariationalInference.elbo(data, q_params, 
+                elbo = VariationalInference.elbo(data, q_params,
                                                 log_likelihood, log_prior, q_family)
                 print(f"Iter {i}, ELBO: {elbo:.4f}")
-        
+
         return q_params
 
 
@@ -1713,31 +1713,31 @@ class VariationalInference:
 def demo_inference():
     """统计推断示例"""
     np.random.seed(42)
-    
+
     # 生成数据
     true_mu = 5.0
     true_sigma = 2.0
     n = 100
     data = np.random.normal(true_mu, true_sigma, n)
-    
+
     fig, axes = plt.subplots(2, 2, figsize=(15, 12))
-    
+
     # 1. MLE
     mu_mle, sigma2_mle = mle_normal(data)
     ax = axes[0, 0]
     ax.hist(data, bins=30, density=True, alpha=0.7, label='Data')
     x = np.linspace(data.min(), data.max(), 100)
-    ax.plot(x, stats.norm.pdf(x, mu_mle, np.sqrt(sigma2_mle)), 
+    ax.plot(x, stats.norm.pdf(x, mu_mle, np.sqrt(sigma2_mle)),
             'r-', linewidth=2, label=f'MLE: μ={mu_mle:.2f}, σ²={sigma2_mle:.2f}')
     ax.axvline(true_mu, color='g', linestyle='--', label=f'True μ={true_mu}')
     ax.set_title('Maximum Likelihood Estimation')
     ax.legend()
     ax.grid(True, alpha=0.3)
-    
+
     # 2. 置信区间
     ax = axes[0, 1]
     ci = confidence_interval_normal(data)
-    ax.errorbar(1, mu_mle, yerr=[[mu_mle-ci[0]], [ci[1]-mu_mle]], 
+    ax.errorbar(1, mu_mle, yerr=[[mu_mle-ci[0]], [ci[1]-mu_mle]],
                 fmt='o', markersize=10, capsize=10, label='95% CI')
     ax.axhline(true_mu, color='g', linestyle='--', label=f'True μ={true_mu}')
     ax.set_xlim(0.5, 1.5)
@@ -1747,7 +1747,7 @@ def demo_inference():
     ax.set_title('Confidence Interval')
     ax.legend()
     ax.grid(True, alpha=0.3)
-    
+
     # 3. Bootstrap
     ax = axes[1, 0]
     bootstrap_means = []
@@ -1760,29 +1760,29 @@ def demo_inference():
     ax.set_title('Bootstrap Distribution')
     ax.legend()
     ax.grid(True, alpha=0.3)
-    
+
     # 4. 贝叶斯推断
     ax = axes[1, 1]
-    result = BayesianInference.normal_normal(data, mu0=0, tau2=100, 
+    result = BayesianInference.normal_normal(data, mu0=0, tau2=100,
                                              sigma2=true_sigma**2)
     theta = np.linspace(true_mu-2, true_mu+2, 100)
-    
+
     # 先验
     prior = stats.norm.pdf(theta, 0, 10)
     ax.plot(theta, prior, 'b--', label='Prior', linewidth=2)
-    
+
     # 后验
-    posterior = stats.norm.pdf(theta, result['posterior_mean'], 
+    posterior = stats.norm.pdf(theta, result['posterior_mean'],
                                np.sqrt(result['posterior_variance']))
     ax.plot(theta, posterior, 'r-', label='Posterior', linewidth=2)
-    
+
     ax.axvline(true_mu, color='g', linestyle='--', label=f'True μ={true_mu}')
-    ax.axvline(result['posterior_mean'], color='r', linestyle=':', 
+    ax.axvline(result['posterior_mean'], color='r', linestyle=':',
               label=f"Posterior Mean={result['posterior_mean']:.2f}")
     ax.set_title('Bayesian Inference')
     ax.legend()
     ax.grid(True, alpha=0.3)
-    
+
     plt.tight_layout()
     # plt.show()
 
@@ -1791,9 +1791,9 @@ if __name__ == "__main__":
     print("=" * 60)
     print("统计推断示例")
     print("=" * 60 + "\n")
-    
+
     demo_inference()
-    
+
     print("\n所有示例完成！")
 ```
 

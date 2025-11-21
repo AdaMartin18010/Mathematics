@@ -53,21 +53,21 @@
   - 内积空间
   - 完备性
   - 正交性与投影
-  
+
 - **再生核Hilbert空间 (RKHS)**
   - RKHS定义
   - 再生核
   - Moore-Aronszajn定理
-  
+
 - **核函数**
   - 核函数定义
   - 常见核 (线性、多项式、RBF、Laplacian)
   - 核的性质
-  
+
 - **Representer定理**
   - 定理陈述与证明
   - 应用 (核岭回归、SVM)
-  
+
 - **核技巧**
   - 特征映射
   - 核矩阵
@@ -95,27 +95,27 @@
   - 赋范空间
   - 完备性
   - 经典Banach空间 (ℓᵖ, Lᵖ, C(K))
-  
+
 - ✅ **有界线性算子**
   - 线性算子
   - 有界性与连续性
   - 算子范数
-  
+
 - ✅ **重要定理**
   - Hahn-Banach定理
   - 开映射定理
   - 闭图像定理
   - 一致有界原理 (Banach-Steinhaus)
-  
+
 - ✅ **对偶空间**
   - 对偶空间定义
   - 对偶算子
   - 自反空间
-  
+
 - ✅ **紧算子**
   - 紧算子定义与性质
   - Fredholm算子
-  
+
 - ✅ **谱理论**
   - 谱的定义与分类
   - 谱半径
@@ -141,23 +141,23 @@
   - Kantorovich松弛
   - 对偶问题
   - Kantorovich-Rubinstein定理
-  
+
 - ✅ **Wasserstein距离**
   - Wasserstein-p距离
   - Wasserstein-1距离 (Earth Mover's Distance)
   - Wasserstein-2距离
-  
+
 - ✅ **最优传输映射**
   - Brenier定理
   - 凸势函数
   - McCann插值
   - Monge-Ampère方程
-  
+
 - ✅ **Wasserstein梯度流**
   - 概率测度空间上的梯度流
   - JKO格式
   - 偏微分方程与梯度流
-  
+
 - ✅ **计算方法**
   - Sinkhorn算法
   - 熵正则化
@@ -180,11 +180,11 @@
   - 有界算子
   - 紧算子
   - 自伴算子
-  
+
 - **谱理论**
   - 谱分解
   - 特征值与特征函数
-  
+
 - **算子范数**
   - 算子范数定义
   - 谱半径

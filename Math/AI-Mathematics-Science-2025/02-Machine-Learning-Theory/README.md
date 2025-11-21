@@ -66,12 +66,12 @@
 **关键定理**：
 
 ```text
-定理 (基本泛化界): 
+定理 (基本泛化界):
   R(h) ≤ R̂(h) + O(√(d/n))
-  
+
 定理 (VC维界):
   若H的VC维为d，则样本复杂度为O(d/ε)
-  
+
 定理 (Rademacher复杂度):
   泛化误差 ≤ 经验误差 + 2ℛ_n(H) + O(√(log(1/δ)/n))
 ```
@@ -119,15 +119,15 @@
 **关键定理**：
 
 ```text
-定理 (万能逼近): 
+定理 (万能逼近):
   单隐层神经网络可以逼近任意连续函数
-  
+
 定理 (NTK理论):
   无限宽神经网络的训练等价于核回归
-  
+
 定理 (深度分离):
   深度网络的表示能力指数级优于浅层网络
-  
+
 定理 (梯度消失/爆炸):
   RNN中梯度通过时间的指数衰减或增长
 ```
@@ -406,15 +406,15 @@ def backpropagation(network, x, y):
     """
     # 前向传播
     activations = forward_pass(network, x)
-    
+
     # 反向传播
     gradients = {}
     delta = loss_gradient(y, activations[-1])
-    
+
     for l in reversed(range(len(network))):
         gradients[l] = delta @ activations[l].T
         delta = network[l].W.T @ delta * activation_derivative(activations[l])
-    
+
     return gradients
 
 # NTK计算
@@ -438,15 +438,15 @@ class AdamOptimizer:
         self.m = 0  # 一阶矩估计
         self.v = 0  # 二阶矩估计
         self.t = 0  # 时间步
-    
+
     def update(self, gradient):
         self.t += 1
         self.m = self.beta1 * self.m + (1 - self.beta1) * gradient
         self.v = self.beta2 * self.v + (1 - self.beta2) * gradient**2
-        
+
         m_hat = self.m / (1 - self.beta1**self.t)  # 偏差修正
         v_hat = self.v / (1 - self.beta2**self.t)
-        
+
         return self.lr * m_hat / (np.sqrt(v_hat) + self.eps)
 ```
 
@@ -552,6 +552,6 @@ class AdamOptimizer:
 
 ---
 
-**创建时间**: 2025-10-04  
-**最后更新**: 2025-10-04  
+**创建时间**: 2025-10-04
+**最后更新**: 2025-11-21
 **维护者**: AI Mathematics Team

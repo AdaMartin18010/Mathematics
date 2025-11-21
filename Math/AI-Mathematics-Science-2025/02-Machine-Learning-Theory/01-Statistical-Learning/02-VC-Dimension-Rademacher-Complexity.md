@@ -358,54 +358,54 @@ from itertools import combinations, product
 def check_shattering(points, hypothesis_class):
     """
     检查假设类是否能打散给定点集
-    
+
     Args:
         points: np.array, shape (n, d)
         hypothesis_class: 假设函数列表
-    
+
     Returns:
         bool: 是否打散
     """
     n = len(points)
-    
+
     # 生成所有可能的标签
     all_labels = list(product([0, 1], repeat=n))
-    
+
     # 检查每种标签组合是否可实现
     realizable_labels = set()
     for h in hypothesis_class:
         labels = tuple(h(x) for x in points)
         realizable_labels.add(labels)
-    
+
     return len(realizable_labels) == 2**n
 
 
 def compute_vc_dimension(hypothesis_class, max_dim=10, n_trials=100):
     """
     蒙特卡洛估计VC维
-    
+
     Args:
         hypothesis_class: 假设函数列表
         max_dim: 最大测试维度
         n_trials: 每个维度的试验次数
-    
+
     Returns:
         int: 估计的VC维
     """
     for d in range(1, max_dim + 1):
         shattered = False
-        
+
         for _ in range(n_trials):
             # 随机生成 d 个点
             points = np.random.randn(d, 2)  # 2D空间
-            
+
             if check_shattering(points, hypothesis_class):
                 shattered = True
                 break
-        
+
         if not shattered:
             return d - 1
-    
+
     return max_dim
 
 
@@ -414,7 +414,7 @@ class LinearClassifier:
     def __init__(self, w, b):
         self.w = w
         self.b = b
-    
+
     def __call__(self, x):
         return int(np.dot(self.w, x) + self.b >= 0)
 
@@ -441,31 +441,31 @@ import numpy as np
 def empirical_rademacher_complexity(X, hypothesis_class, n_samples=1000):
     """
     蒙特卡洛估计经验Rademacher复杂度
-    
+
     Args:
         X: 数据样本, shape (m, d)
         hypothesis_class: 假设函数列表
         n_samples: Rademacher采样次数
-    
+
     Returns:
         float: 经验Rademacher复杂度
     """
     m = len(X)
     supremums = []
-    
+
     for _ in range(n_samples):
         # 采样Rademacher变量
         sigma = np.random.choice([-1, 1], size=m)
-        
+
         # 计算 sup_{h in H} (1/m) * sum sigma_i h(x_i)
         correlations = []
         for h in hypothesis_class:
             predictions = np.array([h(x) for x in X])
             correlation = np.mean(sigma * predictions)
             correlations.append(correlation)
-        
+
         supremums.append(max(correlations))
-    
+
     return np.mean(supremums)
 
 
@@ -498,23 +498,23 @@ def plot_rademacher_vs_sample_size():
     """Rademacher复杂度随样本数的变化"""
     sample_sizes = [10, 20, 50, 100, 200, 500, 1000]
     empirical_rad = []
-    
+
     for m in sample_sizes:
         X = np.random.randn(m, 2)
-        
+
         # 单位球内线性函数
         hypothesis_class = []
         for _ in range(300):
             w = np.random.randn(2)
             w = w / np.linalg.norm(w)
             hypothesis_class.append(lambda x, w=w: np.dot(w, x))
-        
+
         rad = empirical_rademacher_complexity(X, hypothesis_class, n_samples=100)
         empirical_rad.append(rad)
-    
+
     # 理论曲线
     theoretical = [1.0 / np.sqrt(m) for m in sample_sizes]
-    
+
     plt.figure(figsize=(10, 6))
     plt.plot(sample_sizes, empirical_rad, 'o-', label='Empirical', linewidth=2, markersize=8)
     plt.plot(sample_sizes, theoretical, '--', label=r'Theoretical $1/\sqrt{m}$', linewidth=2)

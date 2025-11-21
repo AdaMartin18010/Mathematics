@@ -513,12 +513,12 @@ def rbf_kernel_custom(X, Y, gamma=1.0):
 # 2. 核岭回归
 class KernelRidgeRegression:
     """核岭回归"""
-    
+
     def __init__(self, kernel='rbf', gamma=1.0, lambda_=1.0):
         self.kernel = kernel
         self.gamma = gamma
         self.lambda_ = lambda_
-        
+
     def _compute_kernel(self, X, Y):
         """计算核矩阵"""
         if self.kernel == 'linear':
@@ -527,14 +527,14 @@ class KernelRidgeRegression:
             return rbf_kernel_custom(X, Y, self.gamma)
         elif self.kernel == 'polynomial':
             return polynomial_kernel_custom(X, Y)
-        
+
     def fit(self, X, y):
         """训练"""
         self.X_train = X
         K = self._compute_kernel(X, X)
         n = len(y)
         self.alpha = np.linalg.solve(K + self.lambda_ * np.eye(n), y)
-        
+
     def predict(self, X):
         """预测"""
         K = self._compute_kernel(X, self.X_train)
@@ -546,13 +546,13 @@ def visualize_kernel_svm():
     """可视化核SVM"""
     # 生成非线性可分数据
     X, y = make_circles(n_samples=200, noise=0.1, factor=0.3, random_state=42)
-    
+
     # 训练不同核的SVM
     kernels = ['linear', 'poly', 'rbf']
     titles = ['Linear Kernel', 'Polynomial Kernel (degree=3)', 'RBF Kernel']
-    
+
     fig, axes = plt.subplots(1, 3, figsize=(15, 5))
-    
+
     for ax, kernel, title in zip(axes, kernels, titles):
         # 训练SVM
         if kernel == 'poly':
@@ -560,13 +560,13 @@ def visualize_kernel_svm():
         else:
             clf = SVC(kernel=kernel, gamma='auto')
         clf.fit(X, y)
-        
+
         # 绘制决策边界
         xx, yy = np.meshgrid(np.linspace(X[:, 0].min()-0.5, X[:, 0].max()+0.5, 100),
                              np.linspace(X[:, 1].min()-0.5, X[:, 1].max()+0.5, 100))
         Z = clf.decision_function(np.c_[xx.ravel(), yy.ravel()])
         Z = Z.reshape(xx.shape)
-        
+
         # 绘制
         ax.contourf(xx, yy, Z, levels=20, cmap='RdBu', alpha=0.6)
         ax.scatter(X[:, 0], X[:, 1], c=y, cmap='RdBu', edgecolors='k')
@@ -574,7 +574,7 @@ def visualize_kernel_svm():
         ax.set_title(title)
         ax.set_xlabel('x1')
         ax.set_ylabel('x2')
-    
+
     plt.tight_layout()
     # plt.show()
 
@@ -583,27 +583,27 @@ def visualize_kernel_svm():
 def kernel_ridge_regression_demo():
     """核岭回归示例"""
     np.random.seed(42)
-    
+
     # 生成非线性数据
     X_train = np.linspace(0, 10, 50).reshape(-1, 1)
     y_train = np.sin(X_train).ravel() + 0.2 * np.random.randn(50)
-    
+
     X_test = np.linspace(0, 10, 200).reshape(-1, 1)
     y_true = np.sin(X_test).ravel()
-    
+
     # 训练不同核的模型
     models = {
         'Linear': KernelRidgeRegression(kernel='linear', lambda_=0.1),
         'RBF': KernelRidgeRegression(kernel='rbf', gamma=0.5, lambda_=0.1),
         'Polynomial': KernelRidgeRegression(kernel='polynomial', lambda_=0.1)
     }
-    
+
     plt.figure(figsize=(15, 5))
-    
+
     for idx, (name, model) in enumerate(models.items(), 1):
         model.fit(X_train, y_train)
         y_pred = model.predict(X_test)
-        
+
         plt.subplot(1, 3, idx)
         plt.scatter(X_train, y_train, color='red', label='Training data')
         plt.plot(X_test, y_true, 'g-', label='True function', linewidth=2)
@@ -613,7 +613,7 @@ def kernel_ridge_regression_demo():
         plt.ylabel('y')
         plt.legend()
         plt.grid(True, alpha=0.3)
-    
+
     plt.tight_layout()
     # plt.show()
 
@@ -622,45 +622,45 @@ def kernel_ridge_regression_demo():
 def visualize_kernel_matrix():
     """可视化核矩阵"""
     np.random.seed(42)
-    
+
     # 生成数据
     X = np.random.randn(50, 2)
-    
+
     # 计算不同核的核矩阵
     K_linear = linear_kernel(X, X)
     K_rbf = rbf_kernel_custom(X, X, gamma=1.0)
     K_poly = polynomial_kernel_custom(X, X, degree=3)
-    
+
     fig, axes = plt.subplots(1, 3, figsize=(15, 5))
-    
+
     # 线性核
     im1 = axes[0].imshow(K_linear, cmap='viridis')
     axes[0].set_title('Linear Kernel Matrix')
     plt.colorbar(im1, ax=axes[0])
-    
+
     # RBF核
     im2 = axes[1].imshow(K_rbf, cmap='viridis')
     axes[1].set_title('RBF Kernel Matrix')
     plt.colorbar(im2, ax=axes[1])
-    
+
     # 多项式核
     im3 = axes[2].imshow(K_poly, cmap='viridis')
     axes[2].set_title('Polynomial Kernel Matrix')
     plt.colorbar(im3, ax=axes[2])
-    
+
     plt.tight_layout()
     # plt.show()
 
 
 if __name__ == "__main__":
     print("=== Hilbert空间与RKHS示例 ===\n")
-    
+
     print("1. 核SVM可视化")
     visualize_kernel_svm()
-    
+
     print("\n2. 核岭回归")
     kernel_ridge_regression_demo()
-    
+
     print("\n3. 核矩阵可视化")
     visualize_kernel_matrix()
 ```

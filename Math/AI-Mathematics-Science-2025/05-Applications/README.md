@@ -330,4 +330,4 @@
 
 *Building the mathematical foundations for the AI era*-
 
-*最后更新：2025年10月6日*-
+*最后更新：2025年11月21日*

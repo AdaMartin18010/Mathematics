@@ -1,6 +1,6 @@
 # PAC学习框架 (PAC Learning Framework)
 
-> **Probably Approximately Correct Learning**  
+> **Probably Approximately Correct Learning**
 > 统计学习理论的基石：可学习性的数学定义
 
 ---
@@ -249,7 +249,7 @@ from typing import Callable, List, Tuple
 
 class PACLearner:
     """PAC学习框架的通用实现"""
-    
+
     def __init__(self, hypothesis_class: List[Callable], epsilon: float, delta: float):
         """
         Args:
@@ -261,45 +261,45 @@ class PACLearner:
         self.epsilon = epsilon
         self.delta = delta
         self.sample_complexity = self._compute_sample_complexity()
-    
+
     def _compute_sample_complexity(self) -> int:
         """计算样本复杂度"""
         m = int(np.ceil(
-            (1 / (2 * self.epsilon**2)) * 
+            (1 / (2 * self.epsilon**2)) *
             (np.log(len(self.H)) + np.log(2 / self.delta))
         ))
         return m
-    
+
     def empirical_risk(self, h: Callable, S: List[Tuple]) -> float:
         """计算经验风险"""
         errors = sum(1 for x, y in S if h(x) != y)
         return errors / len(S)
-    
+
     def learn(self, S: List[Tuple]) -> Callable:
         """
         ERM算法: 经验风险最小化
-        
+
         Args:
             S: 训练样本 [(x1, y1), ..., (xm, ym)]
-        
+
         Returns:
             最优假设
         """
         if len(S) < self.sample_complexity:
             print(f"Warning: Sample size {len(S)} < required {self.sample_complexity}")
-        
+
         # 经验风险最小化
         best_h = None
         best_risk = float('inf')
-        
+
         for h in self.H:
             risk = self.empirical_risk(h, S)
             if risk < best_risk:
                 best_risk = risk
                 best_h = h
-        
+
         return best_h
-    
+
     def validate(self, h: Callable, test_data: List[Tuple]) -> float:
         """验证泛化误差"""
         return self.empirical_risk(h, test_data)
@@ -308,40 +308,40 @@ class PACLearner:
 # 示例: 学习布尔函数
 def example_boolean_pac_learning():
     """布尔函数PAC学习示例"""
-    
+
     # 定义假设类: 所有2变量布尔函数
     def h_and(x): return x[0] and x[1]
     def h_or(x): return x[0] or x[1]
     def h_xor(x): return x[0] != x[1]
     def h_const_0(x): return False
     def h_const_1(x): return True
-    
+
     H = [h_and, h_or, h_xor, h_const_0, h_const_1]
-    
+
     # 真实概念: AND函数
     true_concept = h_and
-    
+
     # 生成训练数据
     np.random.seed(42)
     m = 100
     X = np.random.randint(0, 2, size=(m, 2)).astype(bool)
     y = np.array([true_concept(x) for x in X])
     S = list(zip(X, y))
-    
+
     # PAC学习
     learner = PACLearner(H, epsilon=0.1, delta=0.05)
     print(f"Sample complexity: {learner.sample_complexity}")
-    
+
     learned_h = learner.learn(S)
-    
+
     # 测试
     test_X = np.array([[False, False], [False, True], [True, False], [True, True]])
     test_y = np.array([true_concept(x) for x in test_X])
     test_data = list(zip(test_X, test_y))
-    
+
     test_error = learner.validate(learned_h, test_data)
     print(f"Test error: {test_error:.4f}")
-    
+
     return learner, learned_h
 
 if __name__ == "__main__":
@@ -367,13 +367,13 @@ def plot_sample_complexity():
     epsilons = np.logspace(-2, -0.5, 50)  # 0.01 to ~0.3
     H_sizes = [10, 100, 1000, 10000]
     delta = 0.05
-    
+
     plt.figure(figsize=(10, 6))
-    
+
     for H_size in H_sizes:
         m_values = [sample_complexity_finite_H(H_size, eps, delta) for eps in epsilons]
         plt.plot(epsilons, m_values, label=f'|H| = {H_size}', linewidth=2)
-    
+
     plt.xlabel('Accuracy ε', fontsize=12)
     plt.ylabel('Sample Complexity m', fontsize=12)
     plt.title('PAC Sample Complexity vs Accuracy', fontsize=14)
@@ -446,40 +446,40 @@ end PACLearning
 
 ### 经典教材
 
-1. **Understanding Machine Learning: From Theory to Algorithms**  
-   Shalev-Shwartz & Ben-David (2014)  
+1. **Understanding Machine Learning: From Theory to Algorithms**
+   Shalev-Shwartz & Ben-David (2014)
    → 最系统的PAC学习教材
 
-2. **Foundations of Machine Learning**  
-   Mohri, Rostamizadeh, Talwalkar (2018)  
+2. **Foundations of Machine Learning**
+   Mohri, Rostamizadeh, Talwalkar (2018)
    → 包含PAC、Rademacher复杂度等
 
-3. **A Probabilistic Theory of Pattern Recognition**  
-   Devroye, Györfi, Lugosi (1996)  
+3. **A Probabilistic Theory of Pattern Recognition**
+   Devroye, Györfi, Lugosi (1996)
    → 经典统计学习理论
 
 ---
 
 ### 重要论文
 
-1. **Valiant, L. (1984)**  
-   "A Theory of the Learnable"  
-   *Communications of the ACM*, 27(11), 1134-1142  
+1. **Valiant, L. (1984)**
+   "A Theory of the Learnable"
+   *Communications of the ACM*, 27(11), 1134-1142
    → PAC学习框架的开创性论文
 
-2. **Vapnik, V. & Chervonenkis, A. (1971)**  
-   "On the Uniform Convergence of Relative Frequencies of Events to Their Probabilities"  
+2. **Vapnik, V. & Chervonenkis, A. (1971)**
+   "On the Uniform Convergence of Relative Frequencies of Events to Their Probabilities"
    → VC维理论
 
-3. **Bartlett, P. & Mendelson, S. (2002)**  
-   "Rademacher and Gaussian Complexities: Risk Bounds and Structural Results"  
+3. **Bartlett, P. & Mendelson, S. (2002)**
+   "Rademacher and Gaussian Complexities: Risk Bounds and Structural Results"
    → Rademacher复杂度
 
 ---
 
 ### 在线课程
 
-- **MIT 9.520**: Statistical Learning Theory  
+- **MIT 9.520**: Statistical Learning Theory
 - **Stanford CS229**: Machine Learning (理论部分)
 - **CMU 10-715**: Advanced Machine Learning
 

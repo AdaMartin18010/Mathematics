@@ -1375,12 +1375,12 @@ from scipy import stats
 def monte_carlo_integral(f, dist, n_samples=10000):
     """
     使用蒙特卡洛估计期望: E[f(X)]
-    
+
     Args:
         f: 函数
         dist: 分布 (scipy.stats对象)
         n_samples: 样本数
-    
+
     Returns:
         期望的估计值
     """
@@ -1399,25 +1399,25 @@ def dominated_convergence_example():
     """演示控制收敛定理"""
     # 函数序列 f_n(x) = x^n * (1-x)
     # 在 [0,1] 上收敛到 0
-    
+
     x = np.linspace(0, 1, 1000)
-    
+
     integrals = []
     for n in [1, 2, 5, 10, 20, 50]:
         f_n = x**n * (1 - x)
         integral = np.trapz(f_n, x)
         integrals.append(integral)
-        
+
         if n in [1, 10, 50]:
             plt.plot(x, f_n, label=f'n={n}')
-    
+
     plt.xlabel('x')
     plt.ylabel('f_n(x)')
     plt.title('Dominated Convergence: $f_n(x) = x^n(1-x)$')
     plt.legend()
     plt.grid(True, alpha=0.3)
     plt.show()
-    
+
     print(f"Integrals: {integrals}")
     print(f"Limit: {integrals[-1]:.6f} → 0")
 
@@ -1430,23 +1430,23 @@ def conditional_expectation_demo():
     # 联合分布: (X, Y) ~ N(0, Σ)
     mean = [0, 0]
     cov = [[1, 0.8], [0.8, 1]]
-    
+
     samples = np.random.multivariate_normal(mean, cov, size=10000)
     X, Y = samples[:, 0], samples[:, 1]
-    
+
     # 估计 E[Y | X=x]
     def conditional_expectation(x_value, window=0.1):
         mask = np.abs(X - x_value) < window
         if np.sum(mask) > 0:
             return np.mean(Y[mask])
         return 0
-    
+
     x_values = np.linspace(-3, 3, 50)
     cond_exp = [conditional_expectation(x) for x in x_values]
-    
+
     # 理论值: E[Y|X=x] = ρ * x (对于二元高斯)
     theoretical = 0.8 * x_values
-    
+
     plt.scatter(X, Y, alpha=0.1, s=1, label='Samples')
     plt.plot(x_values, cond_exp, 'r-', linewidth=2, label='Estimated E[Y|X]')
     plt.plot(x_values, theoretical, 'g--', linewidth=2, label='Theoretical')
@@ -1466,13 +1466,13 @@ def conditional_expectation_demo():
 
 **经典教材**:
 
-1. **Probability: Theory and Examples** - Durrett (2019)  
+1. **Probability: Theory and Examples** - Durrett (2019)
    → 概率论圣经
 
-2. **Real Analysis and Probability** - Dudley (2002)  
+2. **Real Analysis and Probability** - Dudley (2002)
    → 实分析与概率结合
 
-3. **Probability and Measure** - Billingsley (1995)  
+3. **Probability and Measure** - Billingsley (1995)
    → 测度论概率
 
 **在线资源**:

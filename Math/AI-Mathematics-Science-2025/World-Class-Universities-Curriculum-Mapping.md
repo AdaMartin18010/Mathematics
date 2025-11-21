@@ -1,6 +1,6 @@
 # 世界顶尖大学AI数学课程体系对标
 
-> **对标机构**: MIT, Stanford, CMU, UC Berkeley, Cambridge, ETH Zurich, Oxford  
+> **对标机构**: MIT, Stanford, CMU, UC Berkeley, Cambridge, ETH Zurich, Oxford
 > **更新时间**: 2025年10月4日
 
 ---
@@ -523,13 +523,13 @@ CS 189 (ML) + CS 182 (DL) + CS 188 (AI)
 ```text
 Year 1: MIT数学基础
   18.06, 18.02, 18.600
-  
+
 Year 2: Stanford核心课程
   CS 229, EE 364A, STATS 116
-  
+
 Year 3: CMU理论深化
   10-715, 10-725, 10-716
-  
+
 Year 4: 专题研究
   理论论文 + 研究项目
 ```
@@ -541,15 +541,15 @@ Year 4: 专题研究
 ```text
 Year 1: 数学基础 (任意学校)
   Linear Algebra, Calculus, Probability
-  
+
 Year 2: ML核心
   Stanford CS 229 + CS 230
-  
+
 Year 3: 领域专精
   NLP: Stanford CS 224N + CMU 11-747
   CV: Stanford CS 231N + CMU 16-720
   RL: Berkeley CS 285 + CMU 10-703
-  
+
 Year 4: 前沿与实践
   项目 + 实习
 ```
@@ -561,14 +561,14 @@ Year 4: 前沿与实践
 ```text
 Year 1: 数学+逻辑基础
   MIT 18.06 + CMU 15-251 (Logic)
-  
+
 Year 2: ML基础+类型论
   Stanford CS 229 + CMU 15-819 (HoTT)
-  
+
 Year 3: 形式化方法
   CMU 15-414 (Verification)
   Cambridge AI-Driven Math
-  
+
 Year 4: 研究
   AI辅助证明 + 可验证AI
 ```
@@ -639,13 +639,13 @@ Year 4: 研究
 ```text
 第1步: ML基础
   Stanford CS 229 或 MIT 6.867
-  
+
 第2步: 深度学习
   Stanford CS 230 或 CMU 11-785
-  
+
 第3步: 领域选择
   NLP / CV / RL / Theory
-  
+
 第4步: 前沿专题
   最新研究方向
 ```
@@ -679,8 +679,8 @@ Year 4: 研究
 
 ---
 
-**创建时间**: 2025-10-04  
-**最后更新**: 2025-10-04  
+**创建时间**: 2025-10-04
+**最后更新**: 2025-10-04
 **维护者**: AI Mathematics Education Team
 
 ---
