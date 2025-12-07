@@ -165,7 +165,7 @@ def hopcroft_minimize(Q, Sigma, delta, q0, F):
                         W.remove(C); W.extend([Xcap, C - Xcap])
                     else:
                         W.append(min(Xcap, C - Xcap, key=len))
-            
+
     # 构造最小 DFA（略：按 P 的各类收缩状态并重定向转移）
     return P
 
