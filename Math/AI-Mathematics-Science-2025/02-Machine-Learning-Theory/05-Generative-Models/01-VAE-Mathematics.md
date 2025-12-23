@@ -1,4 +1,4 @@
-# 变分自编码器 (VAE) 数学原理
+﻿# 变分自编码器 (VAE) 数学原理
 
 > **Variational Autoencoder: Mathematics and Theory**
 >
@@ -1001,7 +1001,7 @@ $$
 ## 🎓 相关课程
 
 | 大学 | 课程 |
-|------|------|
+| ---- |------|
 | **Stanford** | CS236 Deep Generative Models |
 | **MIT** | 6.S191 Introduction to Deep Learning |
 | **UC Berkeley** | CS294 Deep Unsupervised Learning |

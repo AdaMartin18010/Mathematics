@@ -1,4 +1,4 @@
-# Transformer的数学原理 (Mathematics of Transformers)
+﻿# Transformer的数学原理 (Mathematics of Transformers)
 
 > **Attention Is All You Need**  
 > 大语言模型背后的数学基础
@@ -320,7 +320,7 @@ Transformer可以逼近**任意序列到序列映射** (在适当假设下)。
 **时间复杂度**:
 
 | 操作 | 复杂度 |
-|------|--------|
+| ---- |--------|
 | Self-Attention | $O(n^2 d)$ |
 | FFN | $O(nd^2)$ |
 | **总计** | $O(n^2 d + nd^2)$ |
@@ -821,7 +821,7 @@ $$
 ## 🎓 对标课程
 
 | 大学 | 课程 | 相关内容 |
-|------|------|---------|
+| ---- |------| ---- |
 | Stanford | CS224N | Transformer架构 (Week 5-6) |
 | Stanford | CS324 | LLM理论 (全课程) |
 | MIT | 6.S898 | 深度学习 (Attention机制) |

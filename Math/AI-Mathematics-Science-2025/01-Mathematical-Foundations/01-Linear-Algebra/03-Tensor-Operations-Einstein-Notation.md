@@ -1,4 +1,4 @@
-# 张量运算与Einstein求和约定 (Tensor Operations & Einstein Notation)
+﻿# 张量运算与Einstein求和约定 (Tensor Operations & Einstein Notation)
 
 > **The Language of Modern Deep Learning**
 >
@@ -349,7 +349,9 @@ $$
 **正确区分**：
 
 | 运算 | Einstein表示 | 结果维度 | 示例 |
-|------|--------------|----------|------|
+ 
+        $matches[0] -replace '\|[-:]+\|', '| ---- |'
+    
 | **内积** (点积) | $a_i b_i$ | 标量 | $\mathbb{R}^n \times \mathbb{R}^n \to \mathbb{R}$ |
 | **外积** | $a_i b_j$ | 矩阵 | $\mathbb{R}^n \times \mathbb{R}^m \to \mathbb{R}^{n \times m}$ |
 
@@ -422,7 +424,7 @@ attention = torch.softmax(scores / np.sqrt(d_k), dim=-1)
 #### 实践建议总结
 
 | 规则 | 说明 | 检查方法 |
-|------|------|----------|
+| ---- |------| ---- |
 | **索引出现次数** | 哑指标恰好2次，自由指标恰好1次 | 数每个索引字母的出现次数 |
 | **自由指标一致性** | 等号两边自由指标必须相同 | 列出左右两边的自由指标对比 |
 | **维度匹配** | 求和索引的范围必须一致 | 检查 $i=1,\ldots,n$ 在所有项中相同 |
@@ -1382,7 +1384,7 @@ if __name__ == "__main__":
 ## 🎓 相关课程
 
 | 大学 | 课程 |
-|------|------|
+| ---- |------|
 | **MIT** | 18.065 - Matrix Methods in Data Analysis |
 | **Stanford** | CS231n - Convolutional Neural Networks |
 | **CMU** | 10-708 - Probabilistic Graphical Models |

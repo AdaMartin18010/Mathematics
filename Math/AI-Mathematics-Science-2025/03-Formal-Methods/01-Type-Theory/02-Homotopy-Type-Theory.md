@@ -1,4 +1,4 @@
-# 同伦类型论 (Homotopy Type Theory)
+﻿# 同伦类型论 (Homotopy Type Theory)
 
 > **Homotopy Type Theory (HoTT)**
 >
@@ -314,7 +314,9 @@ $$
 ### 2. 重要的n-Types
 
 | n | 名称 | 特征 | 例子 |
-|---|------|------|------|
+ 
+        $matches[0] -replace '\|[-:]+\|', '| ---- |'
+    
 | -2 | 可缩类型 | 唯一点 | $\mathbf{1}$ |
 | -1 | 命题 | 至多一个点 | $\top, \bot, P \land Q$ |
 | 0 | 集合 | 离散空间 | $\mathbb{N}, \mathbb{Z}, \text{List}$ |

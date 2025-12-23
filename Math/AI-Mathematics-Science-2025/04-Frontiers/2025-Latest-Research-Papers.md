@@ -1,4 +1,4 @@
-# 2025年AI数学前沿研究论文汇总
+﻿# 2025年AI数学前沿研究论文汇总
 
 > **最新更新**: 2025年10月4日-5日  
 > **涵盖领域**: 大语言模型、扩散模型、形式化证明、神经符号AI、可验证AI
@@ -49,7 +49,7 @@
 ## 📊 总览统计
 
 | 类别 | 论文数量 | 主要会议/期刊 |
-|-----|---------|--------------|
+| ---- |---------| ---- |
 | 大语言模型理论 | 50+ | NeurIPS, ICML, ICLR |
 | 扩散模型 | 40+ | CVPR, ICCV, NeurIPS |
 | 形式化证明 | 30+ | ITP, CAV, LICS |
@@ -692,7 +692,9 @@ Wasserstein距离:
 ### 顶级会议
 
 | 会议 | 全称 | 截稿 | 举办时间 |
-|-----|------|------|---------|
+ 
+        $matches[0] -replace '\|[-:]+\|', '| ---- |'
+    
 | NeurIPS | Neural Information Processing Systems | 5月 | 12月 |
 | ICML | International Conference on Machine Learning | 1月 | 7月 |
 | ICLR | International Conference on Learning Representations | 9月 | 5月 |
@@ -703,7 +705,7 @@ Wasserstein距离:
 ### 形式化方法
 
 | 会议 | 全称 | 领域 |
-|-----|------|------|
+| ---- |------| ---- |
 | ITP | Interactive Theorem Proving | 定理证明 |
 | CAV | Computer Aided Verification | 形式化验证 |
 | LICS | Logic in Computer Science | 逻辑学 |
@@ -712,7 +714,7 @@ Wasserstein距离:
 ### 安全与隐私
 
 | 会议 | 全称 | 重点 |
-|-----|------|------|
+| ---- |------| ---- |
 | S&P | IEEE Symposium on Security and Privacy | 安全 |
 | CCS | ACM Conference on Computer and Communications Security | 安全 |
 | USENIX Security | USENIX Security Symposium | 系统安全 |

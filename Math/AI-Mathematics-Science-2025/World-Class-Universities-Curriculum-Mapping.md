@@ -1,4 +1,4 @@
-# 世界顶尖大学AI数学课程体系对标
+﻿# 世界顶尖大学AI数学课程体系对标
 
 > **对标机构**: MIT, Stanford, CMU, UC Berkeley, Cambridge, ETH Zurich, Oxford
 > **更新时间**: 2025年10月4日
@@ -16,7 +16,9 @@
 ### 数学基础课程
 
 | 课程编号 | 课程名称 | 学分 | 对应本库模块 |
-|---------|---------|------|-------------|
+ 
+        $matches[0] -replace '\|[-:]+\|', '| ---- |'
+    
 | **18.01** | Single Variable Calculus | 12 | 01-Mathematical-Foundations/03-Calculus |
 | **18.02** | Multivariable Calculus | 12 | 01-Mathematical-Foundations/03-Calculus |
 | **18.03** | Differential Equations | 12 | 应用数学 |
@@ -28,7 +30,9 @@
 ### AI与机器学习课程
 
 | 课程编号 | 课程名称 | 先修课程 | 对应模块 |
-|---------|---------|---------|---------|
+ 
+        $matches[0] -replace '\|[-:]+\|', '| ---- |'
+    
 | **6.036** | Introduction to Machine Learning | 18.06, 18.600 | 02-Machine-Learning-Theory |
 | **6.867** | Machine Learning | 18.06, 6.036 | 02-ML-Theory/01-Statistical-Learning |
 | **6.S191** | Introduction to Deep Learning | 6.036 | 02-ML-Theory/02-Deep-Learning |
@@ -37,7 +41,7 @@
 ### 优化与计算课程
 
 | 课程编号 | 课程名称 | 重点内容 |
-|---------|---------|---------|
+| ---- |---------| ---- |
 | **6.255J** | Optimization Methods | 凸优化、线性规划 |
 | **15.093J** | Optimization Methods | 运筹学视角 |
 | **6.841J** | Advanced Complexity Theory | 计算复杂性 |
@@ -45,14 +49,14 @@
 ### 形式化方法课程
 
 | 课程编号 | 课程名称 | 对应模块 |
-|---------|---------|---------|
+| ---- |---------| ---- |
 | **6.826** | Principles of Computer Systems | 03-Formal-Methods/03-Program-Verification |
 | **6.820** | Fundamentals of Program Analysis | 程序分析 |
 
 ### 理论计算机科学
 
 | 课程编号 | 课程名称 | 内容 |
-|---------|---------|------|
+| ---- |---------| ---- |
 | **6.046J** | Design and Analysis of Algorithms | 算法设计 |
 | **18.404J** | Theory of Computation | 可计算性理论 |
 
@@ -95,7 +99,7 @@ Spring: 研究项目
 ### 数学基础
 
 | 课程编号 | 课程名称 | 特色 |
-|---------|---------|------|
+| ---- |---------| ---- |
 | **MATH 51** | Linear Algebra and Differential Calculus | 多变量微积分 |
 | **MATH 113** | Linear Algebra and Matrix Theory | 理论重 |
 | **STATS 116** | Theory of Probability | 测度论基础 |
@@ -104,7 +108,9 @@ Spring: 研究项目
 ### 核心AI课程
 
 | 课程编号 | 课程名称 | 讲师 | 重点 | 对应模块 |
-|---------|---------|------|------|---------|
+ 
+        $matches[0] -replace '\|[-:]+\|', '| ---- |'
+    ---------|
 | **CS 221** | Artificial Intelligence | 基础AI | 搜索、推理 | AI导论 |
 | **CS 229** | Machine Learning | Andrew Ng | 经典ML算法 | 02-ML-Theory/01 |
 | **CS 230** | Deep Learning | Andrew Ng | 深度学习实践 | 02-ML-Theory/02 |
@@ -114,7 +120,7 @@ Spring: 研究项目
 ### 理论课程
 
 | 课程编号 | 课程名称 | 内容 |
-|---------|---------|------|
+| ---- |---------| ---- |
 | **CS 228** | Probabilistic Graphical Models | 概率图模型 |
 | **CS 229M** | Machine Learning Theory | 理论保证 |
 | **STATS 214** | Machine Learning Theory | 统计视角 |
@@ -123,7 +129,7 @@ Spring: 研究项目
 ### 优化课程
 
 | 课程编号 | 课程名称 | 级别 |
-|---------|---------|------|
+| ---- |---------| ---- |
 | **EE 364A** | Convex Optimization I | 基础 |
 | **EE 364B** | Convex Optimization II | 高级 |
 | **MS&E 213** | Introduction to Optimization | 运筹学 |
@@ -131,7 +137,7 @@ Spring: 研究项目
 ### 生成模型与前沿
 
 | 课程编号 | 课程名称 | 内容 |
-|---------|---------|------|
+| ---- |---------| ---- |
 | **CS 236** | Deep Generative Models | VAE, GAN, Diffusion |
 | **CS 237A** | Principles of Robot Autonomy | 机器人学 |
 | **CS 234** | Reinforcement Learning | 强化学习 |
@@ -139,7 +145,7 @@ Spring: 研究项目
 ### 形式化方法
 
 | 课程编号 | 课程名称 | 对应模块 |
-|---------|---------|---------|
+| ---- |---------| ---- |
 | **CS 157** | Computational Logic | 03-Formal-Methods/02 |
 | **CS 256** | Types and Programming Languages | 03-Formal-Methods/01 |
 
@@ -187,7 +193,9 @@ CS 230 (深度学习) + EE 364A (凸优化) + CS 228 (概率图模型)
 ### 机器学习系 (ML Department) - 全美唯一独立ML系
 
 | 课程编号 | 课程名称 | 级别 | 对应模块 |
-|---------|---------|------|---------|
+ 
+        $matches[0] -replace '\|[-:]+\|', '| ---- |'
+    
 | **10-301** | Introduction to Machine Learning | 本科 | 02-ML-Theory/01 |
 | **10-315** | Introduction to Machine Learning (CS) | 本科 | 同上 |
 | **10-601** | Machine Learning | 研究生 | 02-ML-Theory/01-02 |
@@ -200,7 +208,7 @@ CS 230 (深度学习) + EE 364A (凸优化) + CS 228 (概率图模型)
 ### 深度学习
 
 | 课程编号 | 课程名称 | 重点 |
-|---------|---------|------|
+| ---- |---------| ---- |
 | **11-785** | Introduction to Deep Learning | 实践+理论 |
 | **11-747** | Neural Networks for NLP | NLP应用 |
 | **16-785** | Deep Learning for Autonomous Vehicles | 自动驾驶 |
@@ -208,14 +216,14 @@ CS 230 (深度学习) + EE 364A (凸优化) + CS 228 (概率图模型)
 ### 计算机视觉
 
 | 课程编号 | 课程名称 | 级别 |
-|---------|---------|------|
+| ---- |---------| ---- |
 | **16-720** | Computer Vision | 基础 |
 | **16-825** | Learning for 3D Vision | 高级 |
 
 ### 自然语言处理
 
 | 课程编号 | 课程名称 | 特色 |
-|---------|---------|------|
+| ---- |---------| ---- |
 | **11-411** | Natural Language Processing | 基础 |
 | **11-711** | Advanced NLP | 研究生 |
 | **11-737** | Multilingual NLP | 多语言 |
@@ -223,14 +231,14 @@ CS 230 (深度学习) + EE 364A (凸优化) + CS 228 (概率图模型)
 ### 强化学习
 
 | 课程编号 | 课程名称 | 内容 |
-|---------|---------|------|
+| ---- |---------| ---- |
 | **10-703** | Deep Reinforcement Learning | 深度RL |
 | **15-889** | Foundations of Deep RL | 理论基础 |
 
 ### 形式化方法1
 
 | 课程编号 | 课程名称 | 对应模块 |
-|---------|---------|---------|
+| ---- |---------| ---- |
 | **15-414** | Bug Catching: Automated Program Verification | 03-Formal-Methods/03 |
 | **15-816** | Modal Logic | 03-Formal-Methods/01 |
 | **15-819** | Homotopy Type Theory | 同伦类型论 |
@@ -269,7 +277,7 @@ CS 230 (深度学习) + EE 364A (凸优化) + CS 228 (概率图模型)
 ### 数学基础1
 
 | 课程编号 | 课程名称 | 特色 |
-|---------|---------|------|
+| ---- |---------| ---- |
 | **MATH 54** | Linear Algebra | 应用重 |
 | **MATH 110** | Linear Algebra | 理论重 |
 | **MATH 104** | Real Analysis | 分析基础 |
@@ -279,7 +287,9 @@ CS 230 (深度学习) + EE 364A (凸优化) + CS 228 (概率图模型)
 ### 机器学习
 
 | 课程编号 | 课程名称 | 级别 | 对应模块 |
-|---------|---------|------|---------|
+ 
+        $matches[0] -replace '\|[-:]+\|', '| ---- |'
+    
 | **CS 189** | Introduction to Machine Learning | 本科 | 02-ML-Theory/01 |
 | **STAT 154** | Modern Statistical Prediction | 统计ML | 统计学习 |
 | **CS 289A** | Introduction to Machine Learning | 研究生 | 高级ML |
@@ -287,20 +297,20 @@ CS 230 (深度学习) + EE 364A (凸优化) + CS 228 (概率图模型)
 ### 深度学习1
 
 | 课程编号 | 课程名称 | 讲师 |
-|---------|---------|------|
+| ---- |---------| ---- |
 | **CS 182** | Deep Learning | Sergey Levine |
 | **CS 280** | Computer Vision | - |
 
 ### 强化学习1
 
 | 课程编号 | 课程名称 | 特色 |
-|---------|---------|------|
+| ---- |---------| ---- |
 | **CS 285** | Deep Reinforcement Learning | Sergey Levine, 顶级RL课程 |
 
 ### 理论计算机科学1
 
 | 课程编号 | 课程名称 | 内容 |
-|---------|---------|------|
+| ---- |---------| ---- |
 | **CS 170** | Efficient Algorithms | 算法基础 |
 | **CS 270** | Combinatorial Algorithms | 高级算法 |
 | **CS 271** | Randomness and Computation | 随机算法 |
@@ -308,7 +318,7 @@ CS 230 (深度学习) + EE 364A (凸优化) + CS 228 (概率图模型)
 ### 优化
 
 | 课程编号 | 课程名称 | 视角 |
-|---------|---------|------|
+| ---- |---------| ---- |
 | **EECS 127** | Optimization Models | 工程 |
 | **EE 227A** | Convex Optimization | 理论 |
 
@@ -366,7 +376,7 @@ CS 189 (ML) + CS 182 (DL) + CS 188 (AI)
 ### 计算机科学
 
 | 课程 | 名称 | 内容 |
-|-----|------|------|
+| ---- |------| ---- |
 | **Part IB** | Machine Learning and Real-world Data | ML基础 |
 | **Part II** | Machine Learning and Bayesian Inference | 贝叶斯ML |
 | **Part II** | Advanced Machine Learning | 高级主题 |
@@ -387,7 +397,7 @@ CS 189 (ML) + CS 182 (DL) + CS 188 (AI)
 ### 数学基础2
 
 | 课程代码 | 课程名称 | 学期 |
-|---------|---------|------|
+| ---- |---------| ---- |
 | **401-0231-00L** | Analysis I | 秋 |
 | **401-0232-00L** | Analysis II | 春 |
 | **401-0141-00L** | Linear Algebra I | 秋 |
@@ -397,7 +407,7 @@ CS 189 (ML) + CS 182 (DL) + CS 188 (AI)
 ### 机器学习2
 
 | 课程代码 | 课程名称 | 级别 |
-|---------|---------|------|
+| ---- |---------| ---- |
 | **252-0220-00L** | Introduction to Machine Learning | 本科 |
 | **252-0535-00L** | Advanced Machine Learning | 研究生 |
 | **263-3210-00L** | Deep Learning | 研究生 |
@@ -416,7 +426,7 @@ CS 189 (ML) + CS 182 (DL) + CS 188 (AI)
 ### 可靠AI
 
 | 课程代码 | 课程名称 | 重点 |
-|---------|---------|------|
+| ---- |---------| ---- |
 | **263-2400-00L** | Reliable and Trustworthy AI | 可信AI |
 | **252-0579-00L** | Automated Reasoning | 自动推理 |
 
@@ -442,7 +452,7 @@ CS 189 (ML) + CS 182 (DL) + CS 188 (AI)
 ### 计算机科学3
 
 | 课程 | 名称 | 级别 |
-|-----|------|------|
+| ---- |------| ---- |
 | **B12** | Machine Learning | 本科 |
 | **B14** | Deep Learning | 本科 |
 | **C19** | Probabilistic Model Checking | 研究生 |
@@ -454,7 +464,9 @@ CS 189 (ML) + CS 182 (DL) + CS 188 (AI)
 ### 数学基础课程对比
 
 | 主题 | MIT | Stanford | CMU | Berkeley |
-|-----|-----|----------|-----|----------|
+ 
+        $matches[0] -replace '\|[-:]+\|', '| ---- |'
+    ----------|
 | 线性代数 | 18.06 ⭐ | MATH 113 | 21-241 | MATH 54/110 |
 | 概率论 | 18.600 | STATS 116 | 36-225 | STAT 134 |
 | 优化 | 6.255J | EE 364A/B ⭐ | 10-725 ⭐ | EE 227A |
@@ -465,7 +477,9 @@ CS 189 (ML) + CS 182 (DL) + CS 188 (AI)
 ### AI核心课程对比
 
 | 主题 | MIT | Stanford | CMU | Berkeley |
-|-----|-----|----------|-----|----------|
+ 
+        $matches[0] -replace '\|[-:]+\|', '| ---- |'
+    ----------|
 | ML入门 | 6.036 | CS 229 ⭐ | 10-601 | CS 189 |
 | 深度学习 | 6.S191 | CS 230 | 11-785 ⭐ | CS 182 |
 | 强化学习 | - | CS 234 | 10-703 | CS 285 ⭐ |

@@ -1,4 +1,4 @@
-# 前沿研究与应用 (Frontiers and Applications)
+﻿# 前沿研究与应用 (Frontiers and Applications)
 
 > **2025年AI数学的最前沿: 从LLM理论到量子机器学习**
 
@@ -348,7 +348,7 @@ Day 7: 综合
 ### 在线课程
 
 | 课程 | 机构 | 内容 |
-|------|------|------|
+| ---- |------| ---- |
 | **CS324** | Stanford | Large Language Models (Tatsu Hashimoto) |
 | **CS236** | Stanford | Deep Generative Models (Stefano Ermon) |
 | **Diffusion Models** | Hugging Face | 扩散模型从理论到实践 |
@@ -492,7 +492,7 @@ Question → NLP → Symbolic Query
 ## 📊 重要benchmark与数据集
 
 | 任务 | Benchmark | 说明 |
-|------|-----------|------|
+| ---- |-----------| ---- |
 | **LLM** | MMLU, BBH, HumanEval | 通用能力, 推理, 代码 |
 | **生成** | FID, LPIPS, IS | 图像质量评估 |
 | **推理** | ARC, StrategyQA | 常识推理 |
@@ -533,7 +533,7 @@ Question → NLP → Symbolic Query
 ## 🎓 对标大学课程
 
 | 大学 | 课程 | 内容 |
-|------|------|------|
+| ---- |------| ---- |
 | **Stanford** | CS324 | Large Language Models (全方位) |
 | **Stanford** | CS236 | Deep Generative Models (VAE, GAN, Diffusion) |
 | **MIT** | 6.S898 | Deep Learning (前沿主题) |

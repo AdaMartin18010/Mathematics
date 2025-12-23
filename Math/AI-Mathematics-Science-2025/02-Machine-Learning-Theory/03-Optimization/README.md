@@ -1,4 +1,4 @@
-# 优化理论 (Optimization Theory)
+﻿# 优化理论 (Optimization Theory)
 
 > **The Engine of Machine Learning: From Gradient Descent to Second-Order Methods**
 >
@@ -94,7 +94,7 @@
 **收敛速度**:
 
 | 方法 | 强凸 | 一般凸 |
-|------|------|--------|
+| ---- |------| ---- |
 | GD | O(log(1/ε)) | O(1/ε) |
 | NAG | O(√(κ)log(1/ε)) | O(1/√ε) |
 | SGD | O(1/ε) | O(1/√ε) |
@@ -174,7 +174,7 @@
 **关键损失函数**:
 
 | 类型 | 损失函数 | 应用场景 |
-|------|----------|----------|
+| ---- |----------| ---- |
 | 回归 | MSE / MAE / Huber | 回归任务 |
 | 分类 | Cross-Entropy | 标准分类 |
 | 不平衡 | Focal Loss | 目标检测 |
@@ -204,7 +204,7 @@
 **收敛速度**:
 
 | 方法 | 收敛速度 | 每步成本 |
-|------|----------|----------|
+| ---- |----------| ---- |
 | 梯度下降 | 线性 | O(n) |
 | 共轭梯度 | 超线性 | O(n) |
 | BFGS | 超线性 | O(n²) |
@@ -352,7 +352,7 @@
 ## 🎯 AI应用
 
 | 应用领域 | 优化方法 | 典型问题 |
-|----------|----------|----------|
+| ---- |----------| ---- |
 | **深度学习** | SGD, Adam, L-BFGS | 神经网络训练 |
 | **稀疏学习** | Proximal Gradient, ADMM | Lasso, Elastic Net |
 | **矩阵分解** | ALS, SGD | 推荐系统 |
@@ -396,7 +396,7 @@ scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=30, gamma=0.1)
 ## 🎓 相关课程
 
 | 大学 | 课程代码 | 课程名称 |
-|------|----------|----------|
+| ---- |----------| ---- |
 | **Stanford** | EE364A | Convex Optimization I |
 | **Stanford** | EE364B | Convex Optimization II |
 | **MIT** | 6.255J | Optimization Methods |
@@ -408,7 +408,7 @@ scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=30, gamma=0.1)
 ## 📊 模块统计
 
 | 指标 | 数值 |
-|------|------|
+| ---- |------|
 | **完成文档** | 7 / 7 |
 | **总内容量** | ~500+ KB |
 | **代码示例** | 80+ |

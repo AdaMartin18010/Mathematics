@@ -1,4 +1,4 @@
-# 02-语法、语义与Chomsky层级 | Syntax, Semantics & Chomsky Hierarchy
+﻿# 02-语法、语义与Chomsky层级 | Syntax, Semantics & Chomsky Hierarchy
 
 ## 目录
 
@@ -862,7 +862,9 @@ class AI_Formal_Language_Integration:
 - **基准测试结果**
 
   | 系统类型 | 准确率 | 处理速度 | 内存使用 |
-  |---------|--------|----------|----------|
+   
+        $matches[0] -replace '\|[-:]+\|', '| ---- |'
+    
   | 传统规则系统 | 85% | 1000 tokens/s | 1GB |
   | 统计系统 | 90% | 500 tokens/s | 2GB |
   | 神经网络系统 | 95% | 200 tokens/s | 8GB |

@@ -1,4 +1,4 @@
-# 信息论与编码理论 (Information Theory & Coding Theory)
+﻿# 信息论与编码理论 (Information Theory & Coding Theory)
 
 > **From Entropy to Channel Capacity: The Mathematics of Information**
 >
@@ -166,7 +166,9 @@ KL散度 → 正则化、变分推断
 ## 🎓 对标课程
 
 | 大学 | 课程代码 | 课程名称 | 对应内容 |
-|------|----------|----------|----------|
+ 
+        $matches[0] -replace '\|[-:]+\|', '| ---- |'
+    
 | **MIT** | 6.441 | Information Theory | 熵、信道容量、编码理论 |
 | **Stanford** | EE376A | Information Theory | 熵、互信息、信道编码 |
 | **UC Berkeley** | EECS 229A | Information Theory | 熵、信道容量、率失真 |

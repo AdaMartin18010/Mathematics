@@ -1,4 +1,4 @@
-# 反向传播算法
+﻿# 反向传播算法
 
 > **Backpropagation Algorithm**
 >
@@ -219,7 +219,7 @@ nn.train(X, Y, epochs=1000, lr=0.5)
 ## 📚 核心要点
 
 | 概念 | 说明 |
-|------|------|
+| ---- |------|
 | **链式法则** | $\frac{\partial L}{\partial w} = \frac{\partial L}{\partial z} \frac{\partial z}{\partial w}$ |
 | **误差项** | $\delta^{(\ell)} = \frac{\partial L}{\partial z^{(\ell)}}$ |
 | **递归** | 从输出层到输入层传播误差 |
@@ -230,7 +230,7 @@ nn.train(X, Y, epochs=1000, lr=0.5)
 ## 🎓 相关课程
 
 | 大学 | 课程 |
-|------|------|
+| ---- |------|
 | **Stanford** | CS231n CNN for Visual Recognition |
 | **MIT** | 6.036 Introduction to Machine Learning |
 | **DeepLearning.AI** | Deep Learning Specialization |

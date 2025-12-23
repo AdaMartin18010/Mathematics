@@ -1,4 +1,4 @@
-# 强化学习应用案例 (Reinforcement Learning Applications)
+﻿# 强化学习应用案例 (Reinforcement Learning Applications)
 
 > **From Theory to Action: Practical RL with Deep Learning**
 >
@@ -383,7 +383,9 @@ if __name__ == '__main__':
 **实验结果** (CartPole-v1):
 
 | 方法 | 平均回报 | 收敛速度 | 样本效率 |
-|------|----------|----------|----------|
+ 
+        $matches[0] -replace '\|[-:]+\|', '| ---- |'
+    
 | **Random** | 22.4 | - | - |
 | **Q-Learning (Tabular)** | 195.0 | 慢 | 低 |
 | **DQN** | 475.3 | 快 | 高 |
@@ -1168,7 +1170,9 @@ if __name__ == '__main__':
 ## 📊 案例总结
 
 | 案例 | 算法 | 核心思想 | 环境 | 性能 |
-|------|------|----------|------|------|
+ 
+        $matches[0] -replace '\|[-:]+\|', '| ---- |'
+    ------|
 | **游戏AI** | DQN | Q-Learning + 深度网络 | CartPole | 475.3 |
 | **策略梯度** | REINFORCE | 直接优化策略 | CartPole | 450.2 |
 | **Actor-Critic** | A2C | 策略+价值 | CartPole | 485.7 |

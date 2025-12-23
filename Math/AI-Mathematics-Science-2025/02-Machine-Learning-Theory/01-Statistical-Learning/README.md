@@ -1,4 +1,4 @@
-# 统计学习理论 (Statistical Learning Theory)
+﻿# 统计学习理论 (Statistical Learning Theory)
 
 > **数学视角下的机器学习：从PAC学习到深度学习泛化**
 
@@ -245,7 +245,9 @@ Week 3: 泛化理论综合
 ## 🎓 对标大学课程
 
 | 大学 | 课程代码 | 课程名称 | 覆盖主题 |
-|------|---------|---------|---------|
+ 
+        $matches[0] -replace '\|[-:]+\|', '| ---- |'
+    
 | **MIT** | 9.520 | Statistical Learning Theory | PAC, VC维, 核方法, RKHS |
 | **Stanford** | STATS315A | Modern Applied Statistics | 统计学习基础, 泛化理论 |
 | **CMU** | 10-715 | Advanced Machine Learning | PAC-Bayes, Stability, Compression |
@@ -334,7 +336,7 @@ $$
 ## 📊 重要定理速查
 
 | 定理 | 陈述 | 应用 |
-|------|------|------|
+| ---- |------| ---- |
 | **有限假设类PAC界** | $m = O(\frac{1}{\epsilon^2}(\log\|\mathcal{H}\| + \log(1/\delta)))$ | 决策树、查找表 |
 | **VC维PAC界** | $m = O(\frac{1}{\epsilon^2}(d_{VC} + \log(1/\delta)))$ | 线性分类器、神经网络 |
 | **Rademacher界** | $L_{\mathcal{D}}(h) \leq L_S(h) + 2\mathfrak{R}_m(\mathcal{H}) + \sqrt{\frac{\log(1/\delta)}{2m}}$ | 通用泛化界 |

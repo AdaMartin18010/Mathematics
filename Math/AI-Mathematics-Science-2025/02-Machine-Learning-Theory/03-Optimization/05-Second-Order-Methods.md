@@ -1,4 +1,4 @@
-# 二阶优化方法 (Second-Order Optimization Methods)
+﻿# 二阶优化方法 (Second-Order Optimization Methods)
 
 > **Beyond Gradient Descent: Leveraging Curvature Information**
 >
@@ -502,7 +502,9 @@ $$
 #### 收敛速度总结
 
 | 算法 | 全局收敛 | 局部收敛速度（强凸） | 每步成本 | 存储需求 |
-|------|----------|---------------------|---------|---------|
+ 
+        $matches[0] -replace '\|[-:]+\|', '| ---- |'
+    ---------|
 | **梯度下降** | ✅ | 线性：$\|x_{k+1} - x^*\| \leq \rho \|x_k - x^*\|$ | $O(n)$ | $O(n)$ |
 | **BFGS** | ✅ | 超线性：$\lim_{k \to \infty} \frac{\|x_{k+1} - x^*\|}{\|x_k - x^*\|} = 0$ | $O(n^2)$ | $O(n^2)$ |
 | **L-BFGS** | ✅ | 超线性（$m \geq n$ 时） | $O(mn)$ | $O(mn)$ |
@@ -999,7 +1001,7 @@ $$
 **收敛速度比较**:
 
 | 方法 | 收敛速度 | 每步成本 |
-|------|----------|----------|
+| ---- |----------| ---- |
 | 梯度下降 | 线性 | $O(n)$ |
 | 共轭梯度 | 超线性 | $O(n)$ |
 | BFGS | 超线性 | $O(n^2)$ |
@@ -1347,7 +1349,7 @@ if __name__ == "__main__":
 ## 🎓 相关课程
 
 | 大学 | 课程 |
-|------|------|
+| ---- |------|
 | **Stanford** | EE364B - Convex Optimization II |
 | **MIT** | 6.255J - Optimization Methods |
 | **CMU** | 10-725 - Convex Optimization |

@@ -1,4 +1,4 @@
-# 随机变量与分布 (Random Variables and Distributions)
+﻿# 随机变量与分布 (Random Variables and Distributions)
 
 > **The Foundation of Probabilistic Machine Learning**
 >
@@ -1259,7 +1259,7 @@ if __name__ == "__main__":
 ## 🎓 相关课程
 
 | 大学 | 课程 |
-|------|------|
+| ---- |------|
 | **MIT** | 6.041 - Probabilistic Systems Analysis |
 | **MIT** | 18.650 - Statistics for Applications |
 | **Stanford** | CS109 - Probability for Computer Scientists |

@@ -1,4 +1,4 @@
-# Hilbert空间与再生核Hilbert空间 (Hilbert Spaces & RKHS)
+﻿# Hilbert空间与再生核Hilbert空间 (Hilbert Spaces & RKHS)
 
 > **The Mathematical Foundation of Kernel Methods**
 >
@@ -585,7 +585,7 @@ print(f"NTK value: {ntk_value}")
 **核方法 vs 深度学习**：
 
 | 特性 | 核方法 | 深度学习 |
-|------|--------|----------|
+| ---- |--------| ---- |
 | **特征** | 显式核函数 | 隐式学习 |
 | **可解释性** | 高（核函数明确） | 低（黑盒） |
 | **数据需求** | 小样本 | 大数据 |
@@ -933,7 +933,7 @@ if __name__ == "__main__":
 ## 🎓 相关课程
 
 | 大学 | 课程 |
-|------|------|
+| ---- |------|
 | **MIT** | 18.102 - Introduction to Functional Analysis |
 | **Stanford** | STATS315A - Modern Applied Statistics: Learning |
 | **UC Berkeley** | STAT210B - Theoretical Statistics |

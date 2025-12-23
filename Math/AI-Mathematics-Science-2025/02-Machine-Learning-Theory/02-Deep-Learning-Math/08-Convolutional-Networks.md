@@ -1,4 +1,4 @@
-# 卷积神经网络 (CNN) 数学原理
+﻿# 卷积神经网络 (CNN) 数学原理
 
 > **Convolutional Neural Networks: Mathematics and Theory**
 >
@@ -835,7 +835,7 @@ VGG-19: 16个卷积层 + 3个全连接层
 ## 🎓 相关课程
 
 | 大学 | 课程 |
-|------|------|
+| ---- |------|
 | **Stanford** | CS231n Convolutional Neural Networks |
 | **MIT** | 6.S191 Introduction to Deep Learning |
 | **UC Berkeley** | CS182 Deep Learning |

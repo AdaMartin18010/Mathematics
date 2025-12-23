@@ -1,4 +1,4 @@
-# Dropout理论 (Dropout Theory)
+﻿# Dropout理论 (Dropout Theory)
 
 > **Dropout: Mathematics of Regularization**
 >
@@ -695,7 +695,7 @@ $$
 ## 🎓 相关课程
 
 | 大学 | 课程 |
-|------|------|
+| ---- |------|
 | **Stanford** | CS231n Convolutional Neural Networks |
 | **MIT** | 6.S191 Introduction to Deep Learning |
 | **UC Berkeley** | CS182 Deep Learning |

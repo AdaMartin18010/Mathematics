@@ -1,4 +1,4 @@
-# 强化学习数学基础 (Reinforcement Learning Mathematics)
+﻿# 强化学习数学基础 (Reinforcement Learning Mathematics)
 
 > **From MDP to Deep RL: The Mathematics of Decision Making**
 >
@@ -174,7 +174,9 @@ MDP → 马尔可夫过程
 ## 🎓 对标课程
 
 | 大学 | 课程代码 | 课程名称 | 对应内容 |
-|------|----------|----------|----------|
+ 
+        $matches[0] -replace '\|[-:]+\|', '| ---- |'
+    
 | **UC Berkeley** | CS285 | Deep Reinforcement Learning | MDP、策略梯度、DQN |
 | **Stanford** | CS234 | Reinforcement Learning | MDP、值函数、策略梯度 |
 | **CMU** | 10-703 | Deep Reinforcement Learning | 深度强化学习 |

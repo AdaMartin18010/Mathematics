@@ -1,4 +1,4 @@
-# 最优传输理论 (Optimal Transport Theory)
+﻿# 最优传输理论 (Optimal Transport Theory)
 
 > **Moving Probability Distributions Optimally**
 >
@@ -1067,7 +1067,7 @@ def optimal_transport_recommendation(user_embeddings, item_embeddings,
 ## 🎓 相关课程
 
 | 大学 | 课程 |
-|------|------|
+| ---- |------|
 | **Stanford** | STATS385 - Theories of Deep Learning |
 | **MIT** | 18.S096 - Topics in Mathematics with Applications |
 | **ENS Paris** | Optimal Transport (Villani) |

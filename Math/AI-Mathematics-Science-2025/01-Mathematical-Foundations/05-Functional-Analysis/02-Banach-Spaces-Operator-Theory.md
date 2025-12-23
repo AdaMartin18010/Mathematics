@@ -1,4 +1,4 @@
-# Banach空间与算子理论 (Banach Spaces and Operator Theory)
+﻿# Banach空间与算子理论 (Banach Spaces and Operator Theory)
 
 > **The Foundation of Functional Analysis**
 >
@@ -903,7 +903,7 @@ $$
 ## 🎓 相关课程
 
 | 大学 | 课程 |
-|------|------|
+| ---- |------|
 | **MIT** | 18.102 - Introduction to Functional Analysis |
 | **Stanford** | MATH 205A - Real Analysis |
 | **CMU** | 21-720 - Measure and Integration |

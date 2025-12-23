@@ -1,4 +1,4 @@
-# 依值类型论 (Dependent Type Theory)
+﻿# 依值类型论 (Dependent Type Theory)
 
 > **Dependent Type Theory (DTT)**  
 > 形式化数学与程序验证的统一基础
@@ -234,7 +234,7 @@ def Vec.head {α : Type} {n : Nat} : Vec α (n+1) → α
 **核心思想**: 证明 = 程序
 
 | 逻辑 | 类型论 | Lean语法 |
-|------|--------|---------|
+| ---- |--------| ---- |
 | 命题 $P$ | 类型 `P : Prop` | `theorem` |
 | 证明 $p$ | 项 `p : P` | `proof` |
 | $P \land Q$ | 积类型 `P × Q` | `And P Q` |
@@ -524,7 +524,7 @@ def predict_with_proof
 ## 🎓 对标课程
 
 | 大学 | 课程 | 内容 |
-|------|------|------|
+| ---- |------| ---- |
 | CMU | 15-815 Type Systems | DTT, System F, CoC |
 | Stanford | CS 359 Automated Deduction | 类型论与证明助手 |
 | Cambridge | Part III Logic & Proof | Martin-Löf类型论 |

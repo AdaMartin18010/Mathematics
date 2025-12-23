@@ -1,4 +1,4 @@
-# 深度学习数学基础 (Deep Learning Mathematics)
+﻿# 深度学习数学基础 (Deep Learning Mathematics)
 
 > **The Mathematics Behind Deep Neural Networks**
 >
@@ -291,7 +291,9 @@ Dropout → 正则化理论
 ## 🎓 对标课程
 
 | 大学 | 课程代码 | 课程名称 | 对应内容 |
-|------|----------|----------|----------|
+ 
+        $matches[0] -replace '\|[-:]+\|', '| ---- |'
+    
 | **MIT** | 6.883 | Neural Networks | 反向传播、CNN、RNN |
 | **Stanford** | CS231n | Convolutional Neural Networks | CNN、注意力机制 |
 | **CMU** | 10-601 | Machine Learning | 深度学习基础 |

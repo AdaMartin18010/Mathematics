@@ -1,4 +1,4 @@
-# 生成模型理论 (Generative Models Theory)
+﻿# 生成模型理论 (Generative Models Theory)
 
 > 深度生成模型的数学基础：从VAE到扩散模型
 
@@ -279,7 +279,9 @@ Adam优化器 → VAE/GAN/扩散模型
 ## 🎓 世界一流大学课程映射
 
 | 大学 | 课程代码 | 课程名称 | 覆盖内容 |
-|------|----------|----------|----------|
+ 
+        $matches[0] -replace '\|[-:]+\|', '| ---- |'
+    
 | **Stanford** | CS236 | Deep Generative Models | VAE, GAN, 扩散模型 |
 | **MIT** | 6.S191 | Introduction to Deep Learning | VAE, GAN基础 |
 | **UC Berkeley** | CS294-158 | Deep Unsupervised Learning | VAE, GAN, 自回归模型 |

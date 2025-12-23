@@ -1,4 +1,4 @@
-# 多元微积分 (Multivariate Calculus)
+﻿# 多元微积分 (Multivariate Calculus)
 
 > **The Mathematical Foundation of Deep Learning Optimization**
 >
@@ -996,7 +996,7 @@ $$
 ## 🎓 相关课程
 
 | 大学 | 课程 |
-|------|------|
+| ---- |------|
 | **MIT** | 18.02 Multivariable Calculus |
 | **Stanford** | Math 51 Linear Algebra & Multivariable Calculus |
 | **UC Berkeley** | Math 53 Multivariable Calculus |

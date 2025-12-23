@@ -1,4 +1,4 @@
-# 生成对抗网络 (GAN) 理论
+﻿# 生成对抗网络 (GAN) 理论
 
 > **Generative Adversarial Networks: Theory and Mathematics**
 >
@@ -728,7 +728,7 @@ $$
 **常见f-散度**：
 
 | f-散度 | $f(t)$ |
-|--------|--------|
+| ---- |--------|
 | **KL** | $t \log t$ |
 | **JS** | $-\log(2) - \frac{1}{2}(t+1)\log\frac{t+1}{2}$ |
 | **Total Variation** | $\frac{1}{2}\|t-1\|$ |
@@ -753,7 +753,7 @@ $$
 ## 🎓 相关课程
 
 | 大学 | 课程 |
-|------|------|
+| ---- |------|
 | **Stanford** | CS236 Deep Generative Models |
 | **MIT** | 6.S191 Introduction to Deep Learning |
 | **UC Berkeley** | CS294 Deep Unsupervised Learning |

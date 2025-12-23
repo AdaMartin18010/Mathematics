@@ -1,4 +1,4 @@
-# 因果推断 (Causal Inference)
+﻿# 因果推断 (Causal Inference)
 
 > **From Correlation to Causation**
 >
@@ -151,7 +151,7 @@
 ## 📊 模块统计
 
 | 指标 | 数值 |
-|------|------|
+| ---- |------|
 | **文档数** | 1 |
 | **内容量** | ~78 KB |
 | **数学公式** | 150+ |

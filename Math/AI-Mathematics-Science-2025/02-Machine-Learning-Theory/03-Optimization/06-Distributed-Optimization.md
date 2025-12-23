@@ -1,4 +1,4 @@
-# 分布式优化 (Distributed Optimization)
+﻿# 分布式优化 (Distributed Optimization)
 
 > **Optimization at Scale: From Single Machine to Distributed Systems**
 >
@@ -502,7 +502,7 @@ $$
 **结果**:
 
 | 算法 | 通信复杂度 |
-|------|-----------|
+| ---- |-----------|
 | 同步SGD | $O(1/\epsilon)$ |
 | 异步SGD | $O(\tau_{\max}/\epsilon)$ |
 | Local SGD | $O(1/\epsilon^{2/3})$ |

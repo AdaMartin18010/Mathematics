@@ -1,4 +1,4 @@
-# 批归一化 (Batch Normalization) 理论
+﻿# 批归一化 (Batch Normalization) 理论
 
 > **Batch Normalization: Theory and Mathematics**
 >
@@ -516,7 +516,7 @@ BN减小了 $L$（Lipschitz常数）。
 **归一化家族**：
 
 | 方法 | 归一化维度 | 适用场景 |
-|------|-----------|----------|
+| ---- |-----------| ---- |
 | **Batch Norm** | (N, H, W) | 大批量训练 |
 | **Layer Norm** | (C, H, W) | RNN, Transformer |
 | **Instance Norm** | (H, W) | 风格迁移 |
@@ -830,7 +830,7 @@ def fuse_bn_conv(conv, bn):
 ## 🎓 相关课程
 
 | 大学 | 课程 |
-|------|------|
+| ---- |------|
 | **Stanford** | CS231n Convolutional Neural Networks |
 | **MIT** | 6.S191 Introduction to Deep Learning |
 | **UC Berkeley** | CS182 Deep Learning |

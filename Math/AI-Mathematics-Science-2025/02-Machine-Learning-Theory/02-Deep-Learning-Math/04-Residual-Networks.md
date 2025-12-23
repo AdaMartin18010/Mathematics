@@ -1,4 +1,4 @@
-# 残差网络 (ResNet) 数学原理
+﻿# 残差网络 (ResNet) 数学原理
 
 > **Residual Networks: Mathematics of Deep Network Training**
 >
@@ -783,7 +783,7 @@ optimizer = torch.optim.Adam(resnet.fc.parameters(), lr=0.001)
 ## 🎓 相关课程
 
 | 大学 | 课程 |
-|------|------|
+| ---- |------|
 | **Stanford** | CS231n Convolutional Neural Networks |
 | **MIT** | 6.S191 Introduction to Deep Learning |
 | **UC Berkeley** | CS182 Deep Learning |

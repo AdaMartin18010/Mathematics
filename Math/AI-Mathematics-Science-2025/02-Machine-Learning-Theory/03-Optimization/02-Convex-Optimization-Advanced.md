@@ -1,4 +1,4 @@
-# 凸优化进阶 (Advanced Convex Optimization)
+﻿# 凸优化进阶 (Advanced Convex Optimization)
 
 > **The Foundation of Efficient Machine Learning Algorithms**
 >
@@ -1191,7 +1191,7 @@ $$
 ### 📊 总结
 
 | 方向 | 条件 | 结论 |
-|------|------|------|
+| ---- |------| ---- |
 | **充分性** | KKT条件 + 凸性 | ⇒ 全局最优 |
 | **必要性** | 最优 + Slater条件 | ⇒ 存在KKT乘子 |
 | **非凸** | KKT条件 | ⇒ 驻点（可能非最优） |
@@ -1551,7 +1551,7 @@ $$
 ### 🔑 关键要点
 
 | 概念 | 说明 |
-|------|------|
+| ---- |------|
 | **Slater条件** | 约束严格可行点存在 |
 | **强对偶性** | $d^* = p^*$（对偶间隙为0） |
 | **充分性** | Slater ⇒ 强对偶（但非必要） |
@@ -2097,7 +2097,7 @@ $$
 ## 🎓 相关课程
 
 | 大学 | 课程 |
-|------|------|
+| ---- |------|
 | **Stanford** | EE364A - Convex Optimization I |
 | **Stanford** | EE364B - Convex Optimization II |
 | **MIT** | 6.255J - Optimization Methods |

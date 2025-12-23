@@ -1,4 +1,4 @@
-# 机器学习数学理论 (Machine Learning Theory)
+﻿# 机器学习数学理论 (Machine Learning Theory)
 
 > 从统计学习到深度学习：AI的核心数学原理
 
@@ -261,7 +261,7 @@ GAN极小极大: min_G max_D E[log D(x)] + E[log(1-D(G(z)))]
 ### MIT
 
 | 课程编号 | 课程名称 | 对应模块 |
-|---------|---------|---------|
+| ---- |---------| ---- |
 | 6.036 | Introduction to Machine Learning | 统计学习 |
 | 6.867 | Machine Learning | 统计学习 + 深度学习 |
 | 6.S191 | Deep Learning | 深度学习 |
@@ -270,7 +270,7 @@ GAN极小极大: min_G max_D E[log D(x)] + E[log(1-D(G(z)))]
 ### Stanford
 
 | 课程编号 | 课程名称 | 对应模块 |
-|---------|---------|---------|
+| ---- |---------| ---- |
 | CS229 | Machine Learning | 统计学习 + 优化 |
 | CS230 | Deep Learning | 深度学习 |
 | CS234 | Reinforcement Learning | 强化学习 |
@@ -280,7 +280,7 @@ GAN极小极大: min_G max_D E[log D(x)] + E[log(1-D(G(z)))]
 ### CMU
 
 | 课程编号 | 课程名称 | 对应模块 |
-|---------|---------|---------|
+| ---- |---------| ---- |
 | 10-701 | Introduction to Machine Learning | 统计学习 |
 | 10-708 | Probabilistic Graphical Models | 概率图模型 |
 | 10-715 | Advanced Machine Learning | 高级理论 |
@@ -289,7 +289,7 @@ GAN极小极大: min_G max_D E[log D(x)] + E[log(1-D(G(z)))]
 ### UC Berkeley
 
 | 课程编号 | 课程名称 | 对应模块 |
-|---------|---------|---------|
+| ---- |---------| ---- |
 | CS189 | Introduction to Machine Learning | 统计学习 |
 | CS182 | Deep Learning | 深度学习 |
 | CS285 | Deep Reinforcement Learning | 强化学习 |

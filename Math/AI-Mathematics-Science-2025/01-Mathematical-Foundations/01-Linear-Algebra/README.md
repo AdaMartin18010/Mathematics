@@ -1,4 +1,4 @@
-# 线性代数与张量分析 (Linear Algebra & Tensor Analysis)
+﻿# 线性代数与张量分析 (Linear Algebra & Tensor Analysis)
 
 > **The Language of Machine Learning**
 >
@@ -339,7 +339,7 @@ dim(ker(T)) + dim(im(T)) = dim(V)
 ## 📈 模块完成度
 
 | 子模块 | 完成度 | 状态 |
-|--------|--------|------|
+| ---- |--------| ---- |
 | 向量空间与线性映射 | 100% | ✅ 完成 |
 | 矩阵分解 | 100% | ✅ 完成 |
 | 张量运算与Einstein约定 | 100% | ✅ 完成 |

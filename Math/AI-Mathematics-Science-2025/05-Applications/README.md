@@ -1,4 +1,4 @@
-# AI应用案例 (AI Applications)
+﻿# AI应用案例 (AI Applications)
 
 > **From Theory to Practice: Real-World AI Applications**
 >
@@ -160,7 +160,9 @@
 ## 📊 模块统计
 
 | 领域 | 完成度 | 文档数 | 代码示例 |
-|------|--------|--------|----------|
+ 
+        $matches[0] -replace '\|[-:]+\|', '| ---- |'
+    
 | **计算机视觉** | ✅ 100% | 1 | 5+ |
 | **NLP** | ✅ 100% | 1 | 5+ |
 | **强化学习** | ✅ 100% | 1 | 5+ |
