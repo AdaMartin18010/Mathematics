@@ -13,8 +13,8 @@
     - [1. 类型论 (Type Theory)](#1-类型论-type-theory)
     - [2. 证明助手 (Proof Assistants)](#2-证明助手-proof-assistants)
     - [3. AI辅助数学证明](#3-ai辅助数学证明)
-    - [4. 程序验证 (Program Verification)](#4-程序验证-program-verification)
-    - [5. 可验证AI系统](#5-可验证ai系统)
+    - [4. [程序验证 (Program Verification)](./03-Program-Verification.md) ✅](#4-程序验证-program-verification-)
+    - [5. [可验证AI系统](./04-Verifiable-AI-Systems.md) ✅](#5-可验证ai系统-)
   - [🎯 学习路径](#-学习路径)
     - [入门路径 (1-2个月)](#入门路径-1-2个月)
     - [进阶路径 (3-6个月)](#进阶路径-3-6个月)
@@ -133,7 +133,7 @@ $$
 
 ---
 
-### 4. [程序验证 (Program Verification)](./04-Program-Verification/)
+### 4. [程序验证 (Program Verification)](./03-Program-Verification.md) ✅
 
 **核心理论**:
 
@@ -158,7 +158,7 @@ $$
 
 ---
 
-### 5. [可验证AI系统](./05-Verifiable-AI/)
+### 5. [可验证AI系统](./04-Verifiable-AI-Systems.md) ✅
 
 **核心挑战**:
 
@@ -177,6 +177,8 @@ $$
 **2025前沿**:
 
 - 大语言模型的可验证对齐
+- 神经网络鲁棒性认证
+- 公平性形式化验证
 - 扩散模型的鲁棒性认证
 - 强化学习策略的安全验证
 
@@ -252,36 +254,36 @@ Week 7-8: AI应用
 
 ### 必读教材
 
-1. **Type Theory and Formal Proof**  
-   Nederpelt & Geuvers (2014)  
+1. **Type Theory and Formal Proof**
+   Nederpelt & Geuvers (2014)
    → 系统的类型论教材
 
-2. **Software Foundations** (4卷)  
-   Pierce et al. (在线)  
+2. **Software Foundations** (4卷)
+   Pierce et al. (在线)
    → Coq入门圣经
 
-3. **Theorem Proving in Lean 4**  
-   Avigad, Massot (2024)  
+3. **Theorem Proving in Lean 4**
+   Avigad, Massot (2024)
    → 官方Lean 4教程
 
-4. **Concrete Semantics**  
-   Nipkow & Klein (2014)  
+4. **Concrete Semantics**
+   Nipkow & Klein (2014)
    → Isabelle/HOL程序验证
 
 ---
 
 ### 前沿论文 (2024-2025)
 
-1. **"AlphaProof: Solving IMO Geometry with AI"**  
-   DeepMind (2024)  
+1. **"AlphaProof: Solving IMO Geometry with AI"**
+   DeepMind (2024)
    → AI解决奥数几何题
 
-2. **"DeepSeek-Prover-V1.5"**  
-   DeepSeek (2024)  
+2. **"DeepSeek-Prover-V1.5"**
+   DeepSeek (2024)
    → 开源AI证明助手
 
-3. **"Formal Verification of Neural Networks"**  
-   Singh et al. (2024)  
+3. **"Formal Verification of Neural Networks"**
+   Singh et al. (2024)
    → 神经网络验证综述
 
 ---
@@ -387,8 +389,8 @@ Week 7-8: AI应用
 **目标**: 形式化微积分基本定理
 
 ```lean
-theorem fundamental_theorem_of_calculus 
-  {f : ℝ → ℝ} {a b : ℝ} 
+theorem fundamental_theorem_of_calculus
+  {f : ℝ → ℝ} {a b : ℝ}
   (hf : ContinuousOn f (Icc a b)) :
   ∫ x in a..b, deriv f x = f b - f a := by
   sorry

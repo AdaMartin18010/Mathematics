@@ -93,9 +93,9 @@
 
 ---
 
-### 3. 扩散模型 (Diffusion Models)
+### 3. [扩散模型 (Diffusion Models)](./03-Diffusion-Models.md) ✅
 
-**文件**: `../../04-Frontiers/02-Diffusion-Models/01-Score-Based-SDE.md`
+**文件**: `03-Diffusion-Models.md`
 
 **核心内容**：
 
@@ -122,6 +122,36 @@
 
 - Stanford CS236
 - MIT 6.S191
+
+### 4. [归一化流 (Normalizing Flows)](./04-Normalizing-Flows.md) ✅
+
+**文件**: `04-Normalizing-Flows.md`
+
+**核心内容**:
+
+- **可逆变换**: 变量变换公式
+- **耦合层**: Real NVP, Glow
+- **自回归流**: MAF, IAF
+- **连续流**: Neural ODE, FFJORD
+
+**数学工具**:
+
+- 变量变换公式
+- 雅可比行列式
+- 常微分方程
+- 自回归模型
+
+**应用**:
+
+- 精确密度估计
+- 高质量生成
+- 变分推断
+- 数据增强
+
+**对标课程**:
+
+- Stanford CS236
+- MIT 6.S192
 
 ---
 
@@ -385,7 +415,7 @@ class SimpleVAE(nn.Module):
         super().__init__()
         self.encoder = nn.Linear(input_dim, latent_dim * 2)
         self.decoder = nn.Linear(latent_dim, input_dim)
-    
+
     def forward(self, x):
         mu, logvar = self.encoder(x).chunk(2, dim=-1)
         z = mu + torch.exp(0.5 * logvar) * torch.randn_like(mu)

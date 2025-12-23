@@ -273,19 +273,19 @@ import torch.nn.functional as F
 class BasicBlock(nn.Module):
     """基本残差块 (用于ResNet-18/34)"""
     expansion = 1
-    
+
     def __init__(self, in_channels, out_channels, stride=1):
         super().__init__()
-        
+
         # 主路径
-        self.conv1 = nn.Conv2d(in_channels, out_channels, kernel_size=3, 
+        self.conv1 = nn.Conv2d(in_channels, out_channels, kernel_size=3,
                                stride=stride, padding=1, bias=False)
         self.bn1 = nn.BatchNorm2d(out_channels)
-        
+
         self.conv2 = nn.Conv2d(out_channels, out_channels, kernel_size=3,
                                stride=1, padding=1, bias=False)
         self.bn2 = nn.BatchNorm2d(out_channels)
-        
+
         # 跳跃连接 (如果维度不匹配，需要投影)
         self.shortcut = nn.Sequential()
         if stride != 1 or in_channels != out_channels:
@@ -294,40 +294,40 @@ class BasicBlock(nn.Module):
                           stride=stride, bias=False),
                 nn.BatchNorm2d(out_channels)
             )
-    
+
     def forward(self, x):
         # 主路径
         out = F.relu(self.bn1(self.conv1(x)))
         out = self.bn2(self.conv2(out))
-        
+
         # 残差连接
         out += self.shortcut(x)
         out = F.relu(out)
-        
+
         return out
 
 
 class Bottleneck(nn.Module):
     """瓶颈残差块 (用于ResNet-50/101/152)"""
     expansion = 4
-    
+
     def __init__(self, in_channels, out_channels, stride=1):
         super().__init__()
-        
+
         # 1x1卷积降维
         self.conv1 = nn.Conv2d(in_channels, out_channels, kernel_size=1, bias=False)
         self.bn1 = nn.BatchNorm2d(out_channels)
-        
+
         # 3x3卷积
         self.conv2 = nn.Conv2d(out_channels, out_channels, kernel_size=3,
                                stride=stride, padding=1, bias=False)
         self.bn2 = nn.BatchNorm2d(out_channels)
-        
+
         # 1x1卷积升维
         self.conv3 = nn.Conv2d(out_channels, out_channels * self.expansion,
                                kernel_size=1, bias=False)
         self.bn3 = nn.BatchNorm2d(out_channels * self.expansion)
-        
+
         # 跳跃连接
         self.shortcut = nn.Sequential()
         if stride != 1 or in_channels != out_channels * self.expansion:
@@ -336,15 +336,15 @@ class Bottleneck(nn.Module):
                           kernel_size=1, stride=stride, bias=False),
                 nn.BatchNorm2d(out_channels * self.expansion)
             )
-    
+
     def forward(self, x):
         out = F.relu(self.bn1(self.conv1(x)))
         out = F.relu(self.bn2(self.conv2(out)))
         out = self.bn3(self.conv3(out))
-        
+
         out += self.shortcut(x)
         out = F.relu(out)
-        
+
         return out
 
 
@@ -353,22 +353,22 @@ class ResNet(nn.Module):
     def __init__(self, block, num_blocks, num_classes=10):
         super().__init__()
         self.in_channels = 64
-        
+
         # 初始卷积
         self.conv1 = nn.Conv2d(3, 64, kernel_size=7, stride=2, padding=3, bias=False)
         self.bn1 = nn.BatchNorm2d(64)
         self.maxpool = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
-        
+
         # 残差层
         self.layer1 = self._make_layer(block, 64, num_blocks[0], stride=1)
         self.layer2 = self._make_layer(block, 128, num_blocks[1], stride=2)
         self.layer3 = self._make_layer(block, 256, num_blocks[2], stride=2)
         self.layer4 = self._make_layer(block, 512, num_blocks[3], stride=2)
-        
+
         # 分类头
         self.avgpool = nn.AdaptiveAvgPool2d((1, 1))
         self.fc = nn.Linear(512 * block.expansion, num_classes)
-    
+
     def _make_layer(self, block, out_channels, num_blocks, stride):
         strides = [stride] + [1] * (num_blocks - 1)
         layers = []
@@ -376,20 +376,20 @@ class ResNet(nn.Module):
             layers.append(block(self.in_channels, out_channels, stride))
             self.in_channels = out_channels * block.expansion
         return nn.Sequential(*layers)
-    
+
     def forward(self, x):
         out = F.relu(self.bn1(self.conv1(x)))
         out = self.maxpool(out)
-        
+
         out = self.layer1(out)
         out = self.layer2(out)
         out = self.layer3(out)
         out = self.layer4(out)
-        
+
         out = self.avgpool(out)
         out = torch.flatten(out, 1)
         out = self.fc(out)
-        
+
         return out
 
 
@@ -540,6 +540,246 @@ $$
 
 ---
 
+## 🔧 实际应用案例
+
+### 1. 图像分类
+
+**ImageNet分类**:
+
+ResNet在ImageNet上取得突破性成果。
+
+**里程碑**:
+- **ResNet-18/34**: 基础版本，适合快速训练
+- **ResNet-50/101/152**: 标准版本，广泛使用
+- **ResNet-152**: 在ImageNet上达到3.57% top-5错误率
+
+**实践示例**:
+
+```python
+import torch
+import torchvision.models as models
+
+# 加载预训练ResNet
+resnet50 = models.resnet50(pretrained=True)
+
+# 图像分类
+image = preprocess_image("cat.jpg")
+output = resnet50(image)
+predicted_class = torch.argmax(output, dim=1)
+```
+
+---
+
+### 2. 目标检测
+
+**Faster R-CNN with ResNet**:
+
+ResNet作为骨干网络用于目标检测。
+
+**架构**:
+- ResNet作为特征提取器
+- RPN (Region Proposal Network)
+- 检测头
+
+**优势**:
+- 深层特征表示能力强
+- 梯度流畅通，训练稳定
+- 多尺度特征提取
+
+**应用**:
+- 物体检测
+- 实例分割
+- 关键点检测
+
+---
+
+### 3. 语义分割
+
+**DeepLab with ResNet**:
+
+ResNet用于像素级分类。
+
+**架构**:
+- ResNet编码器
+- 空洞卷积（Dilated Convolution）
+- 解码器
+
+**优势**:
+- 保持空间分辨率
+- 捕获多尺度上下文
+- 残差连接帮助梯度传播
+
+**应用**:
+- 医学图像分割
+- 自动驾驶场景理解
+- 遥感图像分析
+
+---
+
+### 4. 人脸识别
+
+**ArcFace with ResNet**:
+
+ResNet用于人脸特征提取。
+
+**架构**:
+- ResNet作为backbone
+- ArcFace损失函数
+- 特征归一化
+
+**优势**:
+- 深层网络提取丰富特征
+- 残差连接保证训练稳定
+- 在LFW、CFP等数据集上达到99%+准确率
+
+**实践示例**:
+
+```python
+import torch
+from facenet_pytorch import InceptionResnetV1
+
+# 加载预训练模型（基于ResNet）
+model = InceptionResnetV1(pretrained='vggface2').eval()
+
+# 提取人脸特征
+face_tensor = preprocess_face("face.jpg")
+embedding = model(face_tensor)
+```
+
+---
+
+### 5. 超分辨率
+
+**SRResNet**:
+
+使用ResNet进行图像超分辨率。
+
+**架构**:
+- 残差块堆叠
+- 亚像素卷积上采样
+- 感知损失
+
+**优势**:
+- 深层网络学习复杂映射
+- 残差学习加速训练
+- 生成高质量图像
+
+**应用**:
+- 图像增强
+- 视频超分辨率
+- 医学影像增强
+
+---
+
+### 6. 风格迁移
+
+**ResNet in Style Transfer**:
+
+ResNet用于提取内容和风格特征。
+
+**架构**:
+- VGG/ResNet作为特征提取器
+- 内容损失 + 风格损失
+- 优化输入图像
+
+**优势**:
+- 深层特征捕获语义
+- 残差连接保持细节
+
+---
+
+### 7. 视频理解
+
+**3D ResNet**:
+
+将ResNet扩展到3D（时空）。
+
+**架构**:
+- 3D卷积残差块
+- 时间维度残差连接
+- 视频分类/动作识别
+
+**应用**:
+- 动作识别
+- 视频分类
+- 时序建模
+
+---
+
+### 8. 医学影像
+
+**Medical Image Analysis**:
+
+ResNet用于医学影像分析。
+
+**应用**:
+- 病变检测
+- 器官分割
+- 疾病分类
+
+**优势**:
+- 处理高分辨率医学图像
+- 深层特征捕获细微病变
+- 残差连接保证训练稳定
+
+---
+
+### 9. 强化学习
+
+**ResNet in RL**:
+
+ResNet用于处理视觉输入。
+
+**应用**:
+- Atari游戏（DQN）
+- 机器人视觉导航
+- 视觉策略学习
+
+**优势**:
+- 提取视觉特征
+- 训练稳定
+- 处理复杂场景
+
+---
+
+### 10. 迁移学习
+
+**Transfer Learning with ResNet**:
+
+预训练ResNet用于下游任务。
+
+**策略**:
+1. 在ImageNet上预训练
+2. 冻结早期层
+3. Fine-tune顶层
+
+**优势**:
+- 利用大规模预训练
+- 快速适应新任务
+- 小数据集也能取得好效果
+
+**实践示例**:
+
+```python
+import torch
+import torchvision.models as models
+
+# 加载预训练ResNet
+resnet = models.resnet50(pretrained=True)
+
+# 冻结参数
+for param in resnet.parameters():
+    param.requires_grad = False
+
+# 替换分类头
+resnet.fc = torch.nn.Linear(2048, num_classes)
+
+# Fine-tune
+optimizer = torch.optim.Adam(resnet.fc.parameters(), lr=0.001)
+```
+
+---
+
 ## 🎓 相关课程
 
 | 大学 | 课程 |
@@ -567,4 +807,4 @@ $$
 
 ---
 
-*最后更新：2025年10月*-
+*最后更新：2025年12月20日*-

@@ -35,6 +35,17 @@
     - [1. Sparse Attention](#1-sparse-attention)
     - [2. Linear Attention](#2-linear-attention)
     - [3. Flash Attention](#3-flash-attention)
+  - [🔧 实际应用案例](#-实际应用案例)
+    - [1. 自然语言处理](#1-自然语言处理)
+    - [2. 计算机视觉](#2-计算机视觉)
+    - [3. 多模态学习](#3-多模态学习)
+    - [4. 语音识别](#4-语音识别)
+    - [5. 推荐系统](#5-推荐系统)
+    - [6. 时间序列预测](#6-时间序列预测)
+    - [7. 代码生成与理解](#7-代码生成与理解)
+    - [8. 图神经网络](#8-图神经网络)
+    - [9. 强化学习](#9-强化学习)
+    - [10. 医学影像分析](#10-医学影像分析)
   - [🎓 相关课程](#-相关课程)
   - [📖 参考文献](#-参考文献)
 
@@ -294,7 +305,7 @@ $$
 ### 3. 应用场景
 
 | 类型 | Q来源 | K/V来源 | 应用 |
-|------|-------|---------|------|
+| ---- | ---- | ---- | ---- |
 | **Self-Attention** | 同一序列 | 同一序列 | BERT, GPT |
 | **Cross-Attention** | 目标序列 | 源序列 | 翻译, VQA |
 | **Masked Self-Attention** | 同一序列 | 同一序列（掩码） | GPT解码 |
@@ -314,7 +325,7 @@ class ScaledDotProductAttention(nn.Module):
     def __init__(self, dropout=0.1):
         super().__init__()
         self.dropout = nn.Dropout(dropout)
-    
+
     def forward(self, Q, K, V, mask=None):
         """
         Args:
@@ -322,27 +333,27 @@ class ScaledDotProductAttention(nn.Module):
             K: (batch, n_heads, seq_len_k, d_k)
             V: (batch, n_heads, seq_len_v, d_v)
             mask: (batch, 1, seq_len_q, seq_len_k) or None
-        
+
         Returns:
             output: (batch, n_heads, seq_len_q, d_v)
             attention_weights: (batch, n_heads, seq_len_q, seq_len_k)
         """
         d_k = Q.size(-1)
-        
+
         # 1. 计算相似度: (batch, n_heads, seq_len_q, seq_len_k)
         scores = torch.matmul(Q, K.transpose(-2, -1)) / math.sqrt(d_k)
-        
+
         # 2. 应用掩码 (可选)
         if mask is not None:
             scores = scores.masked_fill(mask == 0, -1e9)
-        
+
         # 3. Softmax归一化
         attention_weights = F.softmax(scores, dim=-1)
         attention_weights = self.dropout(attention_weights)
-        
+
         # 4. 加权求和
         output = torch.matmul(attention_weights, V)
-        
+
         return output, attention_weights
 
 
@@ -351,22 +362,22 @@ class MultiHeadAttention(nn.Module):
     def __init__(self, d_model=512, n_heads=8, dropout=0.1):
         super().__init__()
         assert d_model % n_heads == 0, "d_model must be divisible by n_heads"
-        
+
         self.d_model = d_model
         self.n_heads = n_heads
         self.d_k = d_model // n_heads
         self.d_v = d_model // n_heads
-        
+
         # 线性投影层
         self.W_Q = nn.Linear(d_model, d_model)
         self.W_K = nn.Linear(d_model, d_model)
         self.W_V = nn.Linear(d_model, d_model)
         self.W_O = nn.Linear(d_model, d_model)
-        
+
         self.attention = ScaledDotProductAttention(dropout)
         self.dropout = nn.Dropout(dropout)
         self.layer_norm = nn.LayerNorm(d_model)
-    
+
     def forward(self, Q, K, V, mask=None):
         """
         Args:
@@ -374,38 +385,38 @@ class MultiHeadAttention(nn.Module):
             K: (batch, seq_len_k, d_model)
             V: (batch, seq_len_v, d_model)
             mask: (batch, seq_len_q, seq_len_k) or None
-        
+
         Returns:
             output: (batch, seq_len_q, d_model)
             attention_weights: (batch, n_heads, seq_len_q, seq_len_k)
         """
         batch_size = Q.size(0)
         residual = Q
-        
+
         # 1. 线性投影并分割成多头
         # (batch, seq_len, d_model) -> (batch, seq_len, n_heads, d_k) -> (batch, n_heads, seq_len, d_k)
         Q = self.W_Q(Q).view(batch_size, -1, self.n_heads, self.d_k).transpose(1, 2)
         K = self.W_K(K).view(batch_size, -1, self.n_heads, self.d_k).transpose(1, 2)
         V = self.W_V(V).view(batch_size, -1, self.n_heads, self.d_v).transpose(1, 2)
-        
+
         # 2. 调整mask维度
         if mask is not None:
             mask = mask.unsqueeze(1)  # (batch, 1, seq_len_q, seq_len_k)
-        
+
         # 3. 应用注意力
         output, attention_weights = self.attention(Q, K, V, mask)
-        
+
         # 4. 拼接多头
         # (batch, n_heads, seq_len_q, d_v) -> (batch, seq_len_q, n_heads, d_v) -> (batch, seq_len_q, d_model)
         output = output.transpose(1, 2).contiguous().view(batch_size, -1, self.d_model)
-        
+
         # 5. 输出投影
         output = self.W_O(output)
         output = self.dropout(output)
-        
+
         # 6. 残差连接 + Layer Norm
         output = self.layer_norm(output + residual)
-        
+
         return output, attention_weights
 
 
@@ -416,26 +427,26 @@ if __name__ == "__main__":
     seq_len = 10
     d_model = 512
     n_heads = 8
-    
+
     # 创建模型
     mha = MultiHeadAttention(d_model=d_model, n_heads=n_heads)
-    
+
     # 输入
     x = torch.randn(batch_size, seq_len, d_model)
-    
+
     # Self-Attention
     output, attn_weights = mha(x, x, x)
-    
+
     print(f"Input shape: {x.shape}")
     print(f"Output shape: {output.shape}")
     print(f"Attention weights shape: {attn_weights.shape}")
-    
+
     # 可视化注意力权重
     import matplotlib.pyplot as plt
-    
+
     # 取第一个样本的第一个头
     attn = attn_weights[0, 0].detach().numpy()
-    
+
     plt.figure(figsize=(8, 6))
     plt.imshow(attn, cmap='viridis')
     plt.colorbar()
@@ -452,14 +463,14 @@ class CrossAttentionLayer(nn.Module):
     def __init__(self, d_model=512, n_heads=8, dropout=0.1):
         super().__init__()
         self.cross_attn = MultiHeadAttention(d_model, n_heads, dropout)
-    
+
     def forward(self, decoder_input, encoder_output, mask=None):
         """
         Args:
             decoder_input: (batch, seq_len_dec, d_model) - Query
             encoder_output: (batch, seq_len_enc, d_model) - Key & Value
             mask: (batch, seq_len_dec, seq_len_enc) or None
-        
+
         Returns:
             output: (batch, seq_len_dec, d_model)
         """
@@ -483,16 +494,16 @@ def create_causal_mask(seq_len):
 if __name__ == "__main__":
     seq_len = 5
     d_model = 512
-    
+
     mha = MultiHeadAttention(d_model=d_model, n_heads=8)
     x = torch.randn(1, seq_len, d_model)
-    
+
     # 创建因果掩码
     causal_mask = create_causal_mask(seq_len).unsqueeze(0)  # (1, seq_len, seq_len)
-    
+
     # Masked Self-Attention
     output, attn_weights = mha(x, x, x, mask=causal_mask)
-    
+
     print(f"\nCausal Mask:\n{causal_mask[0]}")
     print(f"\nAttention weights (with mask):\n{attn_weights[0, 0].detach()}")
 ```
@@ -525,7 +536,7 @@ Transformer可以近似任意序列到序列的函数（在适当条件下）。
 **Self-Attention复杂度**：
 
 | 操作 | 复杂度 |
-|------|--------|
+| ---- | ---- |
 | **计算 $QK^T$** | $O(n^2 d)$ |
 | **Softmax** | $O(n^2)$ |
 | **加权求和** | $O(n^2 d)$ |
@@ -621,10 +632,328 @@ $$
 
 ---
 
+## 🔧 实际应用案例
+
+### 1. 自然语言处理
+
+**Transformer模型**:
+
+注意力机制是Transformer的核心，广泛应用于NLP任务。
+
+**应用场景**:
+
+- **机器翻译**: BERT、GPT、T5等
+- **文本摘要**: 提取关键信息
+- **问答系统**: 理解问题和文档
+- **情感分析**: 识别文本情感
+
+**实践示例**:
+
+```python
+import torch
+import torch.nn as nn
+from transformers import BertModel
+
+# BERT使用多头自注意力
+model = BertModel.from_pretrained('bert-base-uncased')
+
+# 输入文本
+text = "The cat sat on the mat"
+inputs = tokenizer(text, return_tensors='pt')
+
+# 获取注意力权重
+outputs = model(**inputs, output_attentions=True)
+attention_weights = outputs.attentions  # 12层，每层12个头
+
+# 可视化注意力（查看"cat"关注哪些词）
+visualize_attention(attention_weights, tokens)
+```
+
+---
+
+### 2. 计算机视觉
+
+**Vision Transformer (ViT)**:
+
+将图像分割成patches，使用自注意力处理。
+
+**架构**:
+
+1. 图像 → patches (16×16)
+2. Patches → 线性投影 → 嵌入
+3. 位置编码
+4. Transformer编码器（自注意力）
+5. 分类头
+
+**优势**:
+
+- 捕获全局依赖
+- 无需卷积归纳偏置
+- 可扩展性强
+
+**应用**:
+
+- 图像分类
+- 目标检测
+- 图像分割
+
+---
+
+### 3. 多模态学习
+
+**CLIP (Contrastive Language-Image Pre-training)**:
+
+使用交叉注意力对齐文本和图像。
+
+**架构**:
+
+- 文本编码器（Transformer）
+- 图像编码器（ViT或CNN）
+- 对比学习目标
+
+**应用**:
+
+- 图像-文本检索
+- 零样本分类
+- 图像生成（DALL-E）
+
+**实践示例**:
+
+```python
+import clip
+
+# 加载预训练CLIP模型
+model, preprocess = clip.load("ViT-B/32")
+
+# 编码文本和图像
+text = clip.tokenize(["a photo of a cat", "a photo of a dog"])
+image = preprocess(Image.open("cat.jpg")).unsqueeze(0)
+
+# 获取特征
+text_features = model.encode_text(text)
+image_features = model.encode_image(image)
+
+# 计算相似度（使用注意力机制对齐）
+similarity = (image_features @ text_features.T).softmax(dim=-1)
+```
+
+---
+
+### 4. 语音识别
+
+**Speech Transformer**:
+
+使用自注意力处理语音序列。
+
+**优势**:
+
+- 并行处理（相比RNN）
+- 捕获长距离依赖
+- 更好的性能
+
+**应用**:
+
+- 自动语音识别（ASR）
+- 语音翻译
+- 语音合成
+
+---
+
+### 5. 推荐系统
+
+**Transformer-based推荐**:
+
+使用自注意力建模用户-物品交互序列。
+
+**架构**:
+
+- 用户行为序列 → 嵌入
+- Transformer编码器（自注意力）
+- 预测下一个物品
+
+**优势**:
+
+- 捕获序列模式
+- 处理长序列
+- 可解释性（注意力权重）
+
+**实践示例**:
+
+```python
+class TransformerRecommender(nn.Module):
+    def __init__(self, n_items, d_model=512, n_heads=8):
+        super().__init__()
+        self.item_embedding = nn.Embedding(n_items, d_model)
+        self.pos_embedding = nn.Embedding(1000, d_model)  # 最大序列长度
+        self.transformer = nn.TransformerEncoder(
+            nn.TransformerEncoderLayer(d_model, n_heads),
+            num_layers=6
+        )
+        self.output = nn.Linear(d_model, n_items)
+
+    def forward(self, item_seq):
+        # 嵌入
+        x = self.item_embedding(item_seq)
+        pos = torch.arange(item_seq.size(1))
+        x = x + self.pos_embedding(pos)
+
+        # Transformer编码
+        x = self.transformer(x)
+
+        # 预测下一个物品
+        logits = self.output(x[:, -1])  # 使用最后一个位置
+        return logits
+```
+
+---
+
+### 6. 时间序列预测
+
+**Time Series Transformer**:
+
+使用自注意力预测时间序列。
+
+**应用**:
+
+- 股票价格预测
+- 天气预报
+- 能源需求预测
+
+**优势**:
+
+- 捕获长期依赖
+- 处理不规则时间间隔
+- 多变量时间序列
+
+**实践示例**:
+
+```python
+class TimeSeriesTransformer(nn.Module):
+    def __init__(self, input_dim, d_model=512, n_heads=8):
+        super().__init__()
+        self.input_proj = nn.Linear(input_dim, d_model)
+        self.transformer = nn.TransformerEncoder(
+            nn.TransformerEncoderLayer(d_model, n_heads),
+            num_layers=6
+        )
+        self.output = nn.Linear(d_model, input_dim)
+
+    def forward(self, x):
+        # x: [batch, seq_len, features]
+        x = self.input_proj(x)
+        x = self.transformer(x)
+        predictions = self.output(x)
+        return predictions
+```
+
+---
+
+### 7. 代码生成与理解
+
+**CodeBERT / CodeT5**:
+
+使用注意力机制理解代码。
+
+**应用**:
+
+- 代码补全
+- 代码搜索
+- 代码摘要
+- Bug检测
+
+**特点**:
+
+- 处理代码的层次结构
+- 理解代码语义
+- 跨语言代码理解
+
+---
+
+### 8. 图神经网络
+
+**Graph Attention Network (GAT)**:
+
+将注意力机制应用于图结构。
+
+**核心思想**:
+
+- 节点作为Query/Key/Value
+- 注意力权重基于边
+- 聚合邻居信息
+
+**公式**:
+$$
+h_i' = \sigma\left(\sum_{j \in \mathcal{N}(i)} \alpha_{ij} W h_j\right)
+$$
+
+其中 $\alpha_{ij}$ 是注意力权重。
+
+**应用**:
+
+- 社交网络分析
+- 分子性质预测
+- 推荐系统（用户-物品图）
+
+---
+
+### 9. 强化学习
+
+**Attention in RL**:
+
+使用注意力机制改进强化学习。
+
+**应用**:
+
+- **视觉导航**: 关注关键视觉特征
+- **多智能体**: 关注其他智能体
+- **层次RL**: 关注不同时间尺度
+
+**实践示例**:
+
+```python
+class AttentionPolicy(nn.Module):
+    def __init__(self, state_dim, action_dim):
+        super().__init__()
+        self.attention = nn.MultiheadAttention(state_dim, num_heads=8)
+        self.policy_head = nn.Linear(state_dim, action_dim)
+
+    def forward(self, state_history):
+        # state_history: [seq_len, state_dim]
+        # 使用自注意力关注重要历史状态
+        attended_state, _ = self.attention(
+            state_history, state_history, state_history
+        )
+        # 使用最后一个状态
+        action_logits = self.policy_head(attended_state[-1])
+        return action_logits
+```
+
+---
+
+### 10. 医学影像分析
+
+**Medical Image Analysis with Attention**:
+
+使用注意力机制分析医学影像。
+
+**应用**:
+
+- 病灶检测
+- 图像分割
+- 疾病诊断
+
+**优势**:
+
+- 可解释性（注意力热图）
+- 关注关键区域
+- 多模态融合（图像+文本报告）
+
+---
+
 ## 🎓 相关课程
 
 | 大学 | 课程 |
-|------|------|
+| ---- | ---- |
 | **Stanford** | CS224N Natural Language Processing |
 | **Stanford** | CS25 Transformers United |
 | **MIT** | 6.S191 Introduction to Deep Learning |
@@ -648,4 +977,4 @@ $$
 
 ---
 
-*最后更新：2025年10月*-
+*最后更新：2025年12月20日*-

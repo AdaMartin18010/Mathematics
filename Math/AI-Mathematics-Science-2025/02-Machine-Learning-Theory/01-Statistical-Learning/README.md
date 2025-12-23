@@ -12,9 +12,9 @@
   - [📚 主题列表](#-主题列表)
     - [1. PAC学习框架 ✅](#1-pac学习框架-)
     - [2. VC维与Rademacher复杂度](#2-vc维与rademacher复杂度)
-    - [3. 泛化理论](#3-泛化理论)
-    - [4. 核方法与RKHS](#4-核方法与rkhs)
-    - [5. 在线学习与Bandit算法](#5-在线学习与bandit算法)
+    - [3. 泛化误差界 ✅](#3-泛化误差界-)
+    - [4. 核方法与RKHS ✅](#4-核方法与rkhs-)
+    - [5. 在线学习与Bandit算法 ✅](#5-在线学习与bandit算法-)
   - [🎯 学习路径](#-学习路径)
     - [入门路径 (2-3周)](#入门路径-2-3周)
     - [进阶路径 (1-2个月)](#进阶路径-1-2个月)
@@ -96,7 +96,7 @@ $$
 
 ---
 
-### 3. 泛化理论
+### 3. [泛化误差界](./03-Generalization-Bounds.md) ✅
 
 **主题**:
 
@@ -108,13 +108,15 @@ $$
 **泛化界类型**:
 
 - 一致收敛界
+- VC维泛化界
+- Rademacher复杂度界
 - PAC-Bayes界
 - Stability界
-- Compression界
+- 深度学习中的泛化
 
 ---
 
-### 4. 核方法与RKHS
+### 4. [核方法与RKHS](./04-Kernel-Methods-RKHS.md) ✅
 
 **数学基础**:
 
@@ -128,10 +130,11 @@ $$
 - SVM
 - 核岭回归
 - 高斯过程
+- 神经切线核 (NTK)
 
 ---
 
-### 5. 在线学习与Bandit算法
+### 5. [在线学习与Bandit算法](./05-Online-Learning-Bandits.md) ✅
 
 **核心概念**:
 
@@ -139,6 +142,8 @@ $$
 - 专家问题
 - Hedge算法
 - UCB算法
+- 上下文Bandits
+- 对抗性Bandits
 
 **理论分析**:
 
@@ -213,26 +218,26 @@ Week 3: 泛化理论综合
 
 ### 必读
 
-1. **Understanding Machine Learning: From Theory to Algorithms**  
-   Shalev-Shwartz & Ben-David (2014)  
+1. **Understanding Machine Learning: From Theory to Algorithms**
+   Shalev-Shwartz & Ben-David (2014)
    → 最全面的统计学习理论教材
 
-2. **Foundations of Machine Learning**  
-   Mohri, Rostamizadeh, Talwalkar (2018)  
+2. **Foundations of Machine Learning**
+   Mohri, Rostamizadeh, Talwalkar (2018)
    → 偏算法实现
 
-3. **High-Dimensional Probability**  
-   Vershynin (2018)  
+3. **High-Dimensional Probability**
+   Vershynin (2018)
    → 现代概率工具
 
 ---
 
 ### 进阶
 
-1. **A Probabilistic Theory of Pattern Recognition**  
+1. **A Probabilistic Theory of Pattern Recognition**
    Devroye, Györfi, Lugosi (1996)
 
-2. **Learning Theory: An Approximation Theory Viewpoint**  
+2. **Learning Theory: An Approximation Theory Viewpoint**
    Cucker & Zhou (2007)
 
 ---

@@ -13,8 +13,8 @@
   - [📋 模块概览](#-模块概览)
   - [📚 子模块结构](#-子模块结构)
     - [1. 多元微积分 (Multivariate Calculus) ✅](#1-多元微积分-multivariate-calculus-)
-    - [2. 凸优化基础 (Convex Optimization Fundamentals) \[待补充\]](#2-凸优化基础-convex-optimization-fundamentals-待补充)
-    - [3. 非凸优化 (Non-convex Optimization) \[待补充\]](#3-非凸优化-non-convex-optimization-待补充)
+    - [2. 凸优化基础 (Convex Optimization Fundamentals) ✅](#2-凸优化基础-convex-optimization-fundamentals-)
+    - [3. 非凸优化 (Non-convex Optimization) ✅](#3-非凸优化-non-convex-optimization-)
   - [💡 核心数学工具](#-核心数学工具)
     - [梯度与Hessian](#梯度与hessian)
     - [优化算法](#优化算法)
@@ -48,22 +48,22 @@
   - 偏导数定义
   - 梯度向量
   - 方向导数
-  
+
 - **泰勒展开**
   - 一阶泰勒展开
   - 二阶泰勒展开
   - Hessian矩阵
-  
+
 - **链式法则**
   - 标量链式法则
   - 向量链式法则
   - 雅可比矩阵
-  
+
 - **梯度下降原理**
   - 最速下降方向
   - 收敛性分析
   - 步长选择
-  
+
 - **约束优化**
   - 拉格朗日乘数法
   - KKT条件
@@ -81,23 +81,24 @@
 
 ---
 
-### 2. 凸优化基础 (Convex Optimization Fundamentals) [待补充]
+### 2. 凸优化基础 (Convex Optimization Fundamentals) ✅
 
 **核心内容**:
 
-- **凸集与凸函数**
+- **凸集与凸函数** ✅
   - 凸集定义与性质
   - 凸函数定义与判定
   - 强凸性
-  
-- **凸优化问题**
+
+- **凸优化问题** ✅
   - 标准形式
   - 对偶理论
-  - 最优性条件
-  
-- **凸优化算法**
-  - 梯度投影法
-  - 近端梯度法
+  - KKT条件
+
+- **凸优化算法** ✅
+  - 梯度下降法
+  - 牛顿法
+  - 内点法
   - ADMM
 
 **AI应用**:
@@ -108,7 +109,7 @@
 
 ---
 
-### 3. 非凸优化 (Non-convex Optimization) [待补充]
+### 3. 非凸优化 (Non-convex Optimization) ✅
 
 **核心内容**:
 

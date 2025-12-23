@@ -164,7 +164,7 @@ $$
 
 ---
 
-### 4. [神经符号AI (Neuro-Symbolic AI)](./04-Neuro-Symbolic-AI/)
+### 4. [神经符号AI (Neuro-Symbolic AI)](./04-Neuro-Symbolic-AI.md) ✅
 
 **核心思想**: 结合神经网络与符号推理
 
@@ -172,9 +172,9 @@ $$
 
 - 逻辑推理与神经网络结合
 - 知识图谱嵌入
-- 可解释性与因果推理
-- 程序综合
-- 神经定理证明
+- 可微逻辑推理
+- 符号约束的神经网络
+- 视觉问答、知识推理、程序综合
 
 **架构模式**:
 
@@ -316,13 +316,13 @@ Day 7: 综合
 
 ### 必读综述
 
-1. **"State of GPT"** - Andrej Karpathy (2023)  
+1. **"State of GPT"** - Andrej Karpathy (2023)
    → LLM训练与应用全景
 
-2. **"Denoising Diffusion Probabilistic Models: A Survey"** (2024)  
+2. **"Denoising Diffusion Probabilistic Models: A Survey"** (2024)
    → 扩散模型综述
 
-3. **"Neuro-Symbolic AI: The 3rd Wave"** - Garcez et al. (2023)  
+3. **"Neuro-Symbolic AI: The 3rd Wave"** - Garcez et al. (2023)
    → 神经符号AI综述
 
 ---
@@ -436,12 +436,12 @@ class MiniGPT(nn.Module):
         self.embed = nn.Embedding(vocab_size, d_model)
         self.pos_enc = PositionalEncoding(d_model)
         self.blocks = nn.ModuleList([
-            TransformerBlock(d_model, n_heads) 
+            TransformerBlock(d_model, n_heads)
             for _ in range(n_layers)
         ])
         self.ln_f = nn.LayerNorm(d_model)
         self.head = nn.Linear(d_model, vocab_size)
-    
+
     def forward(self, x):
         x = self.embed(x) + self.pos_enc(x)
         for block in self.blocks:
