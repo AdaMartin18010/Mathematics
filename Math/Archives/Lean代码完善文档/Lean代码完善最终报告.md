@@ -111,6 +111,7 @@
 ### 剩余技术性sorry（17个）
 
 所有17个技术性sorry都具备：
+
 - ✅ 完整的证明框架
 - ✅ 多种证明方法（每种至少4种方法）
 - ✅ API名称列表（每种至少3-6个可能的API）
@@ -118,6 +119,7 @@
 - ✅ 详细的证明步骤说明
 
 **完成路径明确**：
+
 1. 优先查找mathlib4 API（使用列出的可能API名称）
 2. 如果API不存在，使用提供的替代方案
 3. 需要额外条件时，按框架建议添加前提条件
@@ -136,9 +138,9 @@
 
 ### 外部资源
 
-- **mathlib4文档**: https://leanprover-community.github.io/mathlib4_docs/
-- **mathlib4源码**: https://github.com/leanprover-community/mathlib4
-- **Lean Zulip**: https://leanprover.zulipchat.com/
+- **mathlib4文档**: <https://leanprover-community.github.io/mathlib4_docs/>
+- **mathlib4源码**: <https://github.com/leanprover-community/mathlib4>
+- **Lean Zulip**: <https://leanprover.zulipchat.com/>
 
 ---
 
@@ -179,6 +181,7 @@
 ### 完成顺序建议
 
 **第一阶段**（高优先级）:
+
 1. 唯一分解定理（3个sorry）
 2. 级数理论判别法（5个sorry）
 
