@@ -1,4 +1,4 @@
-# 矩阵分解 (Matrix Decompositions)
+﻿# 矩阵分解 (Matrix Decompositions)
 
 > **The Computational Foundation of Machine Learning**
 >
@@ -466,7 +466,7 @@ $$
   $$
   A v_j = \sigma_j u_j = \sigma_j u_j = (U \Sigma V^T) v_j
   $$
-  
+
   因为：
   $$
   (U \Sigma V^T) v_j = U \Sigma e_j = U (\sigma_j e_j) = \sigma_j u_j
@@ -476,7 +476,7 @@ $$
   $$
   \|A v_j\|^2 = v_j^T A^T A v_j = v_j^T (\lambda_j v_j) = \lambda_j \|v_j\|^2 = 0
   $$
-  
+
   因此 $A v_j = 0 = (U \Sigma V^T) v_j$
 
 由于 $\{v_1, v_2, \ldots, v_n\}$ 是 $\mathbb{R}^n$ 的标准正交基，而 $A$ 和 $U \Sigma V^T$ 在这组基上的作用相同，因此：
@@ -708,26 +708,26 @@ def modified_gram_schmidt(A):
     m, n = A.shape
     Q = A.copy().astype(float)
     R = np.zeros((n, n))
-    
+
     for i in range(n):
         # 计算范数
         R[i, i] = np.linalg.norm(Q[:, i])
-        
+
         # 归一化
         Q[:, i] = Q[:, i] / R[i, i]
-        
+
         # 关键：立即更新所有剩余向量
         for j in range(i+1, n):
             R[i, j] = Q[:, i].T @ Q[:, j]
             Q[:, j] = Q[:, j] - R[i, j] * Q[:, i]
-    
+
     return Q, R
 ```
 
 **与经典GS的对比**:
 
 | 特性 | 经典GS (CGS) | 修正GS (MGS) |
-|------|-------------|-------------|
+| ---- |-------------| ---- |
 | 计算顺序 | 先计算完整个 $u_i$，再归一化 | 每次更新立即应用到剩余向量 |
 | 正交性 | $\|\|Q^T Q - I\|\|_F \approx \kappa(A) \epsilon$ | $\|\|Q^T Q - I\|\|_F \approx \epsilon$ |
 | 数值稳定性 | 差（$\kappa(A)$ 大时失效） | 好（相对稳定） |
@@ -760,23 +760,23 @@ def compare_gram_schmidt(n):
     """比较CGS和MGS在Hilbert矩阵上的表现"""
     # 生成Hilbert矩阵
     H = np.array([[1/(i+j-1) for j in range(1,n+1)] for i in range(1,n+1)])
-    
+
     # 条件数
     kappa = np.linalg.cond(H)
     print(f"条件数 κ(H_{n}) = {kappa:.2e}")
-    
+
     # 经典GS
     Q_cgs, _ = classical_gram_schmidt(H)
     orthogonality_cgs = np.linalg.norm(Q_cgs.T @ Q_cgs - np.eye(n), 'fro')
-    
+
     # 修正GS
     Q_mgs, _ = modified_gram_schmidt(H)
     orthogonality_mgs = np.linalg.norm(Q_mgs.T @ Q_mgs - np.eye(n), 'fro')
-    
+
     print(f"CGS: ||Q^T Q - I||_F = {orthogonality_cgs:.2e}")
     print(f"MGS: ||Q^T Q - I||_F = {orthogonality_mgs:.2e}")
     print(f"改进倍数: {orthogonality_cgs / orthogonality_mgs:.1f}x")
-    
+
     return orthogonality_cgs, orthogonality_mgs
 
 # 测试不同维度
@@ -819,10 +819,10 @@ loss_mgs = []
 for n in range(3, 15):
     H = np.array([[1/(i+j-1) for j in range(1,n+1)] for i in range(1,n+1)])
     kappa = np.linalg.cond(H)
-    
+
     Q_cgs, _ = classical_gram_schmidt(H)
     Q_mgs, _ = modified_gram_schmidt(H)
-    
+
     kappas.append(kappa)
     loss_cgs.append(np.linalg.norm(Q_cgs.T @ Q_cgs - np.eye(n), 'fro'))
     loss_mgs.append(np.linalg.norm(Q_mgs.T @ Q_mgs - np.eye(n), 'fro'))
@@ -911,7 +911,7 @@ $$
 **复杂度对比**:
 
 | 算法 | 计算量 | 稳定性 |
-|------|--------|--------|
+| ---- |--------| ---- |
 | Classical GS | $2mn^2$ | 差 |
 | Modified GS | $2mn^2$ | 中 |
 | CGS + 重正交化 | $4mn^2$ | 好 |
@@ -951,7 +951,7 @@ $$
 #### 总结
 
 | 方面 | 经典GS | 修正GS |
-|------|--------|--------|
+| ---- |--------| ---- |
 | 思想 | 一次性计算所有投影 | 逐步更新剩余向量 |
 | 正交性 | $O(\kappa \epsilon)$ | $O(\epsilon)$ |
 | 适用场景 | 条件数良好的矩阵 | 通用（包括病态） |
@@ -1068,6 +1068,259 @@ $$
 
 ---
 
+## 🔬 数值稳定性综合分析
+
+数值稳定性是矩阵分解算法在实际应用中的关键考虑因素。本节系统分析各种分解方法的数值稳定性。
+
+### 1. SVD的数值稳定性
+
+**SVD的优势**：
+
+SVD是数值最稳定的矩阵分解方法之一，即使在病态矩阵上也能给出可靠结果。
+
+**稳定性分析**：
+
+1. **向后稳定性**：
+   - SVD算法（如Golub-Reinsch算法）具有向后稳定性
+   - 计算得到的 $\tilde{U}, \tilde{\Sigma}, \tilde{V}$ 满足：
+     $$
+     \tilde{U}\tilde{\Sigma}\tilde{V}^T = A + E, \quad \|E\| = O(\epsilon_{\text{machine}} \|A\|)
+     $$
+
+2. **奇异值的精度**：
+   - 奇异值 $\sigma_i$ 的相对误差：$\frac{|\tilde{\sigma}_i - \sigma_i|}{\sigma_i} = O(\epsilon_{\text{machine}})$
+   - 即使矩阵条件数很大，奇异值仍能精确计算
+
+3. **条件数影响**：
+   - 条件数 $\kappa(A) = \frac{\sigma_1}{\sigma_r}$ 影响奇异向量的精度
+   - 小奇异值对应的奇异向量可能不准确
+
+**数值实验**：
+
+```python
+import numpy as np
+from scipy.linalg import svd
+
+def svd_stability_test():
+    """测试SVD的数值稳定性"""
+    # 构造病态矩阵 (Hilbert矩阵)
+    n = 10
+    H = np.array([[1.0/(i+j+1) for j in range(n)] for i in range(n)])
+
+    # 计算条件数
+    cond_num = np.linalg.cond(H)
+    print(f"条件数 κ(H_{n}) = {cond_num:.2e}")
+
+    # SVD分解
+    U, s, Vt = svd(H)
+
+    # 重构误差
+    H_reconstructed = U @ np.diag(s) @ Vt
+    reconstruction_error = np.linalg.norm(H - H_reconstructed, 'fro')
+    relative_error = reconstruction_error / np.linalg.norm(H, 'fro')
+
+    print(f"重构相对误差: {relative_error:.2e}")
+    print(f"机器精度: {np.finfo(float).eps:.2e}")
+
+    # 验证正交性
+    U_orthogonality = np.linalg.norm(U.T @ U - np.eye(n), 'fro')
+    V_orthogonality = np.linalg.norm(Vt @ Vt.T - np.eye(n), 'fro')
+
+    print(f"U正交性误差: {U_orthogonality:.2e}")
+    print(f"V正交性误差: {V_orthogonality:.2e}")
+
+# 运行测试
+svd_stability_test()
+```
+
+**输出示例**：
+
+```
+条件数 κ(H_10) = 1.60e+13
+重构相对误差: 2.34e-15
+机器精度: 2.22e-16
+U正交性误差: 1.23e-15
+V正交性误差: 1.45e-15
+```
+
+**关键观察**：
+- 即使条件数达到 $10^{13}$，SVD仍能保持机器精度级别的重构误差
+- 正交性保持良好，误差在机器精度范围内
+
+---
+
+### 2. Cholesky分解的数值稳定性
+
+**稳定性条件**：
+
+Cholesky分解要求矩阵正定，且数值稳定性依赖于条件数。
+
+**稳定性分析**：
+
+1. **条件数要求**：
+   - 当 $\kappa(A) \approx 1/\epsilon_{\text{machine}}$ 时，Cholesky分解可能失败
+   - 实际应用中，$\kappa(A) < 10^8$ 通常安全
+
+2. **数值误差传播**：
+   - 计算得到的 $\tilde{L}$ 满足：
+     $$
+     \tilde{L}\tilde{L}^T = A + E, \quad \|E\| \leq O(\epsilon_{\text{machine}} \kappa(A) \|A\|)
+     $$
+
+3. **改进方法**：
+   - **带主元的Cholesky**：提高数值稳定性
+   - **正则化**：$A + \delta I$，其中 $\delta > 0$ 是小常数
+
+**数值实验**：
+
+```python
+from scipy.linalg import cholesky
+
+def cholesky_stability_test():
+    """测试Cholesky分解的数值稳定性"""
+    # 构造不同条件数的正定矩阵
+    for n in [5, 10, 15]:
+        # 生成随机正定矩阵
+        A = np.random.randn(n, n)
+        A = A.T @ A  # 确保正定
+
+        # 添加小的扰动使其接近奇异
+        eigenvals = np.linalg.eigvals(A)
+        min_eigenval = np.min(eigenvals)
+        A_perturbed = A + 0.01 * min_eigenval * np.eye(n)
+
+        cond_num = np.linalg.cond(A_perturbed)
+
+        try:
+            L = cholesky(A_perturbed, lower=True)
+            A_reconstructed = L @ L.T
+            error = np.linalg.norm(A_perturbed - A_reconstructed, 'fro')
+            relative_error = error / np.linalg.norm(A_perturbed, 'fro')
+
+            print(f"n={n}, κ={cond_num:.2e}, 相对误差={relative_error:.2e}")
+        except np.linalg.LinAlgError:
+            print(f"n={n}, κ={cond_num:.2e}, 分解失败")
+
+cholesky_stability_test()
+```
+
+**实践建议**：
+
+1. **检查正定性**：分解前验证 $A$ 的所有特征值 > 0
+2. **条件数监控**：$\kappa(A) > 10^8$ 时考虑正则化
+3. **使用带主元版本**：`scipy.linalg.cholesky(A, lower=True, check_finite=True)`
+
+---
+
+### 3. LU分解的数值稳定性
+
+**稳定性挑战**：
+
+LU分解的数值稳定性依赖于主元选择策略。
+
+**稳定性分析**：
+
+1. **部分主元法 (Partial Pivoting)**：
+   - 每步选择列中最大元素作为主元
+   - 稳定性：$\|E\| \leq O(n \epsilon_{\text{machine}} \|A\|)$
+   - 增长因子：$\rho = \max_{i,j} |U_{ij}| / \max_{i,j} |A_{ij}| \leq 2^{n-1}$（理论上界）
+
+2. **完全主元法 (Complete Pivoting)**：
+   - 选择整个子矩阵中最大元素
+   - 更稳定但计算成本更高
+   - 增长因子：$\rho \leq n^{1/2}(2 \cdot 3^{1/2} \cdot 4^{1/3} \cdots n^{1/(n-1)})^{1/2}$
+
+3. **数值误差**：
+   $$
+   \tilde{L}\tilde{U} = PA + E, \quad \|E\| \leq O(n \epsilon_{\text{machine}} \rho \|A\|)
+   $$
+   其中 $P$ 是置换矩阵。
+
+**数值实验**：
+
+```python
+from scipy.linalg import lu
+
+def lu_stability_test():
+    """测试LU分解的数值稳定性"""
+    # 构造Wilkinson矩阵（经典病态矩阵）
+    n = 10
+    W = np.zeros((n, n))
+    for i in range(n):
+        for j in range(n):
+            if abs(i - j) <= 1:
+                W[i, j] = 1
+            if i == j:
+                W[i, j] = abs(i - (n-1)/2) + 1
+
+    cond_num = np.linalg.cond(W)
+    print(f"Wilkinson矩阵条件数: {cond_num:.2e}")
+
+    # LU分解（带部分主元）
+    P, L, U = lu(W)
+
+    # 重构误差
+    W_reconstructed = P.T @ L @ U
+    error = np.linalg.norm(W - W_reconstructed, 'fro')
+    relative_error = error / np.linalg.norm(W, 'fro')
+
+    print(f"重构相对误差: {relative_error:.2e}")
+
+    # 增长因子
+    max_A = np.max(np.abs(W))
+    max_U = np.max(np.abs(U))
+    growth_factor = max_U / max_A
+    print(f"增长因子: {growth_factor:.2f}")
+
+lu_stability_test()
+```
+
+**实践建议**：
+
+1. **总是使用主元**：`scipy.linalg.lu` 默认使用部分主元
+2. **监控增长因子**：$\rho > 10$ 时需注意
+3. **病态矩阵**：考虑使用QR分解或SVD替代
+
+---
+
+### 4. 综合对比与选择指南
+
+| 分解方法 | 数值稳定性 | 适用条件 | 计算复杂度 | 推荐场景 |
+ 
+        $matches[0] -replace '\|[-:]+\|', '| ---- |'
+    ---------|
+| **SVD** | ⭐⭐⭐⭐⭐ 最优 | 任意矩阵 | $O(mn^2)$ | 病态矩阵、低秩近似 |
+| **QR** | ⭐⭐⭐⭐ 优秀 | 任意矩阵 | $O(mn^2)$ | 最小二乘、正交化 |
+| **Cholesky** | ⭐⭐⭐ 良好 | 正定矩阵 | $O(n^3/3)$ | 正定系统、优化 |
+| **LU** | ⭐⭐ 中等 | 可逆矩阵 | $O(n^3/3)$ | 线性系统求解 |
+| **特征值分解** | ⭐⭐ 中等 | 可对角化矩阵 | $O(n^3)$ | 对称矩阵、谱分析 |
+
+**选择决策树**：
+
+```text
+矩阵类型?
+├─ 任意矩阵 → SVD (最稳定) 或 QR
+├─ 正定矩阵 → Cholesky (最快) 或 SVD (最稳定)
+├─ 对称矩阵 → 特征值分解 或 SVD
+└─ 一般方阵 → LU (带主元) 或 QR
+```
+
+**AI应用中的建议**：
+
+1. **神经网络训练**：
+   - 权重矩阵：使用SVD进行低秩近似（模型压缩）
+   - 优化器中的Hessian：Cholesky分解（如果正定）
+
+2. **推荐系统**：
+   - 用户-物品矩阵：SVD（矩阵分解）
+   - 大规模数据：截断SVD（计算效率）
+
+3. **降维与特征提取**：
+   - PCA：特征值分解或SVD（SVD更稳定）
+   - 核方法：SVD（核矩阵可能病态）
+
+---
+
 ## 🔧 在深度学习中的应用
 
 ### 1. 主成分分析 (PCA)
@@ -1143,6 +1396,316 @@ $$
 
 ---
 
+### 5. 推荐系统中的矩阵分解
+
+**问题**：给定用户-物品评分矩阵 $R \in \mathbb{R}^{m \times n}$（稀疏），预测缺失评分。
+
+**方法**：低秩矩阵分解
+
+$$
+R \approx UV^T
+$$
+
+其中 $U \in \mathbb{R}^{m \times k}$ 是用户特征矩阵，$V \in \mathbb{R}^{n \times k}$ 是物品特征矩阵，$k \ll \min(m,n)$。
+
+**优化目标**：
+
+$$
+\min_{U,V} \sum_{(i,j) \in \Omega} (R_{ij} - U_i V_j^T)^2 + \lambda(\|U\|_F^2 + \|V\|_F^2)
+$$
+
+其中 $\Omega$ 是已知评分的索引集合，$\lambda$ 是正则化参数。
+
+**SVD方法**：
+
+1. 用均值填充缺失值：$\tilde{R} = R + \mu$
+2. SVD分解：$\tilde{R} = U\Sigma V^T$
+3. 截断到 $k$ 维：$R_k = U_k \Sigma_k V_k^T$
+4. 预测：$\hat{R}_{ij} = (U_k \Sigma_k^{1/2})_i (V_k \Sigma_k^{1/2})_j^T$
+
+**Python实现示例**：
+
+```python
+def matrix_factorization_recommendation(R, k=50, lambda_reg=0.01, max_iter=100):
+    """
+    使用矩阵分解进行推荐
+
+    参数:
+        R: 用户-物品评分矩阵 (m x n)
+        k: 潜在因子维度
+        lambda_reg: 正则化参数
+        max_iter: 最大迭代次数
+    """
+    m, n = R.shape
+    mask = ~np.isnan(R)  # 已知评分的位置
+
+    # 初始化
+    U = np.random.randn(m, k) * 0.1
+    V = np.random.randn(n, k) * 0.1
+
+    # 交替最小二乘
+    for iteration in range(max_iter):
+        # 更新 U
+        for i in range(m):
+            V_i = V[mask[i], :]
+            R_i = R[i, mask[i]]
+            U[i, :] = np.linalg.solve(
+                V_i.T @ V_i + lambda_reg * np.eye(k),
+                V_i.T @ R_i
+            )
+
+        # 更新 V
+        for j in range(n):
+            U_j = U[mask[:, j], :]
+            R_j = R[mask[:, j], j]
+            V[j, :] = np.linalg.solve(
+                U_j.T @ U_j + lambda_reg * np.eye(k),
+                U_j.T @ R_j
+            )
+
+        # 计算损失
+        R_pred = U @ V.T
+        loss = np.sum((R[mask] - R_pred[mask])**2) + \
+               lambda_reg * (np.sum(U**2) + np.sum(V**2))
+
+        if iteration % 10 == 0:
+            print(f"Iteration {iteration}, Loss: {loss:.4f}")
+
+    return U, V, U @ V.T
+```
+
+---
+
+### 6. 图像去噪与压缩
+
+**应用场景**：
+
+1. **图像去噪**：使用SVD保留主要成分，去除噪声
+2. **图像压缩**：低秩近似减少存储空间
+
+**SVD图像处理**：
+
+```python
+def svd_image_denoising(image, k=50):
+    """
+    使用SVD进行图像去噪
+
+    参数:
+        image: 输入图像 (H x W x C) 或 (H x W)
+        k: 保留的奇异值数量
+    """
+    if len(image.shape) == 3:
+        # 彩色图像：对每个通道分别处理
+        denoised = np.zeros_like(image)
+        for c in range(image.shape[2]):
+            U, s, Vt = svd(image[:, :, c])
+            # 截断SVD
+            U_k = U[:, :k]
+            s_k = s[:k]
+            Vt_k = Vt[:k, :]
+            denoised[:, :, c] = U_k @ np.diag(s_k) @ Vt_k
+        return denoised
+    else:
+        # 灰度图像
+        U, s, Vt = svd(image)
+        U_k = U[:, :k]
+        s_k = s[:k]
+        Vt_k = Vt[:k, :]
+        return U_k @ np.diag(s_k) @ Vt_k
+
+def svd_image_compression(image, compression_ratio=0.1):
+    """
+    使用SVD进行图像压缩
+
+    参数:
+        image: 输入图像 (H x W)
+        compression_ratio: 压缩比 (0-1)
+    """
+    H, W = image.shape
+    U, s, Vt = svd(image)
+
+    # 计算保留的奇异值数量
+    k = int(min(H, W) * compression_ratio)
+    k = max(1, k)  # 至少保留1个
+
+    # 截断SVD
+    U_k = U[:, :k]
+    s_k = s[:k]
+    Vt_k = Vt[:k, :]
+
+    compressed = U_k @ np.diag(s_k) @ Vt_k
+
+    # 计算压缩率
+    original_size = H * W
+    compressed_size = H * k + k + W * k  # U_k, s_k, Vt_k
+    actual_ratio = compressed_size / original_size
+
+    return compressed, actual_ratio
+```
+
+**压缩效果分析**：
+
+- **存储空间**：从 $mn$ 减少到 $k(m + n + 1)$
+- **压缩率**：$\frac{k(m + n + 1)}{mn} \approx \frac{2k}{\min(m,n)}$（当 $m \approx n$）
+- **质量损失**：由Eckart-Young定理，这是最优的低秩近似
+
+---
+
+### 7. 自然语言处理中的潜在语义分析
+
+**应用**：文档主题建模、语义相似度计算
+
+**方法**：Latent Semantic Analysis (LSA) / Latent Semantic Indexing (LSI)
+
+**步骤**：
+
+1. **词-文档矩阵**：$A \in \mathbb{R}^{m \times n}$
+   - $A_{ij}$ = 词 $i$ 在文档 $j$ 中的TF-IDF值
+   - $m$ = 词汇表大小，$n$ = 文档数量
+
+2. **SVD分解**：$A = U\Sigma V^T$
+   - $U$：词-主题矩阵（$m \times k$）
+   - $\Sigma$：主题强度（$k \times k$）
+   - $V$：文档-主题矩阵（$n \times k$）
+
+3. **降维**：保留前 $k$ 个主题
+   - $A_k = U_k \Sigma_k V_k^T$
+
+4. **应用**：
+   - **文档相似度**：$\cos(\theta) = \frac{V_i \cdot V_j}{\|V_i\| \|V_j\|}$
+   - **查询检索**：将查询向量投影到主题空间
+   - **主题提取**：$U_k$ 的列表示主题词分布
+
+**Python实现**：
+
+```python
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.decomposition import TruncatedSVD
+
+def lsa_topic_modeling(documents, n_topics=10):
+    """
+    使用LSA进行主题建模
+
+    参数:
+        documents: 文档列表
+        n_topics: 主题数量
+    """
+    # TF-IDF向量化
+    vectorizer = TfidfVectorizer(max_features=1000, stop_words='english')
+    X = vectorizer.fit_transform(documents)
+
+    # SVD降维（使用截断SVD，适合稀疏矩阵）
+    svd = TruncatedSVD(n_components=n_topics, random_state=42)
+    X_reduced = svd.fit_transform(X)
+
+    # 获取主题词
+    feature_names = vectorizer.get_feature_names_out()
+    topics = []
+    for i in range(n_topics):
+        # 获取该主题最重要的词
+        topic_weights = svd.components_[i]
+        top_words_idx = topic_weights.argsort()[-10:][::-1]
+        top_words = [feature_names[idx] for idx in top_words_idx]
+        topics.append(top_words)
+
+    return X_reduced, topics, svd
+```
+
+---
+
+### 8. 神经网络中的低秩近似
+
+**应用场景**：
+
+1. **模型压缩**：减少参数量，加速推理
+2. **知识蒸馏**：将大模型压缩为小模型
+3. **迁移学习**：微调预训练模型
+
+**方法**：对权重矩阵 $W \in \mathbb{R}^{m \times n}$ 进行低秩分解
+
+$$
+W \approx W_1 W_2, \quad W_1 \in \mathbb{R}^{m \times k}, \quad W_2 \in \mathbb{R}^{k \times n}
+$$
+
+其中 $k \ll \min(m, n)$。
+
+**SVD方法**：
+
+1. SVD分解：$W = U\Sigma V^T$
+2. 选择 $k$：保留前 $k$ 个奇异值，使得 $\frac{\sum_{i=1}^k \sigma_i}{\sum_{i=1}^r \sigma_i} \geq \tau$（例如 $\tau = 0.95$）
+3. 分解：$W_1 = U_k \Sigma_k^{1/2}$，$W_2 = \Sigma_k^{1/2} V_k^T$
+
+**参数量对比**：
+
+- **原始**：$mn$ 参数
+- **低秩**：$k(m + n)$ 参数
+- **压缩比**：$\frac{k(m + n)}{mn} = k(\frac{1}{m} + \frac{1}{n})$
+
+**PyTorch实现示例**：
+
+```python
+import torch
+import torch.nn as nn
+
+class LowRankLinear(nn.Module):
+    """低秩线性层"""
+    def __init__(self, in_features, out_features, rank):
+        super().__init__()
+        self.rank = rank
+        self.W1 = nn.Parameter(torch.randn(in_features, rank))
+        self.W2 = nn.Parameter(torch.randn(rank, out_features))
+
+    def forward(self, x):
+        return x @ self.W1 @ self.W2
+
+def compress_linear_layer(linear_layer, rank, threshold=0.95):
+    """
+    使用SVD压缩线性层
+
+    参数:
+        linear_layer: nn.Linear层
+        rank: 目标秩（如果为None，则根据threshold自动选择）
+        threshold: 保留的奇异值能量比例
+    """
+    W = linear_layer.weight.data  # (out_features, in_features)
+
+    # SVD分解
+    U, s, Vt = torch.svd(W)
+
+    if rank is None:
+        # 根据threshold自动选择rank
+        cumulative_energy = torch.cumsum(s**2, dim=0)
+        total_energy = cumulative_energy[-1]
+        rank = torch.sum(cumulative_energy < threshold * total_energy).item() + 1
+        rank = min(rank, min(W.shape))
+
+    # 截断
+    U_k = U[:, :rank]
+    s_k = s[:rank]
+    Vt_k = Vt[:rank, :]
+
+    # 创建低秩层
+    low_rank_layer = LowRankLinear(
+        linear_layer.in_features,
+        linear_layer.out_features,
+        rank
+    )
+
+    # 初始化权重
+    low_rank_layer.W1.data = Vt_k.T @ torch.diag(torch.sqrt(s_k))
+    low_rank_layer.W2.data = torch.diag(torch.sqrt(s_k)) @ U_k.T
+
+    return low_rank_layer, rank
+```
+
+**压缩效果**：
+
+- **参数量减少**：通常可减少 50-90% 的参数
+- **推理加速**：矩阵乘法从 $O(mn)$ 减少到 $O(k(m+n))$
+- **精度损失**：通常 < 5%（取决于选择的 $k$）
+
+---
+
 ## 💻 Python实现
 
 ```python
@@ -1155,22 +1718,22 @@ def eigendecomposition_demo():
     """特征值分解示例"""
     # 对称矩阵
     A = np.array([[2, 1], [1, 2]])
-    
+
     # 特征值分解
     eigenvalues, eigenvectors = np.linalg.eig(A)
-    
+
     print("矩阵 A:")
     print(A)
     print("\n特征值:")
     print(eigenvalues)
     print("\n特征向量:")
     print(eigenvectors)
-    
+
     # 验证: A = QΛQ^T
     Lambda = np.diag(eigenvalues)
     Q = eigenvectors
     A_reconstructed = Q @ Lambda @ Q.T
-    
+
     print("\n重构误差:")
     print(np.linalg.norm(A - A_reconstructed))
 
@@ -1181,25 +1744,25 @@ def svd_demo():
     # 创建矩阵
     A = np.array([[3, 2, 2],
                   [2, 3, -2]])
-    
+
     # SVD分解
     U, S, Vt = svd(A)
-    
+
     print("矩阵 A:")
     print(A)
     print(f"\nA的形状: {A.shape}")
     print(f"U的形状: {U.shape}")
     print(f"S的形状: {S.shape}")
     print(f"Vt的形状: {Vt.shape}")
-    
+
     print("\n奇异值:")
     print(S)
-    
+
     # 重构
     Sigma = np.zeros((A.shape[0], A.shape[1]))
     Sigma[:len(S), :len(S)] = np.diag(S)
     A_reconstructed = U @ Sigma @ Vt
-    
+
     print("\n重构误差:")
     print(np.linalg.norm(A - A_reconstructed))
 
@@ -1208,26 +1771,26 @@ def svd_demo():
 def pca_demo():
     """PCA降维示例"""
     np.random.seed(42)
-    
+
     # 生成2D数据
     mean = [0, 0]
     cov = [[3, 1.5], [1.5, 1]]
     X = np.random.multivariate_normal(mean, cov, 200)
-    
+
     # PCA (使用SVD)
     X_centered = X - X.mean(axis=0)
     U, S, Vt = svd(X_centered, full_matrices=False)
-    
+
     # 主成分
     principal_components = Vt.T
-    
+
     # 投影到第一主成分
     Z = X_centered @ principal_components[:, 0:1]
     X_reconstructed = Z @ principal_components[:, 0:1].T + X.mean(axis=0)
-    
+
     # 可视化
     plt.figure(figsize=(12, 5))
-    
+
     # 原始数据
     plt.subplot(1, 2, 1)
     plt.scatter(X[:, 0], X[:, 1], alpha=0.5)
@@ -1241,7 +1804,7 @@ def pca_demo():
     plt.legend()
     plt.axis('equal')
     plt.grid(True)
-    
+
     # 重构数据
     plt.subplot(1, 2, 2)
     plt.scatter(X[:, 0], X[:, 1], alpha=0.3, label='Original')
@@ -1252,10 +1815,10 @@ def pca_demo():
     plt.legend()
     plt.axis('equal')
     plt.grid(True)
-    
+
     plt.tight_layout()
     # plt.show()
-    
+
     # 解释方差比例
     explained_variance_ratio = S**2 / np.sum(S**2)
     print("解释方差比例:")
@@ -1268,27 +1831,27 @@ def low_rank_approximation_demo():
     # 创建一个简单的"图像"
     np.random.seed(42)
     img = np.random.randn(50, 50)
-    
+
     # SVD
     U, S, Vt = svd(img, full_matrices=False)
-    
+
     # 不同秩的近似
     ranks = [1, 5, 10, 20, 50]
-    
+
     plt.figure(figsize=(15, 3))
-    
+
     for i, k in enumerate(ranks):
         # 截断SVD
         img_k = U[:, :k] @ np.diag(S[:k]) @ Vt[:k, :]
-        
+
         # 计算误差
         error = np.linalg.norm(img - img_k, 'fro') / np.linalg.norm(img, 'fro')
-        
+
         plt.subplot(1, len(ranks), i+1)
         plt.imshow(img_k, cmap='gray')
         plt.title(f'Rank {k}\nError: {error:.3f}')
         plt.axis('off')
-    
+
     plt.tight_layout()
     # plt.show()
 
@@ -1300,28 +1863,28 @@ def cholesky_demo():
     A = np.array([[4, 2, 1],
                   [2, 3, 1],
                   [1, 1, 2]])
-    
+
     print("矩阵 A (正定):")
     print(A)
-    
+
     # Cholesky分解
     L = cholesky(A, lower=True)
-    
+
     print("\nCholesky分解 L:")
     print(L)
-    
+
     # 验证
     A_reconstructed = L @ L.T
     print("\n重构误差:")
     print(np.linalg.norm(A - A_reconstructed))
-    
+
     # 求解线性系统 Ax = b
     b = np.array([1, 2, 3])
-    
+
     # 使用Cholesky分解求解
     y = np.linalg.solve(L, b)  # Ly = b
     x = np.linalg.solve(L.T, y)  # L^T x = y
-    
+
     print("\n求解 Ax = b:")
     print(f"x = {x}")
     print(f"验证 Ax = {A @ x}")
@@ -1334,22 +1897,22 @@ def qr_demo():
                   [4, 5, 6],
                   [7, 8, 9],
                   [10, 11, 12]], dtype=float)
-    
+
     print("矩阵 A:")
     print(A)
-    
+
     # QR分解
     Q, R = qr(A)
-    
+
     print("\nQ (正交矩阵):")
     print(Q)
     print("\nR (上三角矩阵):")
     print(R)
-    
+
     # 验证正交性
     print("\nQ^T Q:")
     print(Q.T @ Q)
-    
+
     # 重构
     A_reconstructed = Q @ R
     print("\n重构误差:")
@@ -1358,26 +1921,26 @@ def qr_demo():
 
 if __name__ == "__main__":
     print("=== 矩阵分解示例 ===\n")
-    
+
     print("1. 特征值分解")
     eigendecomposition_demo()
-    
+
     print("\n" + "="*50 + "\n")
     print("2. SVD分解")
     svd_demo()
-    
+
     print("\n" + "="*50 + "\n")
     print("3. PCA降维")
     pca_demo()
-    
+
     print("\n" + "="*50 + "\n")
     print("4. 低秩近似")
     low_rank_approximation_demo()
-    
+
     print("\n" + "="*50 + "\n")
     print("5. Cholesky分解")
     cholesky_demo()
-    
+
     print("\n" + "="*50 + "\n")
     print("6. QR分解")
     qr_demo()
@@ -1412,7 +1975,7 @@ $$
 ## 🎓 相关课程
 
 | 大学 | 课程 |
-|------|------|
+| ---- |------|
 | **MIT** | 18.06 - Linear Algebra (Gilbert Strang) |
 | **MIT** | 18.065 - Matrix Methods in Data Analysis |
 | **Stanford** | CS205L - Continuous Mathematical Methods |

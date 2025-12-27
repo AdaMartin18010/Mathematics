@@ -1,4 +1,4 @@
-# 泛函分析与算子理论 (Functional Analysis & Operator Theory)
+﻿# 泛函分析与算子理论 (Functional Analysis & Operator Theory)
 
 > **The Mathematical Foundation of Infinite-Dimensional Learning**
 >
@@ -331,7 +331,7 @@ k(x, y) = (x^T y + c)^d
 ## 📈 模块完成度
 
 | 子模块 | 完成度 | 状态 |
-|--------|--------|------|
+| ---- |--------| ---- |
 | **Hilbert空间与RKHS** | **100%** | ✅ **完成** |
 | **Banach空间与算子理论** | **100%** | ✅ **完成** |
 | **最优传输理论** | **100%** | ✅ **完成** 🆕 |
@@ -343,7 +343,7 @@ k(x, y) = (x^T y + c)^d
 ## 📊 模块统计
 
 | 指标 | 数值 |
-|------|------|
+| ---- |------|
 | **完成文档** | 3 / 3 |
 | **总内容量** | ~180 KB |
 | **代码示例** | 30+ |

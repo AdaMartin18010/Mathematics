@@ -1,4 +1,4 @@
-# 生成对抗网络 (GAN) 理论
+﻿# 生成对抗网络 (GAN) 理论
 
 > **Generative Adversarial Networks: Theory and Mathematics**
 >
@@ -251,7 +251,7 @@ class Generator(nn.Module):
             nn.Linear(hidden_dim, output_dim),
             nn.Tanh()  # 输出范围 [-1, 1]
         )
-    
+
     def forward(self, z):
         return self.net(z)
 
@@ -269,7 +269,7 @@ class Discriminator(nn.Module):
             nn.Linear(hidden_dim, 1),
             nn.Sigmoid()  # 输出概率
         )
-    
+
     def forward(self, x):
         return self.net(x)
 
@@ -279,50 +279,50 @@ def train_gan(generator, discriminator, train_loader, epochs=50, lr=2e-4, latent
     # 优化器
     g_optimizer = optim.Adam(generator.parameters(), lr=lr, betas=(0.5, 0.999))
     d_optimizer = optim.Adam(discriminator.parameters(), lr=lr, betas=(0.5, 0.999))
-    
+
     # 损失函数
     criterion = nn.BCELoss()
-    
+
     for epoch in range(epochs):
         for batch_idx, (real_images, _) in enumerate(train_loader):
             batch_size = real_images.size(0)
             real_images = real_images.view(batch_size, -1)
-            
+
             # 真假标签
             real_labels = torch.ones(batch_size, 1)
             fake_labels = torch.zeros(batch_size, 1)
-            
+
             # ========== 训练判别器 ==========
             d_optimizer.zero_grad()
-            
+
             # 真样本
             real_outputs = discriminator(real_images)
             d_loss_real = criterion(real_outputs, real_labels)
-            
+
             # 假样本
             z = torch.randn(batch_size, latent_dim)
             fake_images = generator(z)
             fake_outputs = discriminator(fake_images.detach())
             d_loss_fake = criterion(fake_outputs, fake_labels)
-            
+
             # 总判别器损失
             d_loss = d_loss_real + d_loss_fake
             d_loss.backward()
             d_optimizer.step()
-            
+
             # ========== 训练生成器 ==========
             g_optimizer.zero_grad()
-            
+
             # 生成假样本并欺骗判别器
             z = torch.randn(batch_size, latent_dim)
             fake_images = generator(z)
             fake_outputs = discriminator(fake_images)
-            
+
             # 生成器损失（希望判别器输出1）
             g_loss = criterion(fake_outputs, real_labels)
             g_loss.backward()
             g_optimizer.step()
-        
+
         # 打印进度
         if (epoch + 1) % 10 == 0:
             print(f"Epoch [{epoch+1}/{epochs}], D Loss: {d_loss.item():.4f}, G Loss: {g_loss.item():.4f}")
@@ -346,23 +346,23 @@ if __name__ == "__main__":
         transforms.ToTensor(),
         transforms.Normalize([0.5], [0.5])  # 归一化到 [-1, 1]
     ])
-    
+
     train_dataset = datasets.MNIST('./data', train=True, download=True, transform=transform)
     train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True)
-    
+
     # 创建模型
     latent_dim = 100
     generator = Generator(latent_dim=latent_dim)
     discriminator = Discriminator()
-    
+
     # 训练
     print("Training GAN...")
     train_gan(generator, discriminator, train_loader, epochs=50, latent_dim=latent_dim)
-    
+
     # 生成样本
     print("\nGenerating samples...")
     samples = generate_samples(generator, n_samples=16, latent_dim=latent_dim)
-    
+
     # 可视化
     fig, axes = plt.subplots(4, 4, figsize=(8, 8))
     for i, ax in enumerate(axes.flat):
@@ -466,6 +466,253 @@ $$
 
 ---
 
+## 🔧 实际应用案例
+
+### 1. 图像生成
+
+**高分辨率图像生成**:
+
+GAN在图像生成领域取得突破性进展。
+
+**里程碑**:
+- **DCGAN (2015)**: 首次生成高质量图像
+- **Progressive GAN (2017)**: 生成1024×1024高分辨率图像
+- **StyleGAN (2019)**: 控制生成图像的风格和细节
+- **StyleGAN2/3 (2020-2021)**: 进一步改进质量和控制
+
+**应用场景**:
+- 艺术创作
+- 游戏资产生成
+- 数据增强
+
+---
+
+### 2. 图像到图像翻译
+
+**Pix2Pix**:
+
+使用条件GAN进行图像到图像翻译。
+
+**任务**:
+- 语义分割 ↔ 真实图像
+- 边缘图 → 彩色图像
+- 白天 → 夜晚
+- 草图 → 照片
+
+**架构**:
+- 生成器: U-Net（保留细节）
+- 判别器: PatchGAN（局部判别）
+
+**损失函数**:
+$$
+\mathcal{L} = \mathcal{L}_{\text{GAN}} + \lambda \mathcal{L}_{L1}
+$$
+
+其中 $\mathcal{L}_{L1}$ 是像素级重构损失。
+
+---
+
+### 3. 超分辨率
+
+**SRGAN**:
+
+使用GAN进行图像超分辨率。
+
+**目标**: 将低分辨率图像转换为高分辨率图像。
+
+**优势**:
+- 生成更真实的细节
+- 避免过度平滑
+- 感知质量更好
+
+**评估指标**:
+- PSNR（峰值信噪比）
+- SSIM（结构相似性）
+- LPIPS（感知相似性）
+
+---
+
+### 4. 人脸生成与编辑
+
+**StyleGAN人脸生成**:
+
+StyleGAN可以生成逼真的人脸图像。
+
+**特点**:
+- 高分辨率（1024×1024）
+- 控制潜在空间属性
+- 支持插值和编辑
+
+**应用**:
+- 虚拟角色创建
+- 人脸老化/年轻化
+- 表情编辑
+- 属性编辑（发型、眼镜等）
+
+**实践示例**:
+
+```python
+import torch
+from stylegan2 import Generator
+
+# 加载预训练模型
+generator = Generator(1024, 512, 8)
+generator.load_state_dict(torch.load('stylegan2-ffhq.pth'))
+
+# 生成随机人脸
+z = torch.randn(1, 512)
+w = generator.style(z)
+image = generator(w)
+
+# 编辑属性（在W空间中）
+w_edited = w + alpha * attribute_direction
+edited_image = generator(w_edited)
+```
+
+---
+
+### 5. 文本到图像生成
+
+**Text-to-Image GAN**:
+
+根据文本描述生成图像。
+
+**架构**:
+- 文本编码器: 将文本编码为向量
+- 生成器: 根据文本向量生成图像
+- 判别器: 判断图像-文本对是否匹配
+
+**挑战**:
+- 文本和图像的语义对齐
+- 生成细节的准确性
+- 多样性与真实性的平衡
+
+**应用**:
+- 创意设计
+- 内容创作
+- 数据增强
+
+---
+
+### 6. 数据增强
+
+**GAN-based数据增强**:
+
+使用GAN生成训练样本，解决数据稀缺问题。
+
+**优势**:
+- 生成多样化样本
+- 保持数据分布
+- 提高模型泛化能力
+
+**应用场景**:
+- 医学图像（数据稀缺）
+- 罕见事件检测
+- 小样本学习
+
+**实践示例**:
+
+```python
+# 训练GAN
+gan = GAN()
+gan.train(training_data)
+
+# 生成增强数据
+augmented_data = []
+for _ in range(num_augmented):
+    z = torch.randn(1, latent_dim)
+    fake_sample = gan.generator(z)
+    augmented_data.append(fake_sample)
+
+# 合并原始和增强数据
+all_data = training_data + augmented_data
+model.train(all_data)
+```
+
+---
+
+### 7. 异常检测
+
+**AnoGAN**:
+
+使用GAN进行异常检测。
+
+**方法**:
+1. 在正常数据上训练GAN
+2. 对于测试样本，在潜在空间中寻找最接近的潜在向量
+3. 重构误差高 → 异常
+
+**优势**:
+- 无监督学习
+- 不需要异常样本
+- 可解释（重构误差）
+
+**应用**:
+- 医学异常检测
+- 工业缺陷检测
+- 网络安全
+
+---
+
+### 8. 域适应
+
+**Domain Adaptation GAN**:
+
+使用GAN进行域适应。
+
+**目标**: 将源域数据转换为目标域风格。
+
+**方法**:
+- 生成器: 源域 → 目标域
+- 判别器: 区分真实目标域和转换后的图像
+
+**应用**:
+- 风格迁移
+- 域适应（如合成→真实）
+- 数据对齐
+
+---
+
+### 9. 视频生成
+
+**Video GAN**:
+
+生成视频序列。
+
+**挑战**:
+- 时间一致性
+- 长期依赖
+- 计算复杂度
+
+**方法**:
+- 3D卷积GAN
+- 时序GAN
+- 条件视频生成
+
+**应用**:
+- 视频预测
+- 视频插帧
+- 视频编辑
+
+---
+
+### 10. 3D生成
+
+**3D GAN**:
+
+生成3D对象（点云、网格、体素）。
+
+**架构**:
+- 生成器: 噪声 → 3D对象
+- 判别器: 判断3D对象真实性
+
+**应用**:
+- 3D建模
+- 游戏资产
+- 虚拟现实
+
+---
+
 ## 📚 理论深化
 
 ### 1. f-散度视角
@@ -481,7 +728,7 @@ $$
 **常见f-散度**：
 
 | f-散度 | $f(t)$ |
-|--------|--------|
+| ---- |--------|
 | **KL** | $t \log t$ |
 | **JS** | $-\log(2) - \frac{1}{2}(t+1)\log\frac{t+1}{2}$ |
 | **Total Variation** | $\frac{1}{2}\|t-1\|$ |
@@ -506,7 +753,7 @@ $$
 ## 🎓 相关课程
 
 | 大学 | 课程 |
-|------|------|
+| ---- |------|
 | **Stanford** | CS236 Deep Generative Models |
 | **MIT** | 6.S191 Introduction to Deep Learning |
 | **UC Berkeley** | CS294 Deep Unsupervised Learning |
@@ -528,4 +775,4 @@ $$
 
 ---
 
-*最后更新：2025年10月*-
+*最后更新：2025年12月20日*-

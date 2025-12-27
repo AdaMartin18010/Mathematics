@@ -1,4 +1,4 @@
-# Hilbert空间与再生核Hilbert空间 (Hilbert Spaces & RKHS)
+﻿# Hilbert空间与再生核Hilbert空间 (Hilbert Spaces & RKHS)
 
 > **The Mathematical Foundation of Kernel Methods**
 >
@@ -483,6 +483,249 @@ $$
 
 ---
 
+### 5. 神经切线核 (Neural Tangent Kernel, NTK)
+
+**核心思想**：
+
+在无限宽神经网络中，训练过程等价于核方法，对应的核函数称为神经切线核。
+
+**定义**：
+
+对于神经网络 $f(x; \theta)$，NTK定义为：
+
+$$
+k_{\text{NTK}}(x, x') = \left\langle \frac{\partial f(x; \theta)}{\partial \theta}, \frac{\partial f(x'; \theta)}{\partial \theta} \right\rangle
+$$
+
+**关键性质**：
+
+1. **训练动力学**：在梯度下降下，网络输出演化由NTK控制：
+   $$
+   \frac{d f(x; \theta_t)}{dt} = -\eta \sum_{i=1}^n k_{\text{NTK}}(x, x_i) (f(x_i; \theta_t) - y_i)
+   $$
+
+2. **泛化保证**：NTK理论提供了神经网络的泛化界
+
+3. **架构依赖**：不同架构（MLP、CNN、Transformer）对应不同的NTK
+
+**实际应用**：
+
+- **快速训练**：使用NTK近似可以加速训练
+- **架构设计**：通过分析NTK设计更好的架构
+- **理论分析**：理解深度学习的优化和泛化
+
+**Python实现示例**：
+
+```python
+import torch
+import torch.nn as nn
+
+def compute_ntk(model, x1, x2):
+    """
+    计算神经切线核
+
+    参数:
+        model: 神经网络模型
+        x1, x2: 输入样本
+    """
+    model.eval()
+
+    # 计算梯度
+    def get_grad(x):
+        model.zero_grad()
+        output = model(x)
+        grad = torch.autograd.grad(
+            outputs=output.sum(),
+            inputs=model.parameters(),
+            create_graph=True,
+            retain_graph=True
+        )
+        return torch.cat([g.flatten() for g in grad])
+
+    grad1 = get_grad(x1)
+    grad2 = get_grad(x2)
+
+    # NTK = 内积
+    ntk = torch.dot(grad1, grad2)
+    return ntk.item()
+
+# 示例：MLP的NTK
+class SimpleMLP(nn.Module):
+    def __init__(self, width=1000):
+        super().__init__()
+        self.layers = nn.Sequential(
+            nn.Linear(2, width),
+            nn.ReLU(),
+            nn.Linear(width, width),
+            nn.ReLU(),
+            nn.Linear(width, 1)
+        )
+
+    def forward(self, x):
+        return self.layers(x)
+
+model = SimpleMLP(width=1000)
+x1 = torch.randn(1, 2)
+x2 = torch.randn(1, 2)
+
+ntk_value = compute_ntk(model, x1, x2)
+print(f"NTK value: {ntk_value}")
+```
+
+---
+
+### 6. 核方法在深度学习中的应用
+
+**核方法与深度学习的联系**：
+
+1. **无限宽网络**：无限宽神经网络等价于核方法（NTK理论）
+2. **特征学习**：深度网络学习特征映射，类似于核方法中的特征空间
+3. **表示学习**：深度网络学习的数据表示可以视为核函数的隐式特征映射
+
+**核方法 vs 深度学习**：
+
+| 特性 | 核方法 | 深度学习 |
+| ---- |--------| ---- |
+| **特征** | 显式核函数 | 隐式学习 |
+| **可解释性** | 高（核函数明确） | 低（黑盒） |
+| **数据需求** | 小样本 | 大数据 |
+| **计算** | $O(n^2)$ 核矩阵 | $O(n)$ 前向传播 |
+| **理论保证** | 强（RKHS理论） | 弱（经验成功） |
+
+**混合方法**：
+
+- **核初始化**：使用核方法初始化深度网络
+- **核正则化**：在损失函数中加入核正则项
+- **深度核学习**：学习深度核函数
+
+---
+
+### 7. 多任务学习中的核方法
+
+**多任务核学习**：
+
+在多任务学习中，不同任务共享核函数：
+
+$$
+k_{\text{MTL}}((x, t), (x', t')) = k_t(x, x') \cdot \delta(t, t') + k_0(x, x')
+$$
+
+其中：
+- $k_t$ 是任务特定的核
+- $k_0$ 是共享核
+- $\delta(t, t')$ 是任务指示函数
+
+**应用场景**：
+
+- **迁移学习**：源域和目标域共享核
+- **多输出回归**：多个相关输出任务
+- **领域适应**：不同领域间的知识共享
+
+---
+
+### 8. 核方法在强化学习中的应用
+
+**核化值函数**：
+
+在强化学习中，值函数可以表示为：
+
+$$
+V(s) = \sum_{i=1}^n \alpha_i k(s, s_i)
+$$
+
+其中 $k(s, s')$ 是状态空间的核函数。
+
+**核化策略梯度**：
+
+策略梯度方法中的优势函数可以核化：
+
+$$
+A(s, a) = \sum_{i=1}^n \alpha_i k((s, a), (s_i, a_i))
+$$
+
+**优势**：
+
+- **函数逼近**：无需显式特征工程
+- **样本效率**：核方法在小样本下表现好
+- **理论保证**：RKHS理论提供收敛保证
+
+**Python实现示例**：
+
+```python
+import numpy as np
+from sklearn.gaussian_process import GaussianProcessRegressor
+from sklearn.gaussian_process.kernels import RBF
+
+class KernelizedValueFunction:
+    """核化值函数"""
+    def __init__(self, kernel=RBF(length_scale=1.0)):
+        self.gp = GaussianProcessRegressor(kernel=kernel)
+        self.states = []
+        self.values = []
+
+    def update(self, states, values):
+        """更新值函数估计"""
+        self.states = np.array(states)
+        self.values = np.array(values)
+        self.gp.fit(self.states, self.values)
+
+    def predict(self, state):
+        """预测状态值"""
+        return self.gp.predict([state])[0]
+
+    def predict_with_uncertainty(self, state):
+        """预测值及不确定性"""
+        mean, std = self.gp.predict([state], return_std=True)
+        return mean[0], std[0]
+
+# 使用示例
+vf = KernelizedValueFunction()
+states = np.random.randn(100, 4)  # 100个状态，每个4维
+values = np.random.randn(100)     # 对应的值
+
+vf.update(states, values)
+new_state = np.random.randn(4)
+value, uncertainty = vf.predict_with_uncertainty(new_state)
+print(f"Value: {value:.3f}, Uncertainty: {uncertainty:.3f}")
+```
+
+---
+
+### 9. 核方法在时间序列中的应用
+
+**核化自回归模型**：
+
+时间序列预测可以表示为：
+
+$$
+y_{t+1} = \sum_{i=1}^T \alpha_i k(x_t, x_i)
+$$
+
+其中 $x_t = [y_t, y_{t-1}, \ldots, y_{t-p}]$ 是历史窗口。
+
+**高斯过程时间序列**：
+
+使用高斯过程建模时间序列：
+
+$$
+y(t) \sim \mathcal{GP}(m(t), k(t, t'))
+$$
+
+**核函数选择**：
+
+- **RBF核**：平滑时间序列
+- **周期核**：周期性时间序列
+- **Matern核**：非平滑时间序列
+- **组合核**：复杂模式
+
+**应用**：
+
+- **股票预测**：金融时间序列
+- **天气预测**：气象数据
+- **需求预测**：供应链管理
+
+---
+
 ## 💻 Python实现
 
 ```python
@@ -690,7 +933,7 @@ if __name__ == "__main__":
 ## 🎓 相关课程
 
 | 大学 | 课程 |
-|------|------|
+| ---- |------|
 | **MIT** | 18.102 - Introduction to Functional Analysis |
 | **Stanford** | STATS315A - Modern Applied Statistics: Learning |
 | **UC Berkeley** | STAT210B - Theoretical Statistics |

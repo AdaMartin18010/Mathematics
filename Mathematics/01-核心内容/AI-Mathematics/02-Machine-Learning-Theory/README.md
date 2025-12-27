@@ -1,4 +1,4 @@
-# 机器学习数学理论 (Machine Learning Theory)
+﻿# 机器学习数学理论 (Machine Learning Theory)
 
 **创建日期**: 2025-12-20
 **版本**: v1.0
@@ -16,7 +16,7 @@
   - [📋 模块概览](#-模块概览)
   - [📚 子模块结构](#-子模块结构)
     - [1. 统计学习理论 (Statistical Learning Theory)](#1-统计学习理论-statistical-learning-theory)
-    - [2. 深度学习数学基础 (Deep Learning Mathematics) ✅ **100% 完成**](#2-深度学习数学基础-deep-learning-mathematics--100-完成)
+    - [2. 深度学习数学基础 (Deep Learning Mathematics) 🔄 **约60% 完成**](#2-深度学习数学基础-deep-learning-mathematics--约60-完成)
     - [3. 优化理论与算法 (Optimization Theory)](#3-优化理论与算法-optimization-theory)
     - [4. 强化学习数学基础 (Reinforcement Learning)](#4-强化学习数学基础-reinforcement-learning)
     - [5. 生成模型理论 (Generative Models)](#5-生成模型理论-generative-models)
@@ -96,7 +96,7 @@
 
 ---
 
-### 2. 深度学习数学基础 (Deep Learning Mathematics) ✅ **100% 完成**
+### 2. [深度学习数学基础 (Deep Learning Mathematics)](./02-Deep-Learning-Math/) 🔄 **约65% 完成**
 
 **核心内容** (9篇文档):
 
@@ -156,7 +156,7 @@
 
 ---
 
-### 3. 优化理论与算法 (Optimization Theory)
+### 3. [优化理论与算法 (Optimization Theory)](./03-Optimization/) ✅ **约60% 完成**
 
 **核心内容**：
 
@@ -179,9 +179,9 @@ AdaGrad: 适应性学习率 η_t = η/√(∑g_i²)
 
 **对标课程**：
 
-- Stanford EE364B - Convex Optimization II
-- CMU 10-725 - Convex Optimization
-- MIT 6.255J - Optimization Methods
+- ✅ Stanford EE364B - Convex Optimization II
+- ✅ CMU 10-725 - Convex Optimization
+- ✅ MIT 6.255J - Optimization Methods
 
 **AI应用**：
 
@@ -266,7 +266,7 @@ GAN极小极大: min_G max_D E[log D(x)] + E[log(1-D(G(z)))]
 ### MIT
 
 | 课程编号 | 课程名称 | 对应模块 |
-|---------|---------|---------|
+| ---- |---------| ---- |
 | 6.036 | Introduction to Machine Learning | 统计学习 |
 | 6.867 | Machine Learning | 统计学习 + 深度学习 |
 | 6.S191 | Deep Learning | 深度学习 |
@@ -275,7 +275,7 @@ GAN极小极大: min_G max_D E[log D(x)] + E[log(1-D(G(z)))]
 ### Stanford
 
 | 课程编号 | 课程名称 | 对应模块 |
-|---------|---------|---------|
+| ---- |---------| ---- |
 | CS229 | Machine Learning | 统计学习 + 优化 |
 | CS230 | Deep Learning | 深度学习 |
 | CS234 | Reinforcement Learning | 强化学习 |
@@ -285,7 +285,7 @@ GAN极小极大: min_G max_D E[log D(x)] + E[log(1-D(G(z)))]
 ### CMU
 
 | 课程编号 | 课程名称 | 对应模块 |
-|---------|---------|---------|
+| ---- |---------| ---- |
 | 10-701 | Introduction to Machine Learning | 统计学习 |
 | 10-708 | Probabilistic Graphical Models | 概率图模型 |
 | 10-715 | Advanced Machine Learning | 高级理论 |
@@ -294,7 +294,7 @@ GAN极小极大: min_G max_D E[log D(x)] + E[log(1-D(G(z)))]
 ### UC Berkeley
 
 | 课程编号 | 课程名称 | 对应模块 |
-|---------|---------|---------|
+| ---- |---------| ---- |
 | CS189 | Introduction to Machine Learning | 统计学习 |
 | CS182 | Deep Learning | 深度学习 |
 | CS285 | Deep Reinforcement Learning | 强化学习 |

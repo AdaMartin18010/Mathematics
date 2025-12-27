@@ -1,4 +1,4 @@
-# Lean代码完善完成清单
+﻿# Lean代码完善完成清单
 
 **创建日期**: 2025年10月1日
 **用途**: 快速检查所有剩余工作的完成状态
@@ -19,6 +19,7 @@
 ### 1. 唯一分解定理（3个sorry）
 
 #### 1.1 `Multiset.prod_map_mul`
+
 - **文件**: `Lean/Exercises/Algebra/Polynomial.lean`
 - **行号**: 约第173行
 - **状态**: ⏳ 待完成
@@ -28,6 +29,7 @@
 - **替代方案**: ✅ 已提供
 
 #### 1.2 `Polynomial.C`的乘法同态性质
+
 - **文件**: `Lean/Exercises/Algebra/Polynomial.lean`
 - **行号**: 约第198行
 - **状态**: ⏳ 待完成
@@ -37,6 +39,7 @@
 - **替代方案**: ✅ 已提供
 
 #### 1.3 `isUnit_iff_C`
+
 - **文件**: `Lean/Exercises/Algebra/Polynomial.lean`
 - **行号**: 约第297行
 - **状态**: ⏳ 待完成
@@ -50,6 +53,7 @@
 ### 2. 粘接引理（4个sorry）
 
 #### 2.1 `h_cont_on_A`
+
 - **文件**: `Lean/Exercises/Topology/Basic.lean`
 - **行号**: 约第235行
 - **状态**: ⏳ 待完成
@@ -59,6 +63,7 @@
 - **替代方案**: ✅ 已提供
 
 #### 2.2 `h_cont_on_B`
+
 - **文件**: `Lean/Exercises/Topology/Basic.lean`
 - **行号**: 约第250行
 - **状态**: ⏳ 待完成
@@ -68,6 +73,7 @@
 - **替代方案**: ✅ 已提供
 
 #### 2.3 `h_cont_on_union` (x ∈ A)
+
 - **文件**: `Lean/Exercises/Topology/Basic.lean`
 - **行号**: 约第274行
 - **状态**: ⏳ 待完成
@@ -77,6 +83,7 @@
 - **替代方案**: ✅ 已提供
 
 #### 2.4 `h_cont_on_union` (x ∈ B)
+
 - **文件**: `Lean/Exercises/Topology/Basic.lean`
 - **行号**: 约第281行
 - **状态**: ⏳ 待完成
@@ -86,6 +93,7 @@
 - **替代方案**: ✅ 已提供
 
 #### 2.5 `ContinuousOn.univ_iff`
+
 - **文件**: `Lean/Exercises/Topology/Basic.lean`
 - **行号**: 约第294行
 - **状态**: ⏳ 待完成
@@ -99,6 +107,7 @@
 ### 3. 级数理论判别法（5个sorry）
 
 #### 3.1 比值判别法（收敛部分）
+
 - **文件**: `Lean/Exercises/Analysis/Real.lean`
 - **行号**: 约第1171行
 - **状态**: ⏳ 待完成
@@ -108,6 +117,7 @@
 - **替代方案**: ✅ 已提供
 
 #### 3.2 比值判别法（发散部分）
+
 - **文件**: `Lean/Exercises/Analysis/Real.lean`
 - **行号**: 约第1235行
 - **状态**: ⏳ 待完成
@@ -117,6 +127,7 @@
 - **替代方案**: ✅ 已提供
 
 #### 3.3 根式判别法（收敛部分）
+
 - **文件**: `Lean/Exercises/Analysis/Real.lean`
 - **行号**: 约第1285行
 - **状态**: ⏳ 待完成
@@ -126,6 +137,7 @@
 - **替代方案**: ✅ 已提供
 
 #### 3.4 根式判别法（发散部分）
+
 - **文件**: `Lean/Exercises/Analysis/Real.lean`
 - **行号**: 约第1335行
 - **状态**: ⏳ 待完成
@@ -135,6 +147,7 @@
 - **替代方案**: ✅ 已提供
 
 #### 3.5 幂级数连续性
+
 - **文件**: `Lean/Exercises/Analysis/Real.lean`
 - **行号**: 约第1629行
 - **状态**: ⏳ 待完成
@@ -148,6 +161,7 @@
 ### 4. deriv连续性（3个sorry）
 
 #### 4.1 换元积分法：deriv φ的连续性
+
 - **文件**: `Lean/Exercises/Analysis/Real.lean`
 - **行号**: 约第890行
 - **状态**: ⏳ 待完成
@@ -158,6 +172,7 @@
 - **注意**: 需要额外条件（如ContDiff或deriv的连续性）
 
 #### 4.2 分部积分法：deriv v的连续性
+
 - **文件**: `Lean/Exercises/Analysis/Real.lean`
 - **行号**: 约第939行
 - **状态**: ⏳ 待完成
@@ -168,6 +183,7 @@
 - **注意**: 需要额外条件（如ContDiff或deriv的连续性）
 
 #### 4.3 分部积分法：deriv u的连续性
+
 - **文件**: `Lean/Exercises/Analysis/Real.lean`
 - **行号**: 约第971行
 - **状态**: ⏳ 待完成
@@ -182,6 +198,7 @@
 ### 5. Parseval恒等式（1个sorry）
 
 #### 5.1 OrthonormalBasis构造
+
 - **文件**: `Lean/Exercises/Topology/Basic.lean`
 - **行号**: 约第387行
 - **状态**: ⏳ 待完成
@@ -195,6 +212,7 @@
 ### 6. 逆函数定理（流形版本）（1个sorry）
 
 #### 6.1 逆函数定理API
+
 - **文件**: `Lean/Exercises/Topology/Basic.lean`
 - **行号**: 约第453行
 - **状态**: ⏳ 待完成
@@ -207,7 +225,7 @@
 
 ## 📋 完成检查项
 
-### 对于每个sorry，需要检查：
+### 对于每个sorry，需要检查
 
 - [ ] 代码编译通过（`lake build`）
 - [ ] 没有类型错误
@@ -216,7 +234,7 @@
 - [ ] 注释完整（如果修改了代码）
 - [ ] 更新了状态跟踪文档
 
-### 整体项目检查：
+### 整体项目检查
 
 - [ ] 所有代码文件编译通过
 - [ ] 所有定理都有正确的类型定义
@@ -230,14 +248,17 @@
 ## 🎯 完成优先级
 
 ### 高优先级（8个）
+
 1. 唯一分解定理（3个sorry）
 2. 级数理论判别法（5个sorry）
 
 ### 中优先级（7个）
+
 3. deriv连续性（3个sorry）
-4. 粘接引理（4个sorry）
+2. 粘接引理（4个sorry）
 
 ### 低优先级（2个）
+
 5. Parseval恒等式和逆函数定理（2个sorry）
 
 ---
@@ -253,9 +274,9 @@
 
 ### 外部资源
 
-- **mathlib4文档**: https://leanprover-community.github.io/mathlib4_docs/
-- **mathlib4源码**: https://github.com/leanprover-community/mathlib4
-- **Lean Zulip**: https://leanprover.zulipchat.com/
+- **mathlib4文档**: <https://leanprover-community.github.io/mathlib4_docs/>
+- **mathlib4源码**: <https://github.com/leanprover-community/mathlib4>
+- **Lean Zulip**: <https://leanprover.zulipchat.com/>
 
 ---
 
@@ -264,7 +285,7 @@
 ### 按模块统计
 
 | 模块 | sorry数量 | 已完成 | 待完成 | 完成率 |
-|------|----------|--------|--------|--------|
+| ---- | ---- | ---- | ---- | ---- |
 | 代数 | 3 | 0 | 3 | 0% |
 | 拓扑与几何 | 6 | 0 | 6 | 0% |
 | 分析学 | 8 | 0 | 8 | 0% |
@@ -273,7 +294,7 @@
 ### 按优先级统计
 
 | 优先级 | sorry数量 | 已完成 | 待完成 | 完成率 |
-|--------|----------|--------|--------|--------|
+| ---- | ---- | ---- | ---- | ---- |
 | 高 | 8 | 0 | 8 | 0% |
 | 中 | 7 | 0 | 7 | 0% |
 | 低 | 2 | 0 | 2 | 0% |

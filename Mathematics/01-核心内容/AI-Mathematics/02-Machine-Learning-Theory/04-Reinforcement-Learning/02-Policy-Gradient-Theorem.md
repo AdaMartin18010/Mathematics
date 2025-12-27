@@ -1,4 +1,4 @@
-# 策略梯度定理
+﻿# 策略梯度定理
 
 > **Policy Gradient Theorem**
 >
@@ -370,7 +370,7 @@ for episode in range(1000):
 ## 📚 核心定理总结
 
 | 定理/算法 | 核心思想 | 优缺点 |
-|-----------|----------|--------|
+| ---- |----------| ---- |
 | **策略梯度定理** | $\nabla J = \mathbb{E}[\nabla \log \pi \cdot Q]$ | 理论基础 |
 | **REINFORCE** | Monte Carlo采样 | 无偏但高方差 |
 | **Actor-Critic** | 结合策略和价值 | 降低方差 |
@@ -382,7 +382,7 @@ for episode in range(1000):
 ## 🎓 相关课程
 
 | 大学 | 课程 |
-|------|------|
+| ---- |------|
 | **UC Berkeley** | CS285 Deep Reinforcement Learning |
 | **Stanford** | CS234 Reinforcement Learning |
 | **DeepMind** | UCL Course on RL |

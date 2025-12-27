@@ -1,4 +1,4 @@
-# 熵与互信息
+﻿# 熵与互信息
 
 > **Entropy and Mutual Information**
 >
@@ -211,7 +211,7 @@ print(f"Mutual Information: {mutual_information(joint):.4f} bits")
 ## 📚 核心定理总结
 
 | 定理 | 陈述 | 意义 |
-|------|------|------|
+| ---- |------| ---- |
 | **最大熵** | $H(X) \leq \log \|\mathcal{X}\|$ | 均匀分布最大 |
 | **链式法则** | $H(X,Y) = H(X) + H(Y\|X)$ | 熵的分解 |
 | **KL非负性** | $D_{KL}(P \| Q) \geq 0$ | 分布差异 |
@@ -222,7 +222,7 @@ print(f"Mutual Information: {mutual_information(joint):.4f} bits")
 ## 🎓 相关课程
 
 | 大学 | 课程 |
-|------|------|
+| ---- |------|
 | **MIT** | 6.441 Information Theory |
 | **Stanford** | EE376A Information Theory |
 | **Cambridge** | Information Theory |

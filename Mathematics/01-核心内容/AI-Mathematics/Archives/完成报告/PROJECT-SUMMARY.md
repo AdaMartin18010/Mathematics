@@ -1,4 +1,4 @@
-# AI数学与科学知识体系项目总结
+﻿# AI数学与科学知识体系项目总结
 
 > **项目名称**: AI Mathematics and Science Knowledge System 2025  
 > **创建日期**: 2025年10月4日-5日  
@@ -17,7 +17,7 @@
 ### 内容规模
 
 | 类别 | 数量 | 详情 |
-|-----|------|------|
+| ---- | ---- | ---- |
 | **主模块** | 4个 | 数学基础、ML理论、形式化方法、前沿研究 |
 | **子模块** | 15+ | 线性代数、概率统计、优化、NLP等 |
 | **核心文档** | 8个 | README、指南、课程对标等 |
@@ -359,7 +359,7 @@ class AdamOptimizer:
 ### MIT课程覆盖
 
 | MIT课程 | 本库对应 | 覆盖度 |
-|---------|---------|--------|
+| ---- | ---- | ---- |
 | 18.06 Linear Algebra | 01/01-Linear-Algebra | 100% |
 | 18.065 Matrix Methods | 01/01-Linear-Algebra | 90% |
 | 6.867 Machine Learning | 02/01-Statistical-Learning | 95% |
@@ -368,7 +368,7 @@ class AdamOptimizer:
 ### Stanford课程覆盖
 
 | Stanford课程 | 本库对应 | 覆盖度 |
-|--------------|---------|--------|
+| ---- | ---- | ---- |
 | CS 229 ML | 02/01-Statistical-Learning | 100% |
 | CS 230 DL | 02/02-Deep-Learning | 95% |
 | EE 364A Convex Opt | 01/03-Optimization | 90% |
@@ -377,7 +377,7 @@ class AdamOptimizer:
 ### CMU课程覆盖
 
 | CMU课程 | 本库对应 | 覆盖度 |
-|---------|---------|--------|
+| ---- | ---- | ---- |
 | 10-701 ML | 02/01-Statistical-Learning | 100% |
 | 10-725 Convex Opt | 01/03-Optimization | 95% |
 | 11-785 Deep Learning | 02/02-Deep-Learning | 95% |

@@ -1,4 +1,4 @@
-# PAC学习框架 (PAC Learning Framework)
+﻿# PAC学习框架 (PAC Learning Framework)
 
 > **Probably Approximately Correct Learning**
 > 统计学习理论的基石：可学习性的数学定义
@@ -488,7 +488,9 @@ end PACLearning
 ## 🎓 对标课程
 
 | 大学 | 课程代码 | 课程名称 | 相关章节 |
-|------|---------|---------|---------|
+ 
+        $matches[0] -replace '\|[-:]+\|', '| ---- |'
+    
 | MIT | 9.520 | Statistical Learning Theory | Week 1-2: PAC Learning |
 | Stanford | CS229 | Machine Learning | Lecture: Learning Theory |
 | CMU | 10-715 | Advanced Machine Learning | Module: PAC & Generalization |

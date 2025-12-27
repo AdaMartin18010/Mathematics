@@ -1,4 +1,4 @@
-# 最优传输理论 (Optimal Transport Theory)
+﻿# 最优传输理论 (Optimal Transport Theory)
 
 > **Moving Probability Distributions Optimally**
 >
@@ -772,6 +772,286 @@ $$
 
 ---
 
+### 4. 最优传输在图像处理中的应用
+
+**颜色迁移**：
+
+使用最优传输将一幅图像的颜色分布迁移到另一幅图像：
+
+$$
+T^* = \arg\min_T \int c(x, T(x)) d\mu(x) \quad \text{s.t.} \quad T_\# \mu = \nu
+$$
+
+其中 $\mu$ 是源图像的颜色分布，$\nu$ 是目标颜色分布。
+
+**图像修复**：
+
+使用最优传输填充图像缺失区域，保持统计一致性。
+
+**风格迁移**：
+
+将一幅图像的风格（纹理分布）传输到另一幅图像，同时保持内容。
+
+**Python实现示例**：
+
+```python
+from scipy.spatial.distance import cdist
+from scipy.optimize import linprog
+import numpy as np
+
+def optimal_transport_1d(source, target):
+    """
+    一维最优传输（精确解）
+
+    参数:
+        source: 源分布（直方图）
+        target: 目标分布（直方图）
+    """
+    n = len(source)
+    m = len(target)
+
+    # 成本矩阵（L2距离）
+    C = cdist(source.reshape(-1, 1), target.reshape(-1, 1))**2
+
+    # 线性规划：最小化 <C, P>
+    # 约束：P 1 = source, P^T 1 = target
+    c = C.flatten()
+
+    # 约束矩阵
+    A_eq = []
+    b_eq = []
+
+    # 行约束：每行和为source
+    for i in range(n):
+        row = np.zeros(n * m)
+        row[i*m:(i+1)*m] = 1
+        A_eq.append(row)
+        b_eq.append(source[i])
+
+    # 列约束：每列和为target
+    for j in range(m):
+        col = np.zeros(n * m)
+        col[j::m] = 1
+        A_eq.append(col)
+        b_eq.append(target[j])
+
+    A_eq = np.array(A_eq)
+    b_eq = np.array(b_eq)
+
+    # 求解
+    result = linprog(c, A_eq=A_eq, b_eq=b_eq, method='highs')
+    P = result.x.reshape(n, m)
+
+    # 计算Wasserstein距离
+    W2 = np.sum(P * C)
+
+    return P, W2
+```
+
+---
+
+### 5. 最优传输在强化学习中的应用
+
+**分布强化学习**：
+
+在分布强化学习中，值函数不再是标量，而是分布。使用Wasserstein距离比较值分布：
+
+$$
+Z(s, a) \sim \text{Value Distribution}
+$$
+
+**目标**：最小化预测分布和真实分布之间的Wasserstein距离。
+
+**优势**：
+
+- **风险敏感**：可以建模风险偏好
+- **不确定性量化**：分布提供不确定性信息
+- **样本效率**：更好的样本利用
+
+**Python实现示例**：
+
+```python
+import torch
+import torch.nn as nn
+
+class DistributionalDQN(nn.Module):
+    """分布DQN"""
+    def __init__(self, state_dim, action_dim, n_atoms=51, v_min=-10, v_max=10):
+        super().__init__()
+        self.n_atoms = n_atoms
+        self.v_min = v_min
+        self.v_max = v_max
+        self.delta = (v_max - v_min) / (n_atoms - 1)
+
+        self.network = nn.Sequential(
+            nn.Linear(state_dim, 128),
+            nn.ReLU(),
+            nn.Linear(128, 128),
+            nn.ReLU(),
+            nn.Linear(128, action_dim * n_atoms)
+        )
+
+    def forward(self, state):
+        logits = self.network(state)
+        logits = logits.view(-1, self.action_dim, self.n_atoms)
+        return torch.softmax(logits, dim=-1)
+
+    def wasserstein_loss(self, pred_dist, target_dist, rewards, dones, gamma=0.99):
+        """Wasserstein损失"""
+        # 投影目标分布
+        target_support = rewards + gamma * (1 - dones) * self.get_support()
+
+        # 计算Wasserstein距离
+        # 这里使用简化的1-Wasserstein距离（累积分布函数差）
+        loss = 0
+        for i in range(self.n_atoms):
+            cdf_pred = torch.cumsum(pred_dist, dim=-1)
+            cdf_target = torch.cumsum(target_dist, dim=-1)
+            loss += torch.abs(cdf_pred - cdf_target).mean()
+
+        return loss
+
+    def get_support(self):
+        """获取支持点"""
+        return torch.linspace(self.v_min, self.v_max, self.n_atoms)
+```
+
+---
+
+### 6. 最优传输在数据增强中的应用
+
+**语义数据增强**：
+
+使用最优传输生成语义一致的数据增强样本：
+
+$$
+\min_T \int c(x, T(x)) d\mu(x) + \lambda \mathcal{L}_{\text{task}}(T_\# \mu)
+$$
+
+其中 $\mathcal{L}_{\text{task}}$ 是任务损失（如分类损失）。
+
+**优势**：
+
+- **保持语义**：增强样本保持原始语义
+- **多样性**：生成多样化的训练样本
+- **可控性**：通过成本函数控制增强程度
+
+**应用场景**：
+
+- **小样本学习**：在数据稀缺时生成更多样本
+- **域适应**：生成目标域风格的样本
+- **对抗训练**：生成对抗样本
+
+---
+
+### 7. 最优传输在公平机器学习中的应用
+
+**公平性约束**：
+
+使用最优传输确保不同群体的预测分布相似：
+
+$$
+\min_f \mathcal{L}(f) \quad \text{s.t.} \quad W_1(P_{Y|A=a}, P_{Y|A=b}) \leq \epsilon
+$$
+
+其中 $A$ 是敏感属性（如性别、种族），$\epsilon$ 是公平性容忍度。
+
+**优势**：
+
+- **形式化公平性**：将公平性转化为数学约束
+- **可解释性**：Wasserstein距离有明确的几何意义
+- **灵活性**：可以控制不同公平性定义
+
+**实现方法**：
+
+1. **后处理**：训练后调整预测分布
+2. **训练时约束**：在损失函数中加入Wasserstein惩罚项
+3. **预处理**：使用最优传输预处理数据
+
+**Python实现示例**：
+
+```python
+def fair_classification_loss(predictions, labels, sensitive_attr, lambda_fair=0.1):
+    """
+    公平分类损失
+
+    参数:
+        predictions: 模型预测
+        labels: 真实标签
+        sensitive_attr: 敏感属性
+        lambda_fair: 公平性权重
+    """
+    # 标准分类损失
+    classification_loss = F.cross_entropy(predictions, labels)
+
+    # 公平性损失（Wasserstein距离）
+    group_0 = predictions[sensitive_attr == 0]
+    group_1 = predictions[sensitive_attr == 1]
+
+    # 计算预测分布
+    dist_0 = torch.softmax(group_0, dim=-1).mean(dim=0)
+    dist_1 = torch.softmax(group_1, dim=-1).mean(dim=0)
+
+    # Wasserstein-1距离（简化版：L1距离）
+    wasserstein_dist = torch.abs(dist_0 - dist_1).sum()
+
+    # 总损失
+    total_loss = classification_loss + lambda_fair * wasserstein_dist
+
+    return total_loss
+```
+
+---
+
+### 8. 最优传输在推荐系统中的应用
+
+**用户-物品分布对齐**：
+
+使用最优传输对齐不同用户群体的物品分布，提高推荐公平性。
+
+**冷启动问题**：
+
+对于新用户，使用最优传输将相似用户的偏好分布传输过来。
+
+**多样性推荐**：
+
+使用最优传输确保推荐结果的多样性，避免推荐过于集中。
+
+**Python实现示例**：
+
+```python
+def optimal_transport_recommendation(user_embeddings, item_embeddings,
+                                     user_distribution, item_distribution):
+    """
+    使用最优传输进行推荐
+
+    参数:
+        user_embeddings: 用户嵌入
+        item_embeddings: 物品嵌入
+        user_distribution: 用户分布（偏好）
+        item_distribution: 物品分布（流行度）
+    """
+    # 计算成本矩阵（用户-物品相似度）
+    cost_matrix = cdist(user_embeddings, item_embeddings, metric='cosine')
+
+    # 求解最优传输
+    from scipy.optimize import linprog
+
+    # 这里使用Sinkhorn算法（更高效）
+    from ot import sinkhorn
+
+    # 熵正则化最优传输
+    transport_plan = sinkhorn(user_distribution, item_distribution,
+                              cost_matrix, reg=0.1)
+
+    # 推荐：选择传输质量高的物品
+    recommendations = transport_plan.argmax(axis=1)
+
+    return recommendations, transport_plan
+```
+
+---
+
 ## 📚 练习题
 
 **练习1**: 证明Wasserstein-1距离满足三角不等式。
@@ -787,7 +1067,7 @@ $$
 ## 🎓 相关课程
 
 | 大学 | 课程 |
-|------|------|
+| ---- |------|
 | **Stanford** | STATS385 - Theories of Deep Learning |
 | **MIT** | 18.S096 - Topics in Mathematics with Applications |
 | **ENS Paris** | Optimal Transport (Villani) |

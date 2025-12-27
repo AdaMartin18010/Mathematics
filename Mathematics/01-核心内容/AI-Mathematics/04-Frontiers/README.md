@@ -1,4 +1,4 @@
-# 前沿研究与应用 (Frontiers and Applications)
+﻿# 前沿研究与应用 (Frontiers and Applications)
 
 **创建日期**: 2025-12-20
 **版本**: v1.0
@@ -169,7 +169,7 @@ $$
 
 ---
 
-### 4. [神经符号AI (Neuro-Symbolic AI)](./04-Neuro-Symbolic-AI/)
+### 4. [神经符号AI (Neuro-Symbolic AI)](./04-Neuro-Symbolic-AI.md) ✅
 
 **核心思想**: 结合神经网络与符号推理
 
@@ -177,9 +177,9 @@ $$
 
 - 逻辑推理与神经网络结合
 - 知识图谱嵌入
-- 可解释性与因果推理
-- 程序综合
-- 神经定理证明
+- 可微逻辑推理
+- 符号约束的神经网络
+- 视觉问答、知识推理、程序综合
 
 **架构模式**:
 
@@ -353,7 +353,7 @@ Day 7: 综合
 ### 在线课程
 
 | 课程 | 机构 | 内容 |
-|------|------|------|
+| ---- |------| ---- |
 | **CS324** | Stanford | Large Language Models (Tatsu Hashimoto) |
 | **CS236** | Stanford | Deep Generative Models (Stefano Ermon) |
 | **Diffusion Models** | Hugging Face | 扩散模型从理论到实践 |
@@ -497,7 +497,7 @@ Question → NLP → Symbolic Query
 ## 📊 重要benchmark与数据集
 
 | 任务 | Benchmark | 说明 |
-|------|-----------|------|
+| ---- |-----------| ---- |
 | **LLM** | MMLU, BBH, HumanEval | 通用能力, 推理, 代码 |
 | **生成** | FID, LPIPS, IS | 图像质量评估 |
 | **推理** | ARC, StrategyQA | 常识推理 |
@@ -538,7 +538,7 @@ Question → NLP → Symbolic Query
 ## 🎓 对标大学课程
 
 | 大学 | 课程 | 内容 |
-|------|------|------|
+| ---- |------| ---- |
 | **Stanford** | CS324 | Large Language Models (全方位) |
 | **Stanford** | CS236 | Deep Generative Models (VAE, GAN, Diffusion) |
 | **MIT** | 6.S898 | Deep Learning (前沿主题) |

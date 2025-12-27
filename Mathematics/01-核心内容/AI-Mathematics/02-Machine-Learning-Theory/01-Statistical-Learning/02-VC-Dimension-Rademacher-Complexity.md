@@ -1,4 +1,4 @@
-# VC维与Rademacher复杂度
+﻿# VC维与Rademacher复杂度
 
 > **VC-Dimension and Rademacher Complexity**
 >
@@ -285,7 +285,7 @@ $$
 **比较表**:
 
 | 特性 | VC维 | Rademacher复杂度 |
-|------|------|------------------|
+| ---- |------| ---- |
 | **类型** | 组合性质 | 概率性质 |
 | **数据依赖** | 否 | 是 |
 | **计算难度** | 通常困难 | 可蒙特卡洛估计 |
@@ -321,7 +321,7 @@ $$
 常见正则化技术如何影响Rademacher复杂度：
 
 | 正则化 | 对Rademacher复杂度的影响 |
-|--------|--------------------------|
+| ---- |--------------------------|
 | **权重衰减** ($\|W\|_F^2$) | 限制谱范数 → $\mathfrak{R} = O(1/\sqrt{m})$ |
 | **Dropout** | 隐式约束 → 降低复杂度 |
 | **批归一化** | 标准化激活 → 控制Lipschitz常数 |
@@ -588,7 +588,7 @@ theorem vc_to_rademacher {X : Type*} (hc : HypothesisClass X) (m : ℕ) :
 ## 📚 核心定理总结
 
 | 定理 | 陈述 | 意义 |
-|------|------|------|
+| ---- |------| ---- |
 | **VC维泛化界** | $L_D(h) \leq \hat{L}_S(h) + O(\sqrt{d/m})$ | VC维控制泛化 |
 | **Sauer引理** | $\|\mathcal{H}_S\| \leq (em/d)^d$ | 增长函数从指数到多项式 |
 | **Rademacher界** | $L_D(f) \leq \hat{L}_S(f) + 2\mathfrak{R}_m(\mathcal{F})$ | 更紧的数据依赖界 |
@@ -599,7 +599,7 @@ theorem vc_to_rademacher {X : Type*} (hc : HypothesisClass X) (m : ℕ) :
 ## 🎓 相关课程
 
 | 大学 | 课程 | 覆盖内容 |
-|------|------|----------|
+| ---- |------| ---- |
 | **MIT** | 9.520 Statistical Learning Theory | VC维、Rademacher复杂度、核方法 |
 | **Stanford** | CS229T Statistical Learning Theory | PAC学习、泛化界、在线学习 |
 | **CMU** | 10-715 Advanced Machine Learning | VC维、PAC-Bayes、算法稳定性 |

@@ -1,4 +1,4 @@
-# 损失函数理论 (Loss Functions Theory)
+﻿# 损失函数理论 (Loss Functions Theory)
 
 > **From Mean Squared Error to Contrastive Learning**
 >
@@ -29,6 +29,10 @@
     - [1. Contrastive Loss](#1-contrastive-loss)
     - [2. Triplet Loss](#2-triplet-loss)
     - [3. InfoNCE Loss](#3-infonce-loss)
+  - [🎯 分割与检测损失](#-分割与检测损失)
+    - [1. Dice Loss](#1-dice-loss)
+    - [2. IoU Loss (Jaccard Loss)](#2-iou-loss-jaccard-loss)
+    - [3. 组合损失](#3-组合损失)
   - [🔬 生成模型损失](#-生成模型损失)
     - [1. VAE损失 (ELBO)](#1-vae损失-elbo)
     - [2. GAN损失](#2-gan损失)
@@ -135,7 +139,7 @@ $$
 **对比MSE**：
 
 | 特性 | MSE | MAE |
-|------|-----|-----|
+| ---- |-----| ---- |
 | **异常值敏感性** | 高 | 低 |
 | **梯度** | 线性 | 常数 |
 | **优化难度** | 易 | 难 |
@@ -277,7 +281,9 @@ $$
 **衰减速度对比**：
 
 | $p_t$ | CE loss | FL ($\gamma=0$) | FL ($\gamma=1$) | FL ($\gamma=2$) | FL ($\gamma=5$) |
-|-------|---------|-----------------|-----------------|-----------------|-----------------|
+ 
+        $matches[0] -replace '\|[-:]+\|', '| ---- |'
+    -----------------| ---- |
 | 0.9   | 0.105   | 0.105           | 0.011           | 0.001           | 0.00001         |
 | 0.95  | 0.051   | 0.051           | 0.003           | 0.0001          | $10^{-7}$       |
 | 0.99  | 0.010   | 0.010           | 0.0001          | $10^{-6}$       | $10^{-12}$      |
@@ -362,7 +368,9 @@ $$
 **数值示例**（$\gamma=2$）：
 
 | $p_t$ | CE梯度 | FL梯度 | 比率 |
-|-------|--------|--------|------|
+ 
+        $matches[0] -replace '\|[-:]+\|', '| ---- |'
+    
 | 0.5   | 0.50   | 0.29   | 0.58 |
 | 0.7   | 0.30   | 0.09   | 0.30 |
 | 0.9   | 0.10   | 0.006  | 0.06 |
@@ -433,7 +441,7 @@ $$
 **经验法则**（Lin et al. 2017, RetinaNet）：
 
 | $\gamma$ | 效果 | 适用场景 |
-|----------|------|----------|
+| ---- |------| ---- |
 | 0        | 等价于CE | 平衡数据集 |
 | 0.5      | 轻度聚焦 | 轻度不平衡（1:10） |
 | 1        | 中度聚焦 | 中度不平衡（1:100） |
@@ -467,7 +475,7 @@ $$
 **$\alpha$ vs $\gamma$ 的区别**：
 
 | 参数 | 作用 | 机制 |
-|------|------|------|
+| ---- |------| ---- |
 | **$\alpha$** | **类别平衡** | 静态权重，基于类别频率 |
 | **$\gamma$** | **难度平衡** | 动态权重，基于预测概率 |
 
@@ -567,7 +575,7 @@ for gamma in [0, 1, 2, 5]:
     w_hard = np.sum((1 - p_hard)**gamma)
     w_easy = np.sum((1 - p_easy)**gamma)
     N_eff = w_hard + w_easy
-    
+
     print(f"γ={gamma}: N_eff={N_eff:.2f} ({N_eff/N*100:.1f}% of total)")
     print(f"  Hard samples: {w_hard:.2f}, Easy samples: {w_easy:.2f}")
     print(f"  Reduction: {N/N_eff:.2f}x\n")
@@ -710,6 +718,95 @@ $$
 - SimCLR
 - MoCo
 - CLIP
+
+---
+
+## 🎯 分割与检测损失
+
+### 1. Dice Loss
+
+**定义 1.1 (Dice Loss, Milletari et al. 2016)**:
+
+Dice系数衡量两个集合的重叠度：
+
+$$
+\text{Dice}(P, G) = \frac{2|P \cap G|}{|P| + |G|} = \frac{2 \sum_i p_i g_i}{\sum_i p_i + \sum_i g_i}
+$$
+
+其中 $P$ 是预测，$G$ 是真实标签。
+
+**Dice Loss**:
+
+$$
+\ell_{\text{Dice}} = 1 - \text{Dice}(P, G)
+$$
+
+**特点**:
+
+- **对类别不平衡鲁棒**：不依赖像素总数
+- **直接优化IoU**：Dice系数与IoU相关
+- **常用于医学图像分割**
+
+**平滑版本**（避免除零）：
+
+$$
+\ell_{\text{Dice}} = 1 - \frac{2 \sum_i p_i g_i + \epsilon}{\sum_i p_i + \sum_i g_i + \epsilon}
+$$
+
+其中 $\epsilon$ 是平滑参数（通常为1.0）。
+
+---
+
+### 2. IoU Loss (Jaccard Loss)
+
+**定义 2.1 (IoU Loss)**:
+
+IoU (Intersection over Union) 衡量预测与真实的重叠：
+
+$$
+\text{IoU}(P, G) = \frac{|P \cap G|}{|P \cup G|} = \frac{\sum_i p_i g_i}{\sum_i (p_i + g_i - p_i g_i)}
+$$
+
+**IoU Loss**:
+
+$$
+\ell_{\text{IoU}} = 1 - \text{IoU}(P, G)
+$$
+
+**与Dice的关系**:
+
+$$
+\text{Dice} = \frac{2 \cdot \text{IoU}}{1 + \text{IoU}}
+$$
+
+**应用**:
+
+- 目标检测（边界框回归）
+- 语义分割
+- 实例分割
+
+---
+
+### 3. 组合损失
+
+**图像分割常用组合**:
+
+$$
+\mathcal{L}_{\text{seg}} = \lambda_1 \ell_{\text{CE}} + \lambda_2 \ell_{\text{Dice}}
+$$
+
+- **交叉熵**：优化像素级分类
+- **Dice Loss**：优化区域重叠
+
+**目标检测常用组合**:
+
+$$
+\mathcal{L}_{\text{det}} = \lambda_1 \ell_{\text{cls}} + \lambda_2 \ell_{\text{IoU}} + \lambda_3 \ell_{\text{reg}}
+$$
+
+- **分类损失**：Focal Loss
+- **IoU Loss**：边界框回归
+- **回归损失**：L1/L2损失
 
 ---
 
@@ -894,14 +991,14 @@ class HuberLoss(nn.Module):
     def __init__(self, delta=1.0):
         super().__init__()
         self.delta = delta
-    
+
     def forward(self, y_pred, y_true):
         error = y_pred - y_true
         abs_error = torch.abs(error)
-        
+
         quadratic = torch.clamp(abs_error, max=self.delta)
         linear = abs_error - quadratic
-        
+
         loss = 0.5 * quadratic**2 + self.delta * linear
         return loss.mean()
 
@@ -913,7 +1010,7 @@ class FocalLoss(nn.Module):
         super().__init__()
         self.alpha = alpha
         self.gamma = gamma
-    
+
     def forward(self, inputs, targets):
         """
         Args:
@@ -922,7 +1019,7 @@ class FocalLoss(nn.Module):
         """
         ce_loss = F.cross_entropy(inputs, targets, reduction='none')
         p_t = torch.exp(-ce_loss)
-        
+
         focal_loss = self.alpha * (1 - p_t) ** self.gamma * ce_loss
         return focal_loss.mean()
 
@@ -933,7 +1030,7 @@ class LabelSmoothingCrossEntropy(nn.Module):
     def __init__(self, epsilon=0.1):
         super().__init__()
         self.epsilon = epsilon
-    
+
     def forward(self, inputs, targets):
         """
         Args:
@@ -942,14 +1039,14 @@ class LabelSmoothingCrossEntropy(nn.Module):
         """
         n_classes = inputs.size(-1)
         log_probs = F.log_softmax(inputs, dim=-1)
-        
+
         # One-hot encoding
         targets_one_hot = F.one_hot(targets, n_classes).float()
-        
+
         # Label smoothing
         targets_smooth = (1 - self.epsilon) * targets_one_hot + \
                          self.epsilon / n_classes
-        
+
         loss = -(targets_smooth * log_probs).sum(dim=-1)
         return loss.mean()
 
@@ -960,7 +1057,7 @@ class ContrastiveLoss(nn.Module):
     def __init__(self, margin=1.0):
         super().__init__()
         self.margin = margin
-    
+
     def forward(self, embedding1, embedding2, label):
         """
         Args:
@@ -968,10 +1065,10 @@ class ContrastiveLoss(nn.Module):
             label: (N,) 1 for similar, 0 for dissimilar
         """
         distance = F.pairwise_distance(embedding1, embedding2)
-        
+
         loss_similar = label * distance.pow(2)
         loss_dissimilar = (1 - label) * F.relu(self.margin - distance).pow(2)
-        
+
         loss = loss_similar + loss_dissimilar
         return loss.mean()
 
@@ -982,7 +1079,7 @@ class TripletLoss(nn.Module):
     def __init__(self, margin=1.0):
         super().__init__()
         self.margin = margin
-    
+
     def forward(self, anchor, positive, negative):
         """
         Args:
@@ -990,7 +1087,7 @@ class TripletLoss(nn.Module):
         """
         distance_positive = F.pairwise_distance(anchor, positive)
         distance_negative = F.pairwise_distance(anchor, negative)
-        
+
         losses = F.relu(distance_positive - distance_negative + self.margin)
         return losses.mean()
 
@@ -1001,7 +1098,7 @@ class InfoNCELoss(nn.Module):
     def __init__(self, temperature=0.07):
         super().__init__()
         self.temperature = temperature
-    
+
     def forward(self, query, positive_key, negative_keys):
         """
         Args:
@@ -1012,10 +1109,10 @@ class InfoNCELoss(nn.Module):
         # Normalize
         query = F.normalize(query, dim=-1)
         positive_key = F.normalize(positive_key, dim=-1)
-        
+
         # Positive logits: (N,)
         positive_logits = torch.sum(query * positive_key, dim=-1) / self.temperature
-        
+
         # Negative logits
         if negative_keys.dim() == 2:
             # (K, D) -> (N, K)
@@ -1027,13 +1124,13 @@ class InfoNCELoss(nn.Module):
             negative_logits = torch.sum(
                 query.unsqueeze(1) * negative_keys, dim=-1
             ) / self.temperature
-        
+
         # Concatenate positive and negative logits
         logits = torch.cat([positive_logits.unsqueeze(1), negative_logits], dim=1)
-        
+
         # Labels: positive is at index 0
         labels = torch.zeros(logits.size(0), dtype=torch.long, device=logits.device)
-        
+
         loss = F.cross_entropy(logits, labels)
         return loss
 
@@ -1044,7 +1141,7 @@ class DiceLoss(nn.Module):
     def __init__(self, smooth=1.0):
         super().__init__()
         self.smooth = smooth
-    
+
     def forward(self, inputs, targets):
         """
         Args:
@@ -1053,12 +1150,69 @@ class DiceLoss(nn.Module):
         """
         inputs = inputs.flatten(2)
         targets = targets.flatten(2)
-        
+
         intersection = (inputs * targets).sum(dim=2)
         union = inputs.sum(dim=2) + targets.sum(dim=2)
-        
+
         dice = (2. * intersection + self.smooth) / (union + self.smooth)
         return 1 - dice.mean()
+
+
+# 8. IoU Loss (Jaccard Loss)
+class IoULoss(nn.Module):
+    """IoU Loss for segmentation and object detection"""
+    def __init__(self, smooth=1e-6):
+        super().__init__()
+        self.smooth = smooth
+
+    def forward(self, inputs, targets):
+        """
+        Args:
+            inputs: (N, C, H, W) probabilities or (N, 4) bounding boxes
+            targets: (N, C, H, W) one-hot encoded or (N, 4) bounding boxes
+        """
+        if inputs.dim() == 4:
+            # Segmentation: (N, C, H, W)
+            inputs = inputs.flatten(2)
+            targets = targets.flatten(2)
+
+            intersection = (inputs * targets).sum(dim=2)
+            union = inputs.sum(dim=2) + targets.sum(dim=2) - intersection
+
+            iou = (intersection + self.smooth) / (union + self.smooth)
+            return 1 - iou.mean()
+        else:
+            # Object detection: (N, 4) bounding boxes
+            # Calculate IoU for bounding boxes
+            # This is a simplified version; full implementation would handle
+            # box coordinates properly
+            raise NotImplementedError("Bounding box IoU not implemented in this example")
+
+
+# 9. Combined Loss (for segmentation)
+class CombinedSegmentationLoss(nn.Module):
+    """Combined Cross-Entropy + Dice Loss"""
+    def __init__(self, ce_weight=0.5, dice_weight=0.5, dice_smooth=1.0):
+        super().__init__()
+        self.ce_weight = ce_weight
+        self.dice_weight = dice_weight
+        self.dice_loss = DiceLoss(smooth=dice_smooth)
+
+    def forward(self, inputs, targets):
+        """
+        Args:
+            inputs: (N, C, H, W) logits
+            targets: (N,) class indices
+        """
+        # Cross-entropy loss
+        ce_loss = F.cross_entropy(inputs, targets)
+
+        # Dice loss (convert to probabilities)
+        probs = F.softmax(inputs, dim=1)
+        targets_one_hot = F.one_hot(targets, num_classes=probs.size(1)).permute(0, 3, 1, 2).float()
+        dice_loss = self.dice_loss(probs, targets_one_hot)
+
+        return self.ce_weight * ce_loss + self.dice_weight * dice_loss
 
 
 # 示例使用
@@ -1070,13 +1224,13 @@ if __name__ == "__main__":
     targets = torch.randint(0, 10, (32,))
     loss = focal_loss(inputs, targets)
     print(f"Focal Loss: {loss.item():.4f}")
-    
+
     # 测试Label Smoothing
     print("\n=== Label Smoothing ===")
     ls_loss = LabelSmoothingCrossEntropy(epsilon=0.1)
     loss = ls_loss(inputs, targets)
     print(f"Label Smoothing Loss: {loss.item():.4f}")
-    
+
     # 测试Triplet Loss
     print("\n=== Triplet Loss ===")
     triplet_loss = TripletLoss(margin=1.0)
@@ -1085,7 +1239,7 @@ if __name__ == "__main__":
     negative = torch.randn(32, 128)
     loss = triplet_loss(anchor, positive, negative)
     print(f"Triplet Loss: {loss.item():.4f}")
-    
+
     # 测试InfoNCE Loss
     print("\n=== InfoNCE Loss ===")
     infonce_loss = InfoNCELoss(temperature=0.07)
@@ -1094,18 +1248,40 @@ if __name__ == "__main__":
     negative_keys = torch.randn(32, 100, 128)
     loss = infonce_loss(query, positive_key, negative_keys)
     print(f"InfoNCE Loss: {loss.item():.4f}")
-    
+
+    # 测试Dice Loss
+    print("\n=== Dice Loss ===")
+    dice_loss = DiceLoss(smooth=1.0)
+    seg_inputs = torch.sigmoid(torch.randn(2, 1, 64, 64))  # (N, C, H, W)
+    seg_targets = (torch.rand(2, 1, 64, 64) > 0.5).float()  # Binary masks
+    loss = dice_loss(seg_inputs, seg_targets)
+    print(f"Dice Loss: {loss.item():.4f}")
+
+    # 测试IoU Loss
+    print("\n=== IoU Loss ===")
+    iou_loss = IoULoss(smooth=1e-6)
+    loss = iou_loss(seg_inputs, seg_targets)
+    print(f"IoU Loss: {loss.item():.4f}")
+
+    # 测试组合损失
+    print("\n=== Combined Segmentation Loss ===")
+    combined_loss = CombinedSegmentationLoss(ce_weight=0.5, dice_weight=0.5)
+    seg_logits = torch.randn(2, 10, 64, 64)  # (N, C, H, W) logits
+    seg_labels = torch.randint(0, 10, (2, 64, 64))  # (N, H, W) class indices
+    loss = combined_loss(seg_logits, seg_labels)
+    print(f"Combined Loss: {loss.item():.4f}")
+
     # 可视化不同损失函数
     import matplotlib.pyplot as plt
-    
+
     print("\n=== 可视化损失函数 ===")
     x = np.linspace(-3, 3, 100)
-    
+
     # MSE, MAE, Huber
     mse = x**2
     mae = np.abs(x)
     huber = np.where(np.abs(x) <= 1, 0.5 * x**2, np.abs(x) - 0.5)
-    
+
     plt.figure(figsize=(10, 6))
     plt.plot(x, mse, label='MSE', linewidth=2)
     plt.plot(x, mae, label='MAE', linewidth=2)
@@ -1123,7 +1299,7 @@ if __name__ == "__main__":
 ## 📚 损失函数选择指南
 
 | 任务 | 推荐损失函数 | 备注 |
-|------|-------------|------|
+| ---- |-------------| ---- |
 | **回归** | MSE / MAE / Huber | MSE对异常值敏感，MAE鲁棒 |
 | **二分类** | Binary Cross-Entropy | 标准选择 |
 | **多分类** | Cross-Entropy | 标准选择 |
@@ -1140,7 +1316,7 @@ if __name__ == "__main__":
 ## 🎓 相关课程
 
 | 大学 | 课程 |
-|------|------|
+| ---- |------|
 | **Stanford** | CS229 Machine Learning |
 | **MIT** | 6.036 Introduction to Machine Learning |
 | **UC Berkeley** | CS189 Introduction to Machine Learning |
@@ -1164,6 +1340,12 @@ if __name__ == "__main__":
 
 7. **Kendall et al. (2018)**. "Multi-Task Learning Using Uncertainty to Weigh Losses for Scene Geometry and Semantics". *CVPR*. (Uncertainty Weighting)
 
+8. **Milletari et al. (2016)**. "V-Net: Fully Convolutional Neural Networks for Volumetric Medical Image Segmentation". *3DV*. (Dice Loss)
+
+9. **Rezatofighi et al. (2019)**. "Generalized Intersection over Union: A Metric and A Loss for Bounding Box Regression". *CVPR*. (IoU Loss)
+
+10. **Yu et al. (2016)**. "UnitBox: An Advanced Object Detection Network". *ACM MM*. (IoU Loss for Detection)
+
 ---
 
-*最后更新：2025年10月*-
+*最后更新：2025年12月20日*-

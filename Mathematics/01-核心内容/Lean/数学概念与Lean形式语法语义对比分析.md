@@ -1,4 +1,4 @@
-# 数学概念与Lean形式语法语义对比分析
+﻿# 数学概念与Lean形式语法语义对比分析
 
 ## 目录
 
@@ -64,7 +64,9 @@ This document comprehensively analyzes the correspondence between mathematical c
 ### 2.1 基本对应表 | Basic Correspondence Table
 
 | 数学概念 | Lean语法 | 对应关系 | 示例 |
-|---------|---------|---------|------|
+ 
+        $matches[0] -replace '\|[-:]+\|', '| ---- |'
+    
 | 集合 | Type | 类型即集合 | `Set α` |
 | 函数 | Function | 函数定义 | `f : α → β` |
 | 关系 | Relation | 二元关系 | `R : α → α → Prop` |
@@ -123,7 +125,7 @@ instance : TotalOrder Nat where
 ### 3.2 定义方式对比 | Definition Method Comparison
 
 | 特征 | 数学定义 | Lean定义 |
-|------|---------|---------|
+| ---- |---------| ---- |
 | 表达方式 | 自然语言 | 形式语法 |
 | 精确性 | 依赖上下文 | 严格语法 |
 | 可验证性 | 人工检查 | 自动检查 |
@@ -180,7 +182,7 @@ theorem continuous_implies_limit (f : ℝ → ℝ) (x : ℝ) :
 ### 4.3 解释机制对比表 | Interpretation Mechanism Comparison Table
 
 | 方面 | 数学解释 | Lean解释 |
-|------|---------|---------|
+| ---- |---------| ---- |
 | 基础 | 直觉理解 | 类型系统 |
 | 精确性 | 相对精确 | 绝对精确 |
 | 可验证性 | 人工验证 | 自动验证 |
@@ -244,7 +246,7 @@ theorem square_ge_n (n : Nat) : n * n ≥ n := by
 ### 5.3 推理系统对比表 | Reasoning System Comparison Table
 
 | 推理类型 | 数学推理 | Lean推理 |
-|---------|---------|---------|
+| ---- |---------| ---- |
 | 演绎推理 | 自然语言 | tactics |
 | 归纳推理 | 数学归纳法 | induction |
 | 反证法 | 假设矛盾 | by_contradiction |
@@ -297,7 +299,7 @@ def limit_expression (f : ℝ → ℝ) (L : ℝ) : Prop :=
 ### 6.3 表达式对比表 | Expression Comparison Table
 
 | 表达式类型 | 数学表达 | Lean表达 |
-|-----------|---------|---------|
+| ---- |---------| ---- |
 | 算术 | 中缀表示 | 函数调用 |
 | 函数 | f(x) | f x |
 | 集合 | {x \| P(x)} | {x // P x} |
@@ -362,7 +364,7 @@ def circle_inequality (x y r : ℝ) : Prop :=
 ### 7.3 方程式对比表 | Equation Comparison Table
 
 | 方程类型 | 数学方程 | Lean方程 |
-|---------|---------|---------|
+| ---- |---------| ---- |
 | 代数方程 | 符号求解 | 算法求解 |
 | 微分方程 | 解析解 | 数值解 |
 | 积分方程 | 不定积分 | 数值积分 |
@@ -427,7 +429,7 @@ def Continuous {α β : Type} [TopologicalSpace α] [TopologicalSpace β]
 ### 8.3 关系对比表 | Relation Comparison Table
 
 | 关系类型 | 数学关系 | Lean关系 |
-|---------|---------|---------|
+| ---- |---------| ---- |
 | 等价关系 | 性质描述 | 类型类 |
 | 序关系 | 公理系统 | 接口定义 |
 | 函数关系 | 性质定义 | 谓词函数 |
@@ -501,7 +503,7 @@ theorem constructive_existence (P : Nat → Prop) :
 ### 9.3 形式化程度对比表 | Formalization Level Comparison Table
 
 | 特征 | 传统数学 | Lean数学 |
-|------|---------|---------|
+| ---- |---------| ---- |
 | 严格性 | 相对严格 | 绝对严格 |
 | 可验证性 | 人工验证 | 自动验证 |
 | 可执行性 | 概念性 | 可执行 |

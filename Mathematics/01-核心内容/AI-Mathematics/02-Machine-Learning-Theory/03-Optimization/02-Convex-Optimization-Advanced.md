@@ -1,4 +1,4 @@
-# 凸优化进阶 (Advanced Convex Optimization)
+﻿# 凸优化进阶 (Advanced Convex Optimization)
 
 > **The Foundation of Efficient Machine Learning Algorithms**
 >
@@ -1191,7 +1191,7 @@ $$
 ### 📊 总结
 
 | 方向 | 条件 | 结论 |
-|------|------|------|
+| ---- |------| ---- |
 | **充分性** | KKT条件 + 凸性 | ⇒ 全局最优 |
 | **必要性** | 最优 + Slater条件 | ⇒ 存在KKT乘子 |
 | **非凸** | KKT条件 | ⇒ 驻点（可能非最优） |
@@ -1551,7 +1551,7 @@ $$
 ### 🔑 关键要点
 
 | 概念 | 说明 |
-|------|------|
+| ---- |------|
 | **Slater条件** | 约束严格可行点存在 |
 | **强对偶性** | $d^* = p^*$（对偶间隙为0） |
 | **充分性** | Slater ⇒ 强对偶（但非必要） |
@@ -1803,21 +1803,21 @@ def gradient_projection(f, grad_f, project, x0, lr=0.01, max_iter=1000, tol=1e-6
     """梯度投影法"""
     x = x0.copy()
     trajectory = [x.copy()]
-    
+
     for i in range(max_iter):
         grad = grad_f(x)
-        
+
         if np.linalg.norm(grad) < tol:
             print(f"Converged in {i} iterations")
             break
-        
+
         # 梯度步
         x_new = x - lr * grad
-        
+
         # 投影到可行域
         x = project(x_new)
         trajectory.append(x.copy())
-    
+
     return x, np.array(trajectory)
 
 
@@ -1826,21 +1826,21 @@ def proximal_gradient(f, grad_f, prox_g, x0, lr=0.01, max_iter=1000, tol=1e-6):
     """近端梯度法"""
     x = x0.copy()
     trajectory = [x.copy()]
-    
+
     for i in range(max_iter):
         grad = grad_f(x)
-        
+
         # 梯度步
         x_temp = x - lr * grad
-        
+
         # 近端算子
         x = prox_g(x_temp, lr)
         trajectory.append(x.copy())
-        
+
         if np.linalg.norm(x - trajectory[-2]) < tol:
             print(f"Converged in {i} iterations")
             break
-    
+
     return x, np.array(trajectory)
 
 
@@ -1856,22 +1856,22 @@ def nesterov_accelerated_gradient(f, grad_f, x0, lr=0.01, max_iter=1000, tol=1e-
     x = x0.copy()
     x_prev = x0.copy()
     trajectory = [x.copy()]
-    
+
     for t in range(1, max_iter):
         # 动量项
         momentum = (t - 1) / (t + 2)
         y = x + momentum * (x - x_prev)
-        
+
         grad = grad_f(y)
-        
+
         if np.linalg.norm(grad) < tol:
             print(f"Converged in {t} iterations")
             break
-        
+
         x_prev = x.copy()
         x = y - lr * grad
         trajectory.append(x.copy())
-    
+
     return x, np.array(trajectory)
 
 
@@ -1879,33 +1879,33 @@ def nesterov_accelerated_gradient(f, grad_f, x0, lr=0.01, max_iter=1000, tol=1e-
 def admm_lasso(X, y, lambda_, rho=1.0, max_iter=100, tol=1e-4):
     """ADMM求解Lasso: min ||Xw - y||^2 + lambda ||w||_1"""
     n, d = X.shape
-    
+
     # 初始化
     w = np.zeros(d)
     z = np.zeros(d)
     u = np.zeros(d)
-    
+
     # 预计算
     XtX = X.T @ X
     Xty = X.T @ y
     L = XtX + rho * np.eye(d)
-    
+
     for i in range(max_iter):
         # w-update (解析解)
         w = np.linalg.solve(L, Xty + rho * (z - u))
-        
+
         # z-update (软阈值)
         z_old = z.copy()
         z = soft_threshold(w + u, lambda_ / rho)
-        
+
         # u-update
         u = u + w - z
-        
+
         # 检查收敛
         if np.linalg.norm(z - z_old) < tol:
             print(f"ADMM converged in {i+1} iterations")
             break
-    
+
     return w
 
 
@@ -1913,61 +1913,61 @@ def admm_lasso(X, y, lambda_, rho=1.0, max_iter=100, tol=1e-4):
 def lasso_example():
     """Lasso回归示例"""
     np.random.seed(42)
-    
+
     # 生成稀疏数据
     n, d = 100, 50
     k = 5  # 真实非零系数数量
-    
+
     X = np.random.randn(n, d)
     w_true = np.zeros(d)
     w_true[:k] = np.random.randn(k)
     y = X @ w_true + 0.1 * np.random.randn(n)
-    
+
     # 近端梯度法
     lambda_ = 0.1
-    
+
     def f(w):
         return 0.5 * np.sum((X @ w - y)**2)
-    
+
     def grad_f(w):
         return X.T @ (X @ w - y)
-    
+
     def prox_g(w, eta):
         return soft_threshold(w, eta * lambda_)
-    
+
     w0 = np.zeros(d)
     w_prox, traj_prox = proximal_gradient(f, grad_f, prox_g, w0, lr=0.001, max_iter=1000)
-    
+
     # ADMM
     w_admm = admm_lasso(X, y, lambda_, rho=1.0, max_iter=100)
-    
+
     # 可视化
     plt.figure(figsize=(15, 5))
-    
+
     # 真实系数
     plt.subplot(1, 3, 1)
     plt.stem(w_true)
     plt.title('True Coefficients')
     plt.xlabel('Index')
     plt.ylabel('Value')
-    
+
     # 近端梯度法结果
     plt.subplot(1, 3, 2)
     plt.stem(w_prox)
     plt.title('Proximal Gradient')
     plt.xlabel('Index')
     plt.ylabel('Value')
-    
+
     # ADMM结果
     plt.subplot(1, 3, 3)
     plt.stem(w_admm)
     plt.title('ADMM')
     plt.xlabel('Index')
     plt.ylabel('Value')
-    
+
     plt.tight_layout()
     # plt.show()
-    
+
     print(f"True non-zeros: {np.sum(w_true != 0)}")
     print(f"Prox non-zeros: {np.sum(np.abs(w_prox) > 1e-3)}")
     print(f"ADMM non-zeros: {np.sum(np.abs(w_admm) > 1e-3)}")
@@ -1979,18 +1979,18 @@ def acceleration_comparison():
     # 强凸二次函数
     A = np.array([[10, 0], [0, 1]])  # 条件数 = 10
     b = np.array([1, 1])
-    
+
     def f(x):
         return 0.5 * x @ A @ x - b @ x
-    
+
     def grad_f(x):
         return A @ x - b
-    
+
     x0 = np.array([5.0, 5.0])
-    
+
     # 标准梯度下降
     from scipy.optimize import minimize_scalar
-    
+
     def gd(x0, lr, max_iter=1000):
         x = x0.copy()
         traj = [x.copy()]
@@ -1998,27 +1998,27 @@ def acceleration_comparison():
             x = x - lr * grad_f(x)
             traj.append(x.copy())
         return np.array(traj)
-    
+
     traj_gd = gd(x0, lr=0.1, max_iter=100)
-    
+
     # Nesterov加速
     _, traj_nag = nesterov_accelerated_gradient(f, grad_f, x0, lr=0.1, max_iter=100)
-    
+
     # 可视化
     x_opt = np.linalg.solve(A, b)
-    
+
     plt.figure(figsize=(15, 5))
-    
+
     # 等高线
     x_range = np.linspace(-1, 6, 100)
     y_range = np.linspace(-1, 6, 100)
     X, Y = np.meshgrid(x_range, y_range)
     Z = np.zeros_like(X)
-    
+
     for i in range(X.shape[0]):
         for j in range(X.shape[1]):
             Z[i, j] = f(np.array([X[i, j], Y[i, j]]))
-    
+
     # 标准梯度下降
     plt.subplot(1, 2, 1)
     plt.contour(X, Y, Z, levels=20, cmap='gray', alpha=0.3)
@@ -2028,7 +2028,7 @@ def acceleration_comparison():
     plt.xlabel('x1')
     plt.ylabel('x2')
     plt.legend()
-    
+
     # Nesterov加速
     plt.subplot(1, 2, 2)
     plt.contour(X, Y, Z, levels=20, cmap='gray', alpha=0.3)
@@ -2038,20 +2038,20 @@ def acceleration_comparison():
     plt.xlabel('x1')
     plt.ylabel('x2')
     plt.legend()
-    
+
     plt.tight_layout()
     # plt.show()
-    
+
     print(f"GD iterations to converge: {len(traj_gd)}")
     print(f"NAG iterations to converge: {len(traj_nag)}")
 
 
 if __name__ == "__main__":
     print("=== 凸优化进阶示例 ===")
-    
+
     print("\n1. Lasso回归示例")
     lasso_example()
-    
+
     print("\n2. 加速梯度法对比")
     acceleration_comparison()
 ```
@@ -2097,7 +2097,7 @@ $$
 ## 🎓 相关课程
 
 | 大学 | 课程 |
-|------|------|
+| ---- |------|
 | **Stanford** | EE364A - Convex Optimization I |
 | **Stanford** | EE364B - Convex Optimization II |
 | **MIT** | 6.255J - Optimization Methods |

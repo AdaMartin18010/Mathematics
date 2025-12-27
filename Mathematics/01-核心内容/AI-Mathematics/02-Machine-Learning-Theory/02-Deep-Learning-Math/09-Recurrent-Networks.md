@@ -1,4 +1,4 @@
-# 循环神经网络 (RNN/LSTM) 数学原理
+﻿# 循环神经网络 (RNN/LSTM) 数学原理
 
 > **Recurrent Neural Networks: Mathematics and Theory**
 >
@@ -350,7 +350,7 @@ $$
 ### 2. GRU vs LSTM
 
 | 特性 | LSTM | GRU |
-|------|------|-----|
+| ---- |------| ---- |
 | **门数量** | 3个（遗忘、输入、输出） | 2个（更新、重置） |
 | **状态** | 细胞状态 + 隐状态 | 仅隐状态 |
 | **参数数量** | 更多 | 更少 |
@@ -742,7 +742,7 @@ LSTM
 ## 🎓 相关课程
 
 | 大学 | 课程 |
-|------|------|
+| ---- |------|
 | **Stanford** | CS224N Natural Language Processing |
 | **MIT** | 6.S191 Introduction to Deep Learning |
 | **CMU** | 11-747 Neural Networks for NLP |

@@ -1,4 +1,4 @@
-# Lean快速上手指南 | Lean Quick Start Guide
+﻿# Lean快速上手指南 | Lean Quick Start Guide
 
 ## 📋 目录 | Table of Contents
 
@@ -251,7 +251,7 @@ theorem rewrite_example (a b : Nat) (h : a = b) : a + 1 = b + 1 := by
 ## 📖 常用策略 | Common Tactics
 
 | 策略 | 用途 | 示例 |
-|------|------|------|
+| ---- |------| ---- |
 | `intro` | 引入假设 | `intro h` |
 | `exact` | 使用假设 | `exact h` |
 | `simp` | 简化表达式 | `simp[def_name]` |

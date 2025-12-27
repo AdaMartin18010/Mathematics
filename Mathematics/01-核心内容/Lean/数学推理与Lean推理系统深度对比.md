@@ -1,4 +1,4 @@
-# 数学推理与Lean推理系统深度对比
+﻿# 数学推理与Lean推理系统深度对比
 
 ## 目录
 
@@ -82,7 +82,7 @@ def disjunction_intro_right (P Q : Prop) : Q → P ∨ Q :=
 ### 1.2 推理原则对比 | Reasoning Principles Comparison
 
 | 推理原则 | 数学推理 | Lean推理 |
-|---------|---------|---------|
+| ---- |---------| ---- |
 | 演绎推理 | 从一般到特殊 | `exact` tactic |
 | 归纳推理 | 数学归纳法 | `induction` tactic |
 | 反证法 | 假设矛盾 | `by_contradiction` |
@@ -466,7 +466,7 @@ theorem ring_theorem (a b c : Int) : (a + b) * c = a * c + b * c := by
 ### 4.3 推理策略对比表 | Reasoning Strategy Comparison Table
 
 | 推理策略 | 数学推理 | Lean推理 |
-|---------|---------|---------|
+| ---- |---------| ---- |
 | 分析-综合 | 概念分解 | tactics组合 |
 | 类比推理 | 相似性识别 | 模式匹配 |
 | 构造性证明 | 直接构造 | `exact` |
@@ -552,7 +552,7 @@ def choose_automation_strategy (theorem : Theorem) : AutomationStrategy :=
 ### 5.3 自动化对比表 | Automation Comparison Table
 
 | 自动化类型 | 数学自动化 | Lean自动化 |
-|-----------|---------|-----------|
+| ---- |---------| ---- |
 | 符号计算 | Mathematica | `simp` |
 | 代数化简 | Maple | `ring` |
 | 线性算术 | 计算器 | `linarith` |

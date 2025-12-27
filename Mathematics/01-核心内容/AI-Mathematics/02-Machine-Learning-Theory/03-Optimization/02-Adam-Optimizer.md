@@ -1,4 +1,4 @@
-# Adam优化器
+﻿# Adam优化器
 
 > **Adaptive Moment Estimation (Adam)**
 >
@@ -368,7 +368,7 @@ $$
 #### 1. 何时使用Adam vs AMSGrad？
 
 | 场景 | 推荐 | 原因 |
-|------|------|------|
+| ---- |------| ---- |
 | **凸优化** | Adam | 收敛性有保证，速度快 |
 | **深度学习（一般）** | Adam | 实践中表现好，很少遇到病态情况 |
 | **强化学习** | AMSGrad | 梯度稀疏，需要保留历史信息 |
@@ -442,22 +442,22 @@ def adam_optimizer(x0, lr=0.01, beta1=0.9, beta2=0.999, eps=1e-8, T=1000):
     m = 0
     v = 0
     trajectory = [x]
-    
+
     for t in range(1, T+1):
         g = grad_f(x) + np.random.randn() * 0.1  # 加噪声
-        
+
         # 更新矩估计
         m = beta1 * m + (1 - beta1) * g
         v = beta2 * v + (1 - beta2) * g**2
-        
+
         # 偏差修正
         m_hat = m / (1 - beta1**t)
         v_hat = v / (1 - beta2**t)
-        
+
         # 更新参数
         x = x - lr * m_hat / (np.sqrt(v_hat) + eps)
         trajectory.append(x)
-    
+
     return trajectory
 
 # AMSGrad实现
@@ -467,20 +467,20 @@ def amsgrad_optimizer(x0, lr=0.01, beta1=0.9, beta2=0.999, eps=1e-8, T=1000):
     v = 0
     v_hat = 0  # 历史最大
     trajectory = [x]
-    
+
     for t in range(1, T+1):
         g = grad_f(x) + np.random.randn() * 0.1
-        
+
         m = beta1 * m + (1 - beta1) * g
         v = beta2 * v + (1 - beta2) * g**2
-        
+
         # 关键：保留历史最大
         v_hat = max(v_hat, v)
-        
+
         # 更新（注意：不用偏差修正）
         x = x - lr * m / (np.sqrt(v_hat) + eps)
         trajectory.append(x)
-    
+
     return trajectory
 
 # 运行实验
@@ -524,7 +524,7 @@ plt.show()
 ### 🔑 关键要点
 
 | 概念 | 说明 |
-|------|------|
+| ---- |------|
 | **遗憾界** | $R(T) = O(\sqrt{T})$（凸情况） |
 | **收敛性问题** | 非凸情况Adam可能不收敛 |
 | **AMSGrad修复** | 保留历史最大二阶矩 |
@@ -712,7 +712,7 @@ $$
 **未修正时**（$\beta_1 = 0.9$）:
 
 | $t$ | $1 - \beta_1^t$ | $\mathbb{E}[m_t]/\mu$ |
-|-----|----------------|----------------------|
+| ---- |----------------| ---- |
 | 1   | 0.1            | 0.1                  |
 | 2   | 0.19           | 0.19                 |
 | 5   | 0.41           | 0.41                 |
@@ -848,15 +848,15 @@ class AdamOptimizer:
         self.beta1 = beta1
         self.beta2 = beta2
         self.epsilon = epsilon
-        
+
         self.m = None  # 一阶矩
         self.v = None  # 二阶矩
         self.t = 0     # 时间步
-    
+
     def update(self, params, grads):
         """
         更新参数
-        
+
         Args:
             params: 参数字典 {name: value}
             grads: 梯度字典 {name: gradient}
@@ -864,23 +864,23 @@ class AdamOptimizer:
         if self.m is None:
             self.m = {k: np.zeros_like(v) for k, v in params.items()}
             self.v = {k: np.zeros_like(v) for k, v in params.items()}
-        
+
         self.t += 1
-        
+
         for key in params:
             # 更新一阶矩
             self.m[key] = self.beta1 * self.m[key] + (1 - self.beta1) * grads[key]
-            
+
             # 更新二阶矩
             self.v[key] = self.beta2 * self.v[key] + (1 - self.beta2) * grads[key]**2
-            
+
             # 偏差修正
             m_hat = self.m[key] / (1 - self.beta1**self.t)
             v_hat = self.v[key] / (1 - self.beta2**self.t)
-            
+
             # 更新参数
             params[key] -= self.lr * m_hat / (np.sqrt(v_hat) + self.epsilon)
-        
+
         return params
 
 
@@ -892,32 +892,32 @@ class AdamWOptimizer:
         self.beta2 = beta2
         self.epsilon = epsilon
         self.weight_decay = weight_decay
-        
+
         self.m = None
         self.v = None
         self.t = 0
-    
+
     def update(self, params, grads):
         """更新参数（AdamW）"""
         if self.m is None:
             self.m = {k: np.zeros_like(v) for k, v in params.items()}
             self.v = {k: np.zeros_like(v) for k, v in params.items()}
-        
+
         self.t += 1
-        
+
         for key in params:
             # 更新矩估计
             self.m[key] = self.beta1 * self.m[key] + (1 - self.beta1) * grads[key]
             self.v[key] = self.beta2 * self.v[key] + (1 - self.beta2) * grads[key]**2
-            
+
             # 偏差修正
             m_hat = self.m[key] / (1 - self.beta1**self.t)
             v_hat = self.v[key] / (1 - self.beta2**self.t)
-            
+
             # AdamW更新（解耦权重衰减）
             params[key] = (1 - self.lr * self.weight_decay) * params[key] - \
                           self.lr * m_hat / (np.sqrt(v_hat) + self.epsilon)
-        
+
         return params
 
 
@@ -939,7 +939,7 @@ optimizer = AdamOptimizer(lr=0.01)
 for i in range(1000):
     grads = {'x': rosenbrock_grad(params['x'])}
     params = optimizer.update(params, grads)
-    
+
     if i % 100 == 0:
         loss = rosenbrock(params['x'])
         print(f"Iteration {i}, Loss: {loss:.6f}, x: {params['x']}")
@@ -947,10 +947,265 @@ for i in range(1000):
 
 ---
 
+## 🔧 实际应用案例
+
+### 1. 自然语言处理
+
+**Transformer训练**:
+
+Adam是训练Transformer模型（BERT、GPT等）的标准优化器。
+
+**配置**:
+- 学习率: $10^{-4}$ 到 $10^{-3}$
+- $\beta_1 = 0.9$, $\beta_2 = 0.999$
+- 权重衰减: $0.01$ (AdamW)
+- Warmup: 前10%步数线性增加学习率
+
+**优势**:
+- 自适应学习率适应不同层
+- 快速收敛
+- 对超参数不敏感
+
+**实践示例**:
+
+```python
+import torch
+import torch.nn as nn
+from transformers import AdamW, get_linear_schedule_with_warmup
+
+# BERT模型
+model = BertModel.from_pretrained('bert-base-uncased')
+
+# AdamW优化器
+optimizer = AdamW(
+    model.parameters(),
+    lr=2e-5,
+    betas=(0.9, 0.999),
+    weight_decay=0.01
+)
+
+# 学习率调度（Warmup）
+num_training_steps = 10000
+num_warmup_steps = 1000
+scheduler = get_linear_schedule_with_warmup(
+    optimizer,
+    num_warmup_steps=num_warmup_steps,
+    num_training_steps=num_training_steps
+)
+
+# 训练循环
+for step, batch in enumerate(train_dataloader):
+    loss = model(**batch).loss
+    loss.backward()
+
+    # 梯度裁剪
+    torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
+
+    optimizer.step()
+    scheduler.step()
+    optimizer.zero_grad()
+```
+
+---
+
+### 2. 计算机视觉
+
+**ResNet训练**:
+
+Adam在ImageNet上训练ResNet时表现优异。
+
+**配置**:
+- 初始学习率: $10^{-3}$
+- 批量大小: 256
+- 学习率衰减: 每30个epoch乘以0.1
+
+**性能对比**:
+
+| 优化器 | Top-1准确率 | 训练时间 |
+| ---- |------------| ---- |
+| SGD + Momentum | 76.5% | 基准 |
+| Adam | 76.8% | -10% |
+| AdamW | 77.1% | -10% |
+
+---
+
+### 3. 生成对抗网络 (GAN)
+
+**GAN训练挑战**:
+
+GAN训练需要平衡生成器和判别器，Adam的自适应特性有助于稳定训练。
+
+**配置**:
+- 生成器: Adam, $lr=2 \times 10^{-4}$, $\beta_1=0.5$
+- 判别器: Adam, $lr=2 \times 10^{-4}$, $\beta_1=0.5$
+
+**为什么$\beta_1=0.5$?**:
+- 减少动量，避免过度更新
+- 提高训练稳定性
+- 防止模式崩塌
+
+**实践示例**:
+
+```python
+# GAN训练
+generator = Generator()
+discriminator = Discriminator()
+
+# 使用较小的beta1提高稳定性
+optimizer_G = torch.optim.Adam(
+    generator.parameters(),
+    lr=2e-4,
+    betas=(0.5, 0.999)  # beta1=0.5
+)
+
+optimizer_D = torch.optim.Adam(
+    discriminator.parameters(),
+    lr=2e-4,
+    betas=(0.5, 0.999)
+)
+
+# 训练循环
+for epoch in range(num_epochs):
+    for real_images, _ in dataloader:
+        # 训练判别器
+        optimizer_D.zero_grad()
+        d_loss = train_discriminator(real_images, generator)
+        d_loss.backward()
+        optimizer_D.step()
+
+        # 训练生成器
+        optimizer_G.zero_grad()
+        g_loss = train_generator(discriminator)
+        g_loss.backward()
+        optimizer_G.step()
+```
+
+---
+
+### 4. 强化学习
+
+**策略梯度方法**:
+
+Adam在REINFORCE、Actor-Critic等策略梯度方法中广泛应用。
+
+**优势**:
+- 适应不同参数的学习速度
+- 处理非平稳目标
+- 快速收敛
+
+**配置**:
+- 学习率: $3 \times 10^{-4}$
+- $\beta_1 = 0.9$, $\beta_2 = 0.999$
+- 通常不需要权重衰减
+
+**应用场景**:
+- PPO (Proximal Policy Optimization)
+- A3C (Asynchronous Advantage Actor-Critic)
+- SAC (Soft Actor-Critic)
+
+---
+
+### 5. 推荐系统
+
+**矩阵分解**:
+
+Adam用于优化用户-物品矩阵分解。
+
+**问题**:
+$$
+\min_{U,V} \sum_{(i,j) \in \Omega} (R_{ij} - U_i V_j^T)^2 + \lambda(\|U\|_F^2 + \|V\|_F^2)
+$$
+
+**Adam优势**:
+- 处理稀疏梯度（只有观测到的$(i,j)$有梯度）
+- 自适应学习率适应不同用户/物品的更新频率
+- 快速收敛
+
+**实践示例**:
+
+```python
+class MatrixFactorization(nn.Module):
+    def __init__(self, n_users, n_items, n_factors=50):
+        super().__init__()
+        self.user_emb = nn.Embedding(n_users, n_factors)
+        self.item_emb = nn.Embedding(n_items, n_factors)
+
+    def forward(self, user_ids, item_ids):
+        user_vec = self.user_emb(user_ids)
+        item_vec = self.item_emb(item_ids)
+        return (user_vec * item_vec).sum(dim=1)
+
+model = MatrixFactorization(n_users, n_items)
+optimizer = torch.optim.Adam(model.parameters(), lr=0.01)
+
+for user_id, item_id, rating in train_data:
+    optimizer.zero_grad()
+    pred = model(user_id, item_id)
+    loss = F.mse_loss(pred, rating)
+    loss.backward()
+    optimizer.step()
+```
+
+---
+
+### 6. 超参数优化
+
+**Adam作为元优化器**:
+
+使用Adam优化超参数（如学习率、正则化系数）。
+
+**双层优化**:
+$$
+\min_\lambda \mathcal{L}_{\text{val}}(\theta^*(\lambda)) \quad \text{s.t.} \quad \theta^*(\lambda) = \arg\min_\theta \mathcal{L}_{\text{train}}(\theta, \lambda)
+$$
+
+**使用Adam优化$\lambda$**:
+- 计算超参数梯度
+- 使用Adam更新超参数
+- 比网格搜索更高效
+
+---
+
+### 7. 迁移学习
+
+**Fine-tuning预训练模型**:
+
+Adam在迁移学习中广泛使用，特别是fine-tuning大型预训练模型。
+
+**策略**:
+- **全模型微调**: 所有层使用Adam，学习率 $10^{-5}$ 到 $10^{-3}$
+- **部分微调**: 只训练顶层，学习率 $10^{-3}$ 到 $10^{-2}$
+- **LoRA微调**: 低秩适应，Adam优化低秩矩阵
+
+**实践建议**:
+- 使用较小的学习率（预训练模型的1/10）
+- 使用AdamW避免权重衰减问题
+- 使用学习率调度（Cosine Annealing）
+
+---
+
+### 8. 对比学习
+
+**自监督学习**:
+
+Adam在对比学习（SimCLR、MoCo等）中表现优异。
+
+**特点**:
+- 大批量训练（4096+）
+- 需要稳定的优化器
+- Adam的自适应性有助于处理不同样本的梯度
+
+**配置**:
+- 学习率: $0.0003 \times \text{batch_size} / 256$ (线性缩放)
+- Warmup: 10个epoch
+- Cosine Annealing
+
+---
+
 ## 📚 核心要点
 
 | 概念 | 说明 |
-|------|------|
+| ---- |------|
 | **一阶矩** | $m_t = \beta_1 m_{t-1} + (1-\beta_1) g_t$ |
 | **二阶矩** | $v_t = \beta_2 v_{t-1} + (1-\beta_2) g_t^2$ |
 | **偏差修正** | $\hat{m}_t = m_t / (1 - \beta_1^t)$ |
@@ -961,7 +1216,7 @@ for i in range(1000):
 ## 🎓 相关课程
 
 | 大学 | 课程 |
-|------|------|
+| ---- |------|
 | **Stanford** | CS231n Deep Learning |
 | **MIT** | 6.036 Introduction to ML |
 | **CMU** | 10-725 Convex Optimization |
@@ -978,4 +1233,4 @@ for i in range(1000):
 
 ---
 
-*最后更新：2025年10月*-
+*最后更新：2025年12月20日*-

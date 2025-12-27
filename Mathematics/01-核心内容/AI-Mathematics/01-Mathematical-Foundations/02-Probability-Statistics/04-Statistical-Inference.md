@@ -1,4 +1,4 @@
-# 统计推断 (Statistical Inference)
+﻿# 统计推断 (Statistical Inference)
 
 > **From Data to Knowledge: Estimation, Testing, and Decision Making**
 >
@@ -564,7 +564,7 @@ $$
 **两类错误**:
 
 | | $H_0$ 为真 | $H_0$ 为假 |
-|---|---|---|
+| ---- |---| ---- |
 | **拒绝 $H_0$** | 第一类错误 (Type I) | 正确 |
 | **接受 $H_0$** | 正确 | 第二类错误 (Type II) |
 
@@ -1822,7 +1822,7 @@ if __name__ == "__main__":
 ## 🎓 相关课程
 
 | 大学 | 课程 |
-|------|------|
+| ---- |------|
 | **MIT** | 18.650 - Statistics for Applications |
 | **Stanford** | STATS200 - Introduction to Statistical Inference |
 | **CMU** | 36-705 - Intermediate Statistics |

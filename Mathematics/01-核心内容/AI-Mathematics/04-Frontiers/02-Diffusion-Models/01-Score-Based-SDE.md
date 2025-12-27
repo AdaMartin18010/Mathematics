@@ -1,4 +1,4 @@
-# 扩散模型与Score-Based SDE
+﻿# 扩散模型与Score-Based SDE
 
 > **Diffusion Models and Score-Based Stochastic Differential Equations**
 >
@@ -331,7 +331,7 @@ print(f"Generated samples shape: {samples.shape}")
 ## 📚 核心模型
 
 | 模型 | 核心思想 | 特点 |
-|------|----------|------|
+| ---- |----------| ---- |
 | **DDPM** | 离散时间扩散 | 简单稳定 |
 | **Score-Based** | 连续时间SDE | 理论优雅 |
 | **DDIM** | 确定性采样 | 快速生成 |
@@ -342,7 +342,7 @@ print(f"Generated samples shape: {samples.shape}")
 ## 🎓 相关课程
 
 | 大学 | 课程 |
-|------|------|
+| ---- |------|
 | **Stanford** | CS236 Deep Generative Models |
 | **MIT** | 6.S191 Introduction to Deep Learning |
 | **UC Berkeley** | CS294 Deep Unsupervised Learning |

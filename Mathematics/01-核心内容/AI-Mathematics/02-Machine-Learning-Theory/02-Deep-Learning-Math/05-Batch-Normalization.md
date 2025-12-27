@@ -1,4 +1,4 @@
-# 批归一化 (Batch Normalization) 理论
+﻿# 批归一化 (Batch Normalization) 理论
 
 > **Batch Normalization: Theory and Mathematics**
 >
@@ -328,15 +328,15 @@ class BatchNorm1d(nn.Module):
         self.num_features = num_features
         self.eps = eps
         self.momentum = momentum
-        
+
         # 可学习参数
         self.gamma = nn.Parameter(torch.ones(num_features))
         self.beta = nn.Parameter(torch.zeros(num_features))
-        
+
         # 移动平均（不参与梯度）
         self.register_buffer('running_mean', torch.zeros(num_features))
         self.register_buffer('running_var', torch.ones(num_features))
-    
+
     def forward(self, x):
         """
         Args:
@@ -352,17 +352,17 @@ class BatchNorm1d(nn.Module):
                 # (N, C, *): 对N和空间维度求均值
                 batch_mean = x.mean(dim=[0] + list(range(2, x.dim())))
                 batch_var = x.var(dim=[0] + list(range(2, x.dim())), unbiased=False)
-            
+
             # 更新移动平均
             self.running_mean = (1 - self.momentum) * self.running_mean + self.momentum * batch_mean
             self.running_var = (1 - self.momentum) * self.running_var + self.momentum * batch_var
-            
+
             # 归一化
             x_norm = (x - batch_mean) / torch.sqrt(batch_var + self.eps)
         else:
             # 推理模式：使用移动平均
             x_norm = (x - self.running_mean) / torch.sqrt(self.running_var + self.eps)
-        
+
         # 缩放和平移
         out = self.gamma * x_norm + self.beta
         return out
@@ -372,22 +372,22 @@ class BatchNorm1d(nn.Module):
 if __name__ == "__main__":
     # 创建BN层
     bn = BatchNorm1d(num_features=10)
-    
+
     # 训练模式
     bn.train()
     x_train = torch.randn(32, 10)
     y_train = bn(x_train)
-    
+
     print(f"Training mode:")
     print(f"Input mean: {x_train.mean(dim=0)[:3]}")
     print(f"Output mean: {y_train.mean(dim=0)[:3]}")
     print(f"Output std: {y_train.std(dim=0)[:3]}")
-    
+
     # 推理模式
     bn.eval()
     x_test = torch.randn(1, 10)
     y_test = bn(x_test)
-    
+
     print(f"\nInference mode:")
     print(f"Running mean: {bn.running_mean[:3]}")
     print(f"Running var: {bn.running_var[:3]}")
@@ -398,27 +398,27 @@ class ConvNetWithBN(nn.Module):
     """带BN的卷积网络"""
     def __init__(self, num_classes=10):
         super().__init__()
-        
+
         self.features = nn.Sequential(
             # Conv1
             nn.Conv2d(3, 64, kernel_size=3, padding=1),
             nn.BatchNorm2d(64),
             nn.ReLU(inplace=True),
             nn.MaxPool2d(2, 2),
-            
+
             # Conv2
             nn.Conv2d(64, 128, kernel_size=3, padding=1),
             nn.BatchNorm2d(128),
             nn.ReLU(inplace=True),
             nn.MaxPool2d(2, 2),
-            
+
             # Conv3
             nn.Conv2d(128, 256, kernel_size=3, padding=1),
             nn.BatchNorm2d(256),
             nn.ReLU(inplace=True),
             nn.MaxPool2d(2, 2),
         )
-        
+
         self.classifier = nn.Sequential(
             nn.Linear(256 * 4 * 4, 512),
             nn.BatchNorm1d(512),
@@ -426,7 +426,7 @@ class ConvNetWithBN(nn.Module):
             nn.Dropout(0.5),
             nn.Linear(512, num_classes)
         )
-    
+
     def forward(self, x):
         x = self.features(x)
         x = torch.flatten(x, 1)
@@ -437,7 +437,7 @@ class ConvNetWithBN(nn.Module):
 # BN的位置实验
 def bn_position_experiment():
     """实验：BN在激活前vs激活后"""
-    
+
     # BN在激活后 (原始论文)
     model1 = nn.Sequential(
         nn.Linear(10, 20),
@@ -445,7 +445,7 @@ def bn_position_experiment():
         nn.BatchNorm1d(20),
         nn.Linear(20, 10)
     )
-    
+
     # BN在激活前 (Pre-Activation)
     model2 = nn.Sequential(
         nn.Linear(10, 20),
@@ -453,15 +453,15 @@ def bn_position_experiment():
         nn.ReLU(),
         nn.Linear(10, 10)
     )
-    
+
     x = torch.randn(32, 10)
-    
+
     model1.train()
     model2.train()
-    
+
     y1 = model1(x)
     y2 = model2(x)
-    
+
     print(f"BN after activation: {y1.mean():.4f}, {y1.std():.4f}")
     print(f"BN before activation: {y2.mean():.4f}, {y2.std():.4f}")
 
@@ -516,7 +516,7 @@ BN减小了 $L$（Lipschitz常数）。
 **归一化家族**：
 
 | 方法 | 归一化维度 | 适用场景 |
-|------|-----------|----------|
+| ---- |-----------| ---- |
 | **Batch Norm** | (N, H, W) | 大批量训练 |
 | **Layer Norm** | (C, H, W) | RNN, Transformer |
 | **Instance Norm** | (H, W) | 风格迁移 |
@@ -587,10 +587,250 @@ $$
 
 ---
 
+## 🔧 实际应用案例
+
+### 1. 图像分类
+
+**ImageNet训练加速**:
+
+Batch Normalization使ImageNet训练加速10倍以上。
+
+**效果**:
+- 可以使用10倍大的学习率
+- 训练时间从数周缩短到数天
+- 达到相同或更好的准确率
+
+**实践示例**:
+
+```python
+import torch
+import torch.nn as nn
+
+class ConvBlock(nn.Module):
+    def __init__(self, in_channels, out_channels):
+        super().__init__()
+        self.conv = nn.Conv2d(in_channels, out_channels, 3, padding=1)
+        self.bn = nn.BatchNorm2d(out_channels)  # BN层
+        self.relu = nn.ReLU()
+
+    def forward(self, x):
+        x = self.conv(x)
+        x = self.bn(x)  # 归一化
+        x = self.relu(x)
+        return x
+```
+
+---
+
+### 2. 生成对抗网络 (GAN)
+
+**稳定GAN训练**:
+
+Batch Normalization在生成器和判别器中的应用。
+
+**配置**:
+- 生成器: 每层后使用BN
+- 判别器: 不使用BN（或只在部分层使用）
+
+**优势**:
+- 稳定训练
+- 防止模式崩塌
+- 生成更高质量的图像
+
+**注意**: 判别器最后一层不使用BN，避免破坏判别能力。
+
+---
+
+### 3. 目标检测
+
+**Faster R-CNN / YOLO**:
+
+Batch Normalization在目标检测中的应用。
+
+**优势**:
+- 加速训练
+- 提高检测精度
+- 处理多尺度目标
+
+**实践示例**:
+
+```python
+class DetectionBackbone(nn.Module):
+    def __init__(self):
+        super().__init__()
+        # 每个卷积层后使用BN
+        self.conv1 = nn.Sequential(
+            nn.Conv2d(3, 64, 7, stride=2, padding=3),
+            nn.BatchNorm2d(64),
+            nn.ReLU(),
+            nn.MaxPool2d(3, stride=2, padding=1)
+        )
+        # ... 更多层
+```
+
+---
+
+### 4. 语义分割
+
+**DeepLab / U-Net**:
+
+Batch Normalization在语义分割中的应用。
+
+**优势**:
+- 处理高分辨率图像
+- 稳定训练
+- 提高分割精度
+
+**注意**: 推理时使用运行均值和方差。
+
+---
+
+### 5. 自然语言处理
+
+**Transformer中的Layer Norm**:
+
+虽然Transformer使用Layer Normalization而非Batch Normalization，但原理相似。
+
+**对比**:
+- **Batch Norm**: 对batch维度归一化
+- **Layer Norm**: 对特征维度归一化
+
+**应用**:
+- BERT、GPT等Transformer模型
+- 稳定训练
+- 加速收敛
+
+---
+
+### 6. 强化学习
+
+**稳定策略训练**:
+
+Batch Normalization在策略网络中的应用。
+
+**优势**:
+- 稳定训练
+- 处理不同尺度的状态
+- 加速收敛
+
+**实践示例**:
+
+```python
+class PolicyNetwork(nn.Module):
+    def __init__(self, state_dim, action_dim):
+        super().__init__()
+        self.net = nn.Sequential(
+            nn.Linear(state_dim, 256),
+            nn.BatchNorm1d(256),  # BN层
+            nn.ReLU(),
+            nn.Linear(256, 256),
+            nn.BatchNorm1d(256),
+            nn.ReLU(),
+            nn.Linear(256, action_dim)
+        )
+```
+
+---
+
+### 7. 小批量训练
+
+**Group Normalization替代**:
+
+当批量大小很小时，使用Group Normalization。
+
+**场景**:
+- 批量大小 = 1 或 2
+- 内存受限
+- 在线学习
+
+**优势**:
+- 不依赖批量大小
+- 性能稳定
+- 适用于小批量
+
+---
+
+### 8. 迁移学习
+
+**Fine-tuning中的BN**:
+
+Batch Normalization在迁移学习中的应用。
+
+**策略**:
+- 冻结BN的统计量（使用预训练均值和方差）
+- 或更新BN统计量（适应新数据分布）
+
+**实践示例**:
+
+```python
+# 冻结BN统计量
+for module in model.modules():
+    if isinstance(module, nn.BatchNorm2d):
+        module.eval()  # 使用运行统计量，不更新
+        module.requires_grad = False
+```
+
+---
+
+### 9. 医学影像
+
+**处理数据分布差异**:
+
+Batch Normalization处理不同扫描仪、不同医院的数据。
+
+**优势**:
+- 归一化不同来源的数据
+- 提高模型泛化能力
+- 稳定训练
+
+**注意**: 需要仔细处理推理时的统计量。
+
+---
+
+### 10. 实时推理
+
+**推理优化**:
+
+Batch Normalization在推理时的优化。
+
+**方法**:
+- 融合BN到卷积层
+- 减少计算量
+- 加速推理
+
+**公式**:
+$$
+y = \gamma \frac{x - \mu}{\sqrt{\sigma^2 + \epsilon}} + \beta = \frac{\gamma}{\sqrt{\sigma^2 + \epsilon}} x + \left(\beta - \frac{\gamma \mu}{\sqrt{\sigma^2 + \epsilon}}\right)
+$$
+
+可以合并到卷积权重中。
+
+**实践示例**:
+
+```python
+# 融合BN到卷积
+def fuse_bn_conv(conv, bn):
+    # 计算融合后的权重和偏置
+    gamma = bn.weight
+    beta = bn.bias
+    mean = bn.running_mean
+    var = bn.running_var
+    eps = bn.eps
+
+    # 融合
+    scale = gamma / torch.sqrt(var + eps)
+    fused_weight = conv.weight * scale.view(-1, 1, 1, 1)
+    fused_bias = beta - mean * scale
+
+    return fused_weight, fused_bias
+```
+
+---
+
 ## 🎓 相关课程
 
 | 大学 | 课程 |
-|------|------|
+| ---- |------|
 | **Stanford** | CS231n Convolutional Neural Networks |
 | **MIT** | 6.S191 Introduction to Deep Learning |
 | **UC Berkeley** | CS182 Deep Learning |
@@ -612,4 +852,4 @@ $$
 
 ---
 
-*最后更新：2025年10月*-
+*最后更新：2025年12月20日*-

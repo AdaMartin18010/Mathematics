@@ -1,4 +1,4 @@
-# 多元微积分 (Multivariate Calculus)
+﻿# 多元微积分 (Multivariate Calculus)
 
 > **The Mathematical Foundation of Deep Learning Optimization**
 >
@@ -478,6 +478,259 @@ $$
 
 ---
 
+### 4. 神经网络训练中的梯度流
+
+**梯度消失与爆炸问题**：
+
+在深层网络中，梯度通过链式法则传播：
+
+$$
+\frac{\partial \mathcal{L}}{\partial W_1} = \frac{\partial \mathcal{L}}{\partial f_L} \prod_{i=2}^{L} \frac{\partial f_i}{\partial f_{i-1}} \frac{\partial f_1}{\partial W_1}
+$$
+
+**问题分析**：
+
+- **梯度消失**：当 $\left|\frac{\partial f_i}{\partial f_{i-1}}\right| < 1$ 时，梯度指数衰减
+- **梯度爆炸**：当 $\left|\frac{\partial f_i}{\partial f_{i-1}}\right| > 1$ 时，梯度指数增长
+
+**解决方案**：
+
+1. **梯度裁剪**：$\text{grad} \leftarrow \text{grad} \cdot \min(1, \frac{\tau}{\|\text{grad}\|})$
+2. **残差连接**：提供梯度直通路径
+3. **归一化**：BatchNorm、LayerNorm稳定训练
+
+**数值示例**：
+
+```python
+def analyze_gradient_flow(network, input_data):
+    """分析网络中的梯度流"""
+    gradients = []
+
+    # 前向传播
+    activations = [input_data]
+    for layer in network:
+        activations.append(layer.forward(activations[-1]))
+
+    # 反向传播
+    grad = np.ones_like(activations[-1])  # 输出层梯度
+    for i in range(len(network) - 1, -1, -1):
+        grad = network[i].backward(grad, activations[i])
+        gradients.append(np.linalg.norm(grad))
+
+    return gradients[::-1]  # 从输入到输出
+```
+
+---
+
+### 5. 超参数优化
+
+**网格搜索与随机搜索**：
+
+传统方法：在超参数空间 $\Theta$ 中搜索最优值
+
+$$
+\theta^* = \arg\min_{\theta \in \Theta} \mathcal{L}(\theta)
+$$
+
+**贝叶斯优化**：
+
+使用高斯过程建模损失函数：
+
+$$
+\mathcal{L}(\theta) \sim \mathcal{GP}(\mu(\theta), k(\theta, \theta'))
+$$
+
+**梯度引导优化**：
+
+对于可微超参数（如学习率、正则化系数），使用梯度信息：
+
+$$
+\frac{\partial \mathcal{L}}{\partial \eta} = \sum_{t} \frac{\partial \mathcal{L}}{\partial \theta_t} \frac{\partial \theta_t}{\partial \eta}
+$$
+
+其中 $\theta_t = \theta_{t-1} - \eta \nabla_{\theta} \mathcal{L}(\theta_{t-1})$。
+
+**实践示例**：
+
+```python
+def hyperparameter_optimization(model, train_data, val_data,
+                                 lr_range=(1e-5, 1e-1),
+                                 reg_range=(1e-6, 1e-2)):
+    """超参数优化"""
+    best_loss = float('inf')
+    best_params = None
+
+    # 随机搜索
+    for _ in range(100):
+        lr = np.random.uniform(*lr_range)
+        reg = np.random.uniform(*reg_range)
+
+        # 训练模型
+        model.set_hyperparameters(lr=lr, reg=reg)
+        loss = train_and_evaluate(model, train_data, val_data)
+
+        if loss < best_loss:
+            best_loss = loss
+            best_params = {'lr': lr, 'reg': reg}
+
+    return best_params, best_loss
+```
+
+---
+
+### 6. 对抗训练与鲁棒性
+
+**对抗样本生成**：
+
+使用梯度信息生成对抗样本：
+
+$$
+x_{\text{adv}} = x + \epsilon \cdot \text{sign}(\nabla_x \mathcal{L}(f(x), y))
+$$
+
+其中 $\epsilon$ 是扰动大小。
+
+**PGD攻击**：
+
+迭代式对抗攻击：
+
+$$
+x^{(t+1)} = \text{Proj}_\mathcal{B}(x^{(t)} + \alpha \cdot \text{sign}(\nabla_x \mathcal{L}(f(x^{(t)}), y)))
+$$
+
+其中 $\mathcal{B} = \{x' : \|x' - x\|_\infty \leq \epsilon\}$ 是扰动球。
+
+**对抗训练**：
+
+在训练时同时优化正常样本和对抗样本：
+
+$$
+\min_\theta \mathbb{E}_{(x,y)} \left[\mathcal{L}(f(x), y) + \lambda \mathcal{L}(f(x_{\text{adv}}), y)\right]
+$$
+
+**Python实现**：
+
+```python
+def generate_adversarial_example(model, x, y, epsilon=0.1):
+    """生成对抗样本"""
+    x.requires_grad = True
+
+    # 前向传播
+    output = model(x)
+    loss = criterion(output, y)
+
+    # 反向传播
+    loss.backward()
+
+    # 生成对抗样本
+    x_adv = x + epsilon * x.grad.sign()
+    x_adv = torch.clamp(x_adv, 0, 1)  # 确保在有效范围内
+
+    return x_adv
+
+def adversarial_training(model, train_loader, epochs=10, epsilon=0.1):
+    """对抗训练"""
+    for epoch in range(epochs):
+        for x, y in train_loader:
+            # 正常训练
+            loss_normal = train_step(model, x, y)
+
+            # 生成对抗样本
+            x_adv = generate_adversarial_example(model, x, y, epsilon)
+
+            # 对抗训练
+            loss_adv = train_step(model, x_adv, y)
+
+            # 总损失
+            loss = loss_normal + 0.5 * loss_adv
+            loss.backward()
+            optimizer.step()
+```
+
+---
+
+### 7. 元学习中的梯度
+
+**MAML (Model-Agnostic Meta-Learning)**：
+
+在元学习中，需要计算关于初始参数的梯度：
+
+$$
+\theta^* = \arg\min_\theta \sum_{\mathcal{T}_i} \mathcal{L}_{\mathcal{T}_i}(U^k(\theta))
+$$
+
+其中 $U^k(\theta)$ 是在任务 $\mathcal{T}_i$ 上经过 $k$ 步更新后的参数。
+
+**梯度计算**：
+
+$$
+\nabla_\theta \mathcal{L}_{\mathcal{T}_i}(U^k(\theta)) = \frac{\partial U^k(\theta)}{\partial \theta} \nabla_{U^k(\theta)} \mathcal{L}_{\mathcal{T}_i}(U^k(\theta))
+$$
+
+这需要计算高阶梯度（关于 $\theta$ 的梯度，而 $U^k(\theta)$ 本身是 $\theta$ 的函数）。
+
+**实现示例**：
+
+```python
+def maml_step(model, tasks, inner_lr=0.01, inner_steps=5):
+    """MAML一步更新"""
+    meta_grad = 0
+
+    for task in tasks:
+        # 内层更新（在任务上快速适应）
+        theta_prime = model.parameters()
+        for _ in range(inner_steps):
+            loss = compute_loss(model, task.train_data)
+            theta_prime = [p - inner_lr * g for p, g in
+                          zip(theta_prime, torch.autograd.grad(loss, model.parameters()))]
+
+        # 外层更新（元梯度）
+        val_loss = compute_loss(model, task.val_data)
+        meta_grad += torch.autograd.grad(val_loss, model.parameters(),
+                                         create_graph=True)
+
+    # 更新初始参数
+    for param, grad in zip(model.parameters(), meta_grad):
+        param.data -= outer_lr * grad
+```
+
+---
+
+### 8. 神经架构搜索 (NAS)
+
+**可微架构搜索 (DARTS)**：
+
+将离散的架构选择松弛为连续优化问题：
+
+$$
+\alpha^* = \arg\min_\alpha \mathcal{L}_{\text{val}}(w^*(\alpha), \alpha)
+$$
+
+其中 $w^*(\alpha) = \arg\min_w \mathcal{L}_{\text{train}}(w, \alpha)$。
+
+**双层优化**：
+
+$$
+\begin{align}
+\min_\alpha &\quad \mathcal{L}_{\text{val}}(w^*(\alpha), \alpha) \\
+\text{s.t.} &\quad w^*(\alpha) = \arg\min_w \mathcal{L}_{\text{train}}(w, \alpha)
+\end{align}
+$$
+
+**梯度计算**：
+
+使用隐函数定理：
+
+$$
+\frac{d \mathcal{L}_{\text{val}}}{d \alpha} = \frac{\partial \mathcal{L}_{\text{val}}}{\partial \alpha} -
+\frac{\partial \mathcal{L}_{\text{val}}}{\partial w} \left(\frac{\partial^2 \mathcal{L}_{\text{train}}}{\partial w^2}\right)^{-1}
+\frac{\partial^2 \mathcal{L}_{\text{train}}}{\partial w \partial \alpha}
+$$
+
+这需要计算Hessian矩阵的逆，计算成本高，通常使用近似方法。
+
+---
+
 ## 💻 Python实现
 
 ```python
@@ -743,7 +996,7 @@ $$
 ## 🎓 相关课程
 
 | 大学 | 课程 |
-|------|------|
+| ---- |------|
 | **MIT** | 18.02 Multivariable Calculus |
 | **Stanford** | Math 51 Linear Algebra & Multivariable Calculus |
 | **UC Berkeley** | Math 53 Multivariable Calculus |

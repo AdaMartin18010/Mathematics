@@ -1,4 +1,4 @@
-# 矩阵微分与Jacobian/Hessian (Matrix Calculus & Jacobian/Hessian)
+﻿# 矩阵微分与Jacobian/Hessian (Matrix Calculus & Jacobian/Hessian)
 
 > **The Mathematics of Backpropagation**
 >
@@ -1171,7 +1171,7 @@ if __name__ == "__main__":
 ## 🎓 相关课程
 
 | 大学 | 课程 |
-|------|------|
+| ---- |------|
 | **MIT** | 18.065 - Matrix Methods in Data Analysis |
 | **Stanford** | CS229 - Machine Learning |
 | **CMU** | 10-701 - Machine Learning |

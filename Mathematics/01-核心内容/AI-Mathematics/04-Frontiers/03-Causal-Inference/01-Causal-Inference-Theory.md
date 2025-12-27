@@ -1,4 +1,4 @@
-# 因果推断理论 (Causal Inference Theory)
+﻿# 因果推断理论 (Causal Inference Theory)
 
 > **From Correlation to Causation: The Mathematics of Causal Reasoning**
 >
@@ -802,7 +802,7 @@ print("\n真实因果结构: X -> Y -> Z")
 ## 🎓 对标课程
 
 | 大学 | 课程代码 | 课程名称 |
-|------|----------|----------|
+| ---- |----------| ---- |
 | **Stanford** | STATS361 | Causal Inference |
 | **MIT** | 14.387 | Applied Econometrics: Mostly Harmless |
 | **UC Berkeley** | PH252D | Causal Inference |

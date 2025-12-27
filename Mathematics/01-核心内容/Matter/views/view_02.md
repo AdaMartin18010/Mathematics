@@ -1,4 +1,4 @@
-# 人脑认知结构、现实与数学的综合分析框架
+﻿# 人脑认知结构、现实与数学的综合分析框架
 
 ## 目录
 
@@ -1364,7 +1364,7 @@ This section provides authoritative theoretical and empirical support for the en
 This table systematically reviews the main branches of mathematics and their typical models, facilitating the understanding of the core content and structural features of each branch.
 
 | 分支 Branch       | 主要内容/对象 Main Content/Object         | 典型模型/结构 Typical Model/Structure           |
-|------------------|------------------------------------------|-----------------------------------------------|
+| ---- |------------------------------------------| ---- |
 | 集合论 Set Theory     | 集合、元素、关系 Sets, Elements, Relations     | 康托尔集合、幂集、序数 Cantor Set, Power Set, Ordinals  |
 | 数论 Number Theory    | 整数、素数、同余 Integers, Primes, Congruence | 整数环、素数分布 Ring of Integers, Prime Distribution  |
 | 代数 Algebra          | 群、环、域、向量空间 Groups, Rings, Fields, Vector Spaces | 群结构、域扩张、矩阵 Group Structure, Field Extension, Matrix |
@@ -1391,7 +1391,7 @@ This table helps clarify the overall structure of mathematical theory and provid
 This table lists common experimental methods in cognitive science and their typical tools, facilitating the understanding of their application scenarios and technical means.
 
 | 方法 Method         | 主要用途 Main Purpose         | 典型工具/技术 Typical Tool/Technique         |
-|--------------------|------------------------------|---------------------------------------------|
+| ---- |------------------------------| ---- |
 | 行为实验 Behavioral Experiment     | 认知过程测量 Cognitive Process Measurement         | 反应时、准确率 Reaction Time, Accuracy        |
 | 脑成像 Brain Imaging              | 脑区功能定位 Brain Region Localization           | fMRI、PET、EEG                              |
 | 眼动追踪 Eye Tracking             | 注意与阅读研究 Attention and Reading Research    | 眼动仪 Eye Tracker                          |
@@ -1415,7 +1415,7 @@ This table provides a reference for experimental design and method selection in 
 This table provides Chinese-English comparison and brief explanations of key terms appearing in the text for easy reference and understanding.
 
 | 术语 Term         | 定义/说明 Definition/Explanation                   |
-|------------------|---------------------------------------------|
+| ---- |---------------------------------------------|
 | 认知结构 Cognitive Structure     | 人脑对信息加工与组织的系统性结构 Systematic structure of information processing and organization in the human brain |
 | 数学模型 Mathematical Model     | 用数学语言描述现实或理论系统的结构 Structure of real or theoretical systems described in mathematical language |
 | 公理系统 Axiomatic System       | 数学理论的基本假设集合 Set of basic assumptions in mathematical theory |
@@ -1461,7 +1461,7 @@ The list of tools and resources supports research design and data analysis.
 This table lists commonly used mathematical symbols and their definitions for easy reference and standardized expression.
 
 | 符号 Symbol | 含义 Meaning           | 说明 Description           |
-|-------------|-----------------------|---------------------------|
+| ---- |-----------------------| ---- |
 | ∈           | 属于 Belongs to        | a ∈ A 表示a是A的元素 a is an element of A |
 | ∀           | 对所有 For all         | ∀x∈A, P(x)                |
 | ∃           | 存在 Exists            | ∃x, P(x)                  |

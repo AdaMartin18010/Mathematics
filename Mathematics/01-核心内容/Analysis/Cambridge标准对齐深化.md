@@ -1,4 +1,4 @@
-# Cambridge数学系标准对齐深化 | Cambridge Mathematics Department Standard Alignment Deepening
+﻿# Cambridge数学系标准对齐深化 | Cambridge Mathematics Department Standard Alignment Deepening
 
 ---
 
@@ -190,7 +190,9 @@
 ### 6.1 当前对齐度
 
 | 维度 | 当前对齐度 | 目标对齐度 | 提升幅度 |
-|------|------------|------------|----------|
+ 
+        $matches[0] -replace '\|[-:]+\|', '| ---- |'
+    
 | 课程体系 | 90% | 95% | +5% |
 | 教学方法 | 85% | 90% | +5% |
 | 研究标准 | 82% | 87% | +5% |

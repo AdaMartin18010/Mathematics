@@ -1,4 +1,4 @@
-# 形式化方法与验证 (Formal Methods and Verification)
+﻿# 形式化方法与验证 (Formal Methods and Verification)
 
 **创建日期**: 2025-12-20
 **版本**: v1.0
@@ -18,8 +18,8 @@
     - [1. 类型论 (Type Theory)](#1-类型论-type-theory)
     - [2. 证明助手 (Proof Assistants)](#2-证明助手-proof-assistants)
     - [3. AI辅助数学证明](#3-ai辅助数学证明)
-    - [4. 程序验证 (Program Verification)](#4-程序验证-program-verification)
-    - [5. 可验证AI系统](#5-可验证ai系统)
+    - [4. [程序验证 (Program Verification)](./03-Program-Verification.md) ✅](#4-程序验证-program-verification-)
+    - [5. [可验证AI系统](./04-Verifiable-AI-Systems.md) ✅](#5-可验证ai系统-)
   - [🎯 学习路径](#-学习路径)
     - [入门路径 (1-2个月)](#入门路径-1-2个月)
     - [进阶路径 (3-6个月)](#进阶路径-3-6个月)
@@ -138,7 +138,7 @@ $$
 
 ---
 
-### 4. [程序验证 (Program Verification)](./04-Program-Verification/)
+### 4. [程序验证 (Program Verification)](./03-Program-Verification.md) ✅
 
 **核心理论**:
 
@@ -163,7 +163,7 @@ $$
 
 ---
 
-### 5. [可验证AI系统](./05-Verifiable-AI/)
+### 5. [可验证AI系统](./04-Verifiable-AI-Systems.md) ✅
 
 **核心挑战**:
 
@@ -182,6 +182,8 @@ $$
 **2025前沿**:
 
 - 大语言模型的可验证对齐
+- 神经网络鲁棒性认证
+- 公平性形式化验证
 - 扩散模型的鲁棒性认证
 - 强化学习策略的安全验证
 
@@ -294,7 +296,7 @@ Week 7-8: AI应用
 ## 🎓 对标大学课程
 
 | 大学 | 课程 | 内容 |
-|------|------|------|
+| ---- |------| ---- |
 | **MIT** | 6.820 | Fundamentals of Program Analysis |
 | **MIT** | 6.822 | Formal Reasoning About Programs |
 | **Stanford** | CS357 | Advanced Topics in Formal Methods |
@@ -447,7 +449,7 @@ if result == "unsat":
 ## 📊 重要定理速查
 
 | 定理 | 陈述 | 应用 |
-|------|------|------|
+| ---- |------| ---- |
 | **Curry-Howard** | 命题 ↔ 类型, 证明 ↔ 程序 | 程序正确性 |
 | **Hoare逻辑** | $\{P\} C \{Q\}$ | 程序验证 |
 | **Representer** | 最优解在有限维子空间 | 核方法 |

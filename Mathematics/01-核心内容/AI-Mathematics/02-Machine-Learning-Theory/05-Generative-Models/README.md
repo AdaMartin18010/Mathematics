@@ -1,4 +1,4 @@
-# 生成模型理论 (Generative Models Theory)
+﻿# 生成模型理论 (Generative Models Theory)
 
 **创建日期**: 2025-12-20
 **版本**: v1.0
@@ -98,9 +98,9 @@
 
 ---
 
-### 3. 扩散模型 (Diffusion Models)
+### 3. [扩散模型 (Diffusion Models)](./03-Diffusion-Models.md) ✅
 
-**文件**: `../../04-Frontiers/02-Diffusion-Models/01-Score-Based-SDE.md`
+**文件**: `03-Diffusion-Models.md`
 
 **核心内容**：
 
@@ -127,6 +127,36 @@
 
 - Stanford CS236
 - MIT 6.S191
+
+### 4. [归一化流 (Normalizing Flows)](./04-Normalizing-Flows.md) ✅
+
+**文件**: `04-Normalizing-Flows.md`
+
+**核心内容**:
+
+- **可逆变换**: 变量变换公式
+- **耦合层**: Real NVP, Glow
+- **自回归流**: MAF, IAF
+- **连续流**: Neural ODE, FFJORD
+
+**数学工具**:
+
+- 变量变换公式
+- 雅可比行列式
+- 常微分方程
+- 自回归模型
+
+**应用**:
+
+- 精确密度估计
+- 高质量生成
+- 变分推断
+- 数据增强
+
+**对标课程**:
+
+- Stanford CS236
+- MIT 6.S192
 
 ---
 
@@ -254,7 +284,9 @@ Adam优化器 → VAE/GAN/扩散模型
 ## 🎓 世界一流大学课程映射
 
 | 大学 | 课程代码 | 课程名称 | 覆盖内容 |
-|------|----------|----------|----------|
+ 
+        $matches[0] -replace '\|[-:]+\|', '| ---- |'
+    
 | **Stanford** | CS236 | Deep Generative Models | VAE, GAN, 扩散模型 |
 | **MIT** | 6.S191 | Introduction to Deep Learning | VAE, GAN基础 |
 | **UC Berkeley** | CS294-158 | Deep Unsupervised Learning | VAE, GAN, 自回归模型 |

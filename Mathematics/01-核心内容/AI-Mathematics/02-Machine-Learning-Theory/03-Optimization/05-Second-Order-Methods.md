@@ -1,4 +1,4 @@
-# 二阶优化方法 (Second-Order Optimization Methods)
+﻿# 二阶优化方法 (Second-Order Optimization Methods)
 
 > **Beyond Gradient Descent: Leveraging Curvature Information**
 >
@@ -502,7 +502,9 @@ $$
 #### 收敛速度总结
 
 | 算法 | 全局收敛 | 局部收敛速度（强凸） | 每步成本 | 存储需求 |
-|------|----------|---------------------|---------|---------|
+ 
+        $matches[0] -replace '\|[-:]+\|', '| ---- |'
+    ---------|
 | **梯度下降** | ✅ | 线性：$\|x_{k+1} - x^*\| \leq \rho \|x_k - x^*\|$ | $O(n)$ | $O(n)$ |
 | **BFGS** | ✅ | 超线性：$\lim_{k \to \infty} \frac{\|x_{k+1} - x^*\|}{\|x_k - x^*\|} = 0$ | $O(n^2)$ | $O(n^2)$ |
 | **L-BFGS** | ✅ | 超线性（$m \geq n$ 时） | $O(mn)$ | $O(mn)$ |
@@ -588,45 +590,45 @@ def lbfgs_with_tracking(f, grad_f, x0, m=10, max_iter=100, tol=1e-6):
     """
     x = x0.copy()
     n = len(x)
-    
+
     s_list = []
     y_list = []
-    
+
     trajectory = [x.copy()]
     grad_norms = [np.linalg.norm(grad_f(x))]
-    
+
     for k in range(max_iter):
         g = grad_f(x)
-        
+
         if np.linalg.norm(g) < tol:
             break
-        
+
         # 两循环递归
         q = g.copy()
         alpha_list = []
-        
+
         for s, y in zip(reversed(s_list), reversed(y_list)):
             rho = 1.0 / (y @ s)
             alpha = rho * (s @ q)
             alpha_list.append(alpha)
             q = q - alpha * y
-        
+
         # 初始Hessian逼近
         if len(s_list) > 0:
             gamma = (s_list[-1] @ y_list[-1]) / (y_list[-1] @ y_list[-1])
         else:
             gamma = 1.0
-        
+
         r = gamma * q
-        
+
         alpha_list.reverse()
         for (s, y), alpha in zip(s_list, alpha_list):
             rho = 1.0 / (y @ s)
             beta = rho * (y @ r)
             r = r + s * (alpha - beta)
-        
+
         d = -r
-        
+
         # Armijo线搜索
         alpha = 1.0
         c1 = 1e-4
@@ -634,24 +636,24 @@ def lbfgs_with_tracking(f, grad_f, x0, m=10, max_iter=100, tol=1e-6):
             alpha *= 0.5
             if alpha < 1e-10:
                 break
-        
+
         x_new = x + alpha * d
         s = x_new - x
         y = grad_f(x_new) - g
-        
+
         # 更新历史（FIFO队列）
         if len(s_list) >= m:
             s_list.pop(0)
             y_list.pop(0)
-        
+
         if s @ y > 1e-10:  # 正曲率条件
             s_list.append(s)
             y_list.append(y)
-        
+
         x = x_new
         trajectory.append(x.copy())
         grad_norms.append(np.linalg.norm(grad_f(x)))
-    
+
     return x, np.array(trajectory), np.array(grad_norms)
 
 # 测试：Rosenbrock函数
@@ -999,7 +1001,7 @@ $$
 **收敛速度比较**:
 
 | 方法 | 收敛速度 | 每步成本 |
-|------|----------|----------|
+| ---- |----------| ---- |
 | 梯度下降 | 线性 | $O(n)$ |
 | 共轭梯度 | 超线性 | $O(n)$ |
 | BFGS | 超线性 | $O(n^2)$ |
@@ -1021,28 +1023,28 @@ def newton_method(f, grad_f, hess_f, x0, max_iter=100, tol=1e-6):
     """Newton法"""
     x = x0.copy()
     trajectory = [x.copy()]
-    
+
     for k in range(max_iter):
         g = grad_f(x)
-        
+
         if np.linalg.norm(g) < tol:
             break
-        
+
         H = hess_f(x)
-        
+
         # 求解Newton方程: H * d = -g
         try:
             d = -np.linalg.solve(H, g)
         except np.linalg.LinAlgError:
             print("Hessian is singular, using gradient descent")
             d = -g
-        
+
         # 线搜索
         alpha = backtracking_line_search(f, grad_f, x, d)
-        
+
         x = x + alpha * d
         trajectory.append(x.copy())
-    
+
     return x, np.array(trajectory)
 
 
@@ -1050,12 +1052,12 @@ def backtracking_line_search(f, grad_f, x, d, alpha=1.0, rho=0.5, c=1e-4):
     """Armijo回溯线搜索"""
     f_x = f(x)
     grad_f_x = grad_f(x)
-    
+
     while f(x + alpha * d) > f_x + c * alpha * np.dot(grad_f_x, d):
         alpha *= rho
         if alpha < 1e-10:
             break
-    
+
     return alpha
 
 
@@ -1066,59 +1068,59 @@ def bfgs(f, grad_f, x0, max_iter=100, tol=1e-6):
     x = x0.copy()
     H = np.eye(n)  # 初始Hessian逆近似
     trajectory = [x.copy()]
-    
+
     for k in range(max_iter):
         g = grad_f(x)
-        
+
         if np.linalg.norm(g) < tol:
             break
-        
+
         # 搜索方向
         d = -H @ g
-        
+
         # 线搜索
         alpha = backtracking_line_search(f, grad_f, x, d)
-        
+
         # 更新
         s = alpha * d
         x_new = x + s
         y = grad_f(x_new) - g
-        
+
         # BFGS更新H
         rho = 1.0 / (y @ s)
         if rho > 0:  # 确保正定性
             I = np.eye(n)
             H = (I - rho * np.outer(s, y)) @ H @ (I - rho * np.outer(y, s)) + rho * np.outer(s, s)
-        
+
         x = x_new
         trajectory.append(x.copy())
-    
+
     return x, np.array(trajectory)
 
 
 # 3. L-BFGS算法
 class LBFGS:
     """L-BFGS算法"""
-    
+
     def __init__(self, m=10):
         self.m = m  # 历史大小
         self.s_list = []
         self.y_list = []
-        
+
     def two_loop_recursion(self, g):
         """两循环递归计算H*g"""
         q = g.copy()
         alpha_list = []
-        
+
         # 第一个循环
         for s, y in zip(reversed(self.s_list), reversed(self.y_list)):
             rho = 1.0 / (y @ s)
             alpha = rho * (s @ q)
             q = q - alpha * y
             alpha_list.append(alpha)
-        
+
         alpha_list.reverse()
-        
+
         # 初始Hessian逆近似
         if len(self.s_list) > 0:
             s = self.s_list[-1]
@@ -1126,55 +1128,55 @@ class LBFGS:
             gamma = (s @ y) / (y @ y)
         else:
             gamma = 1.0
-        
+
         r = gamma * q
-        
+
         # 第二个循环
         for s, y, alpha in zip(self.s_list, self.y_list, alpha_list):
             rho = 1.0 / (y @ s)
             beta = rho * (y @ r)
             r = r + s * (alpha - beta)
-        
+
         return r
-    
+
     def update(self, s, y):
         """更新历史"""
         if len(self.s_list) >= self.m:
             self.s_list.pop(0)
             self.y_list.pop(0)
-        
+
         self.s_list.append(s)
         self.y_list.append(y)
-    
+
     def optimize(self, f, grad_f, x0, max_iter=100, tol=1e-6):
         """优化"""
         x = x0.copy()
         trajectory = [x.copy()]
-        
+
         for k in range(max_iter):
             g = grad_f(x)
-            
+
             if np.linalg.norm(g) < tol:
                 break
-            
+
             # 计算搜索方向
             d = -self.two_loop_recursion(g)
-            
+
             # 线搜索
             alpha = backtracking_line_search(f, grad_f, x, d)
-            
+
             # 更新
             s = alpha * d
             x_new = x + s
             y = grad_f(x_new) - g
-            
+
             # 更新历史
             if y @ s > 0:  # 确保正定性
                 self.update(s, y)
-            
+
             x = x_new
             trajectory.append(x.copy())
-        
+
         return x, np.array(trajectory)
 
 
@@ -1186,31 +1188,31 @@ def conjugate_gradient(A, b, x0=None, max_iter=None, tol=1e-6):
         x = np.zeros(n)
     else:
         x = x0.copy()
-    
+
     if max_iter is None:
         max_iter = n
-    
+
     r = b - A @ x
     d = r.copy()
-    
+
     trajectory = [x.copy()]
-    
+
     for k in range(max_iter):
         if np.linalg.norm(r) < tol:
             break
-        
+
         Ad = A @ d
         alpha = (r @ r) / (d @ Ad)
-        
+
         x = x + alpha * d
         r_new = r - alpha * Ad
-        
+
         beta = (r_new @ r_new) / (r @ r)
         d = r_new + beta * d
-        
+
         r = r_new
         trajectory.append(x.copy())
-    
+
     return x, np.array(trajectory)
 
 
@@ -1219,29 +1221,29 @@ def gauss_newton(residual, jacobian, x0, max_iter=100, tol=1e-6):
     """Gauss-Newton法"""
     x = x0.copy()
     trajectory = [x.copy()]
-    
+
     for k in range(max_iter):
         r = residual(x)
         J = jacobian(x)
-        
+
         if np.linalg.norm(r) < tol:
             break
-        
+
         # 求解正规方程: (J^T J) d = -J^T r
         d = -np.linalg.solve(J.T @ J, J.T @ r)
-        
+
         # 线搜索
         def f(x):
             return 0.5 * np.sum(residual(x)**2)
-        
+
         def grad_f(x):
             return jacobian(x).T @ residual(x)
-        
+
         alpha = backtracking_line_search(f, grad_f, x, d)
-        
+
         x = x + alpha * d
         trajectory.append(x.copy())
-    
+
     return x, np.array(trajectory)
 
 
@@ -1251,62 +1253,62 @@ def compare_methods():
     # Rosenbrock函数
     def f(x):
         return (1 - x[0])**2 + 100*(x[1] - x[0]**2)**2
-    
+
     def grad_f(x):
         return np.array([
             -2*(1 - x[0]) - 400*x[0]*(x[1] - x[0]**2),
             200*(x[1] - x[0]**2)
         ])
-    
+
     def hess_f(x):
         return np.array([
             [2 - 400*(x[1] - x[0]**2) + 800*x[0]**2, -400*x[0]],
             [-400*x[0], 200]
         ])
-    
+
     x0 = np.array([-1.0, 1.0])
-    
+
     # 运行不同方法
     methods = {
         'Newton': lambda: newton_method(f, grad_f, hess_f, x0, max_iter=50),
         'BFGS': lambda: bfgs(f, grad_f, x0, max_iter=50),
         'L-BFGS': lambda: LBFGS(m=5).optimize(f, grad_f, x0, max_iter=50)
     }
-    
+
     # 绘制
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 6))
-    
+
     # 等高线图
     x = np.linspace(-1.5, 1.5, 100)
     y = np.linspace(-0.5, 2.5, 100)
     X, Y = np.meshgrid(x, y)
     Z = np.array([[f(np.array([x, y])) for x in x] for y in y])
-    
+
     ax1.contour(X, Y, Z, levels=np.logspace(-1, 3, 20), cmap='viridis')
-    
+
     colors = ['red', 'blue', 'green']
     for (name, method), color in zip(methods.items(), colors):
         x_opt, traj = method()
-        ax1.plot(traj[:, 0], traj[:, 1], 'o-', color=color, 
+        ax1.plot(traj[:, 0], traj[:, 1], 'o-', color=color,
                 label=f'{name} ({len(traj)} iters)', markersize=4, linewidth=2)
-        
+
         # 收敛曲线
         f_vals = [f(x) for x in traj]
         ax2.semilogy(f_vals, 'o-', color=color, label=name, linewidth=2)
-    
+
     ax1.plot(1, 1, 'r*', markersize=15, label='Optimum')
     ax1.set_xlabel('x₁')
     ax1.set_ylabel('x₂')
     ax1.set_title('Optimization Trajectories')
     ax1.legend()
     ax1.grid(True, alpha=0.3)
-    
+
     ax2.set_xlabel('Iteration')
     ax2.set_ylabel('Function Value')
     ax2.set_title('Convergence')
     ax2.legend()
     ax2.grid(True, alpha=0.3)
-    
+
     plt.tight_layout()
     # plt.show()
 
@@ -1315,10 +1317,10 @@ if __name__ == "__main__":
     print("=" * 60)
     print("二阶优化方法示例")
     print("=" * 60 + "\n")
-    
+
     print("比较不同优化方法...")
     compare_methods()
-    
+
     print("\n所有示例完成！")
 ```
 
@@ -1347,7 +1349,7 @@ if __name__ == "__main__":
 ## 🎓 相关课程
 
 | 大学 | 课程 |
-|------|------|
+| ---- |------|
 | **Stanford** | EE364B - Convex Optimization II |
 | **MIT** | 6.255J - Optimization Methods |
 | **CMU** | 10-725 - Convex Optimization |

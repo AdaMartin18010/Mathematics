@@ -1,4 +1,4 @@
-# 拓扑学：Wikipedia 对齐 | Wikipedia Alignment for Topology
+﻿# 拓扑学：Wikipedia 对齐 | Wikipedia Alignment for Topology
 
 ---
 
@@ -137,7 +137,7 @@
 #### 主要分支条目
 
 | Wikipedia条目 | 本项目对应 | 对齐状态 |
-|---------------|------------|----------|
+| ---- |------------| ---- |
 | General Topology | 点集拓扑 | ✅ 完全对齐 |
 | Algebraic Topology | 代数拓扑 | ✅ 完全对齐 |
 | Differential Topology | 微分拓扑 | ✅ 完全对齐 |
@@ -146,7 +146,7 @@
 #### 子概念条目
 
 | Wikipedia条目 | 本项目对应 | 对齐状态 |
-|---------------|------------|----------|
+| ---- |------------| ---- |
 | Metric Space | 度量空间 | ✅ 完全对齐 |
 | Manifold | 流形 | ✅ 完全对齐 |
 | Fiber Bundle | 纤维丛 | ✅ 完全对齐 |

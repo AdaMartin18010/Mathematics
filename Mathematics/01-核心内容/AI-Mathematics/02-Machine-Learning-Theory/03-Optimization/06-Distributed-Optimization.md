@@ -1,4 +1,4 @@
-# 分布式优化 (Distributed Optimization)
+﻿# 分布式优化 (Distributed Optimization)
 
 > **Optimization at Scale: From Single Machine to Distributed Systems**
 >
@@ -502,7 +502,7 @@ $$
 **结果**:
 
 | 算法 | 通信复杂度 |
-|------|-----------|
+| ---- |-----------|
 | 同步SGD | $O(1/\epsilon)$ |
 | 异步SGD | $O(\tau_{\max}/\epsilon)$ |
 | Local SGD | $O(1/\epsilon^{2/3})$ |
@@ -566,11 +566,11 @@ scaler = GradScaler()
 
 for data, target in dataloader:
     optimizer.zero_grad()
-    
+
     with autocast():  # FP16
         output = model(data)
         loss = criterion(output, target)
-    
+
     scaler.scale(loss).backward()
     scaler.step(optimizer)
     scaler.update()
@@ -607,32 +607,32 @@ def cleanup():
 def train(rank, world_size):
     """分布式训练"""
     setup(rank, world_size)
-    
+
     # 创建模型
     model = nn.Linear(10, 10).to(rank)
     ddp_model = DDP(model, device_ids=[rank])
-    
+
     # 创建数据加载器
     dataset = torch.randn(1000, 10)
     sampler = DistributedSampler(dataset, num_replicas=world_size, rank=rank)
     dataloader = torch.utils.data.DataLoader(dataset, sampler=sampler)
-    
+
     # 训练循环
     optimizer = torch.optim.SGD(ddp_model.parameters(), lr=0.01)
-    
+
     for epoch in range(10):
         sampler.set_epoch(epoch)  # 打乱数据
-        
+
         for data in dataloader:
             data = data.to(rank)
             optimizer.zero_grad()
-            
+
             output = ddp_model(data)
             loss = output.sum()
-            
+
             loss.backward()  # 自动AllReduce梯度
             optimizer.step()
-    
+
     cleanup()
 
 # 启动多进程
@@ -649,47 +649,47 @@ import numpy as np
 def ring_allreduce(data, rank, world_size, comm):
     """
     Ring-AllReduce算法
-    
+
     Args:
         data: 本地数据 (numpy array)
         rank: 当前进程的rank
         world_size: 总进程数
         comm: MPI通信器
-    
+
     Returns:
         聚合后的数据
     """
     n = len(data)
     chunk_size = n // world_size
-    
+
     # Phase 1: Reduce-Scatter
     for step in range(world_size - 1):
         send_idx = (rank - step) % world_size
         recv_idx = (rank - step - 1) % world_size
-        
+
         send_chunk = data[send_idx * chunk_size:(send_idx + 1) * chunk_size]
         recv_chunk = np.zeros_like(send_chunk)
-        
+
         # 发送和接收
         comm.Sendrecv(send_chunk, dest=(rank + 1) % world_size,
                       recvbuf=recv_chunk, source=(rank - 1) % world_size)
-        
+
         # 累加
         data[recv_idx * chunk_size:(recv_idx + 1) * chunk_size] += recv_chunk
-    
+
     # Phase 2: AllGather
     for step in range(world_size - 1):
         send_idx = (rank - step + 1) % world_size
         recv_idx = (rank - step) % world_size
-        
+
         send_chunk = data[send_idx * chunk_size:(send_idx + 1) * chunk_size]
         recv_chunk = np.zeros_like(send_chunk)
-        
+
         comm.Sendrecv(send_chunk, dest=(rank + 1) % world_size,
                       recvbuf=recv_chunk, source=(rank - 1) % world_size)
-        
+
         data[recv_idx * chunk_size:(recv_idx + 1) * chunk_size] = recv_chunk
-    
+
     return data
 
 # 使用示例 (需要MPI环境)
@@ -715,40 +715,40 @@ import torch
 
 class GradientCompressor:
     """梯度压缩器"""
-    
+
     def __init__(self, compression_ratio=0.01):
         self.compression_ratio = compression_ratio
         self.error_feedback = {}
-    
+
     def compress(self, tensor, name):
         """
         TopK稀疏化 + 误差反馈
-        
+
         Args:
             tensor: 梯度张量
             name: 参数名称
-        
+
         Returns:
             压缩后的梯度 (稀疏表示)
         """
         # 添加误差反馈
         if name in self.error_feedback:
             tensor = tensor + self.error_feedback[name]
-        
+
         # TopK稀疏化
         k = max(1, int(tensor.numel() * self.compression_ratio))
         values, indices = torch.topk(tensor.abs().flatten(), k)
-        
+
         # 保留符号
         values = values * torch.sign(tensor.flatten()[indices])
-        
+
         # 更新误差
         compressed = torch.zeros_like(tensor.flatten())
         compressed[indices] = values
         self.error_feedback[name] = tensor.flatten() - compressed
-        
+
         return values, indices, tensor.shape
-    
+
     def decompress(self, values, indices, shape):
         """解压缩"""
         tensor = torch.zeros(shape).flatten()
@@ -780,50 +780,50 @@ import copy
 
 class FederatedServer:
     """联邦学习服务器"""
-    
+
     def __init__(self, model):
         self.global_model = model
-    
+
     def aggregate(self, client_models, client_weights):
         """
         聚合客户端模型
-        
+
         Args:
             client_models: 客户端模型列表
             client_weights: 客户端权重 (数据量)
-        
+
         Returns:
             聚合后的全局模型
         """
         # 归一化权重
         total_weight = sum(client_weights)
         weights = [w / total_weight for w in client_weights]
-        
+
         # 加权平均
         global_dict = self.global_model.state_dict()
-        
+
         for key in global_dict.keys():
             global_dict[key] = torch.zeros_like(global_dict[key])
-            
+
             for client_model, weight in zip(client_models, weights):
                 global_dict[key] += weight * client_model.state_dict()[key]
-        
+
         self.global_model.load_state_dict(global_dict)
         return self.global_model
 
 class FederatedClient:
     """联邦学习客户端"""
-    
+
     def __init__(self, client_id, data, model):
         self.client_id = client_id
         self.data = data
         self.model = copy.deepcopy(model)
-    
+
     def train(self, epochs=5, lr=0.01):
         """本地训练"""
         optimizer = torch.optim.SGD(self.model.parameters(), lr=lr)
         criterion = nn.MSELoss()
-        
+
         for epoch in range(epochs):
             for x, y in self.data:
                 optimizer.zero_grad()
@@ -831,7 +831,7 @@ class FederatedClient:
                 loss = criterion(output, y)
                 loss.backward()
                 optimizer.step()
-        
+
         return self.model
 
 # 使用示例
@@ -840,7 +840,7 @@ def federated_learning_simulation():
     # 创建全局模型
     global_model = nn.Linear(10, 1)
     server = FederatedServer(global_model)
-    
+
     # 创建客户端
     num_clients = 5
     clients = []
@@ -849,32 +849,32 @@ def federated_learning_simulation():
         data = [(torch.randn(10), torch.randn(1)) for _ in range(100)]
         client = FederatedClient(i, data, global_model)
         clients.append(client)
-    
+
     # 联邦学习循环
     num_rounds = 10
     for round_idx in range(num_rounds):
         print(f"\n=== Round {round_idx + 1} ===")
-        
+
         # 选择客户端 (这里选择全部)
         selected_clients = clients
-        
+
         # 客户端本地训练
         client_models = []
         client_weights = []
-        
+
         for client in selected_clients:
             # 下载全局模型
             client.model = copy.deepcopy(server.global_model)
-            
+
             # 本地训练
             trained_model = client.train(epochs=5, lr=0.01)
-            
+
             client_models.append(trained_model)
             client_weights.append(len(client.data))  # 数据量作为权重
-        
+
         # 服务器聚合
         server.aggregate(client_models, client_weights)
-        
+
         print(f"全局模型参数: {list(server.global_model.parameters())[0].data[:5]}")
 
 # 运行模拟

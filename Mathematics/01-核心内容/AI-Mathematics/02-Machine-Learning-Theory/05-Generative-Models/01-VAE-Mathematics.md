@@ -1,4 +1,4 @@
-# 变分自编码器 (VAE) 数学原理
+﻿# 变分自编码器 (VAE) 数学原理
 
 > **Variational Autoencoder: Mathematics and Theory**
 >
@@ -546,36 +546,36 @@ class VAE(nn.Module):
     """变分自编码器"""
     def __init__(self, input_dim=784, hidden_dim=400, latent_dim=20):
         super().__init__()
-        
+
         # 编码器
         self.fc1 = nn.Linear(input_dim, hidden_dim)
         self.fc_mu = nn.Linear(hidden_dim, latent_dim)
         self.fc_logvar = nn.Linear(hidden_dim, latent_dim)
-        
+
         # 解码器
         self.fc3 = nn.Linear(latent_dim, hidden_dim)
         self.fc4 = nn.Linear(hidden_dim, input_dim)
-    
+
     def encode(self, x):
         """编码器: x -> mu, logvar"""
         h = F.relu(self.fc1(x))
         mu = self.fc_mu(h)
         logvar = self.fc_logvar(h)
         return mu, logvar
-    
+
     def reparameterize(self, mu, logvar):
         """重参数化技巧: z = mu + sigma * epsilon"""
         std = torch.exp(0.5 * logvar)
         eps = torch.randn_like(std)
         z = mu + eps * std
         return z
-    
+
     def decode(self, z):
         """解码器: z -> x_recon"""
         h = F.relu(self.fc3(z))
         x_recon = torch.sigmoid(self.fc4(h))
         return x_recon
-    
+
     def forward(self, x):
         """前向传播"""
         mu, logvar = self.encode(x)
@@ -588,37 +588,37 @@ def vae_loss(x_recon, x, mu, logvar):
     """VAE损失函数"""
     # 重构损失 (Binary Cross-Entropy)
     recon_loss = F.binary_cross_entropy(x_recon, x, reduction='sum')
-    
+
     # KL散度 (闭式解)
     kl_loss = -0.5 * torch.sum(1 + logvar - mu.pow(2) - logvar.exp())
-    
+
     return recon_loss + kl_loss
 
 
 def train_vae(model, train_loader, epochs=10, lr=1e-3):
     """训练VAE"""
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
-    
+
     model.train()
     for epoch in range(epochs):
         total_loss = 0
         for batch_idx, (data, _) in enumerate(train_loader):
             data = data.view(-1, 784)
-            
+
             optimizer.zero_grad()
-            
+
             # 前向传播
             x_recon, mu, logvar = model(data)
-            
+
             # 计算损失
             loss = vae_loss(x_recon, data, mu, logvar)
-            
+
             # 反向传播
             loss.backward()
             optimizer.step()
-            
+
             total_loss += loss.item()
-        
+
         avg_loss = total_loss / len(train_loader.dataset)
         print(f"Epoch {epoch+1}/{epochs}, Loss: {avg_loss:.4f}")
 
@@ -639,21 +639,21 @@ def visualize_latent_space(model, test_loader, latent_dim=2):
     if latent_dim != 2:
         print("Latent space visualization requires latent_dim=2")
         return
-    
+
     model.eval()
     z_list = []
     labels_list = []
-    
+
     with torch.no_grad():
         for data, labels in test_loader:
             data = data.view(-1, 784)
             mu, _ = model.encode(data)
             z_list.append(mu)
             labels_list.append(labels)
-    
+
     z = torch.cat(z_list, dim=0).numpy()
     labels = torch.cat(labels_list, dim=0).numpy()
-    
+
     plt.figure(figsize=(10, 8))
     scatter = plt.scatter(z[:, 0], z[:, 1], c=labels, cmap='tab10', alpha=0.6)
     plt.colorbar(scatter)
@@ -669,21 +669,21 @@ if __name__ == "__main__":
     transform = transforms.Compose([
         transforms.ToTensor(),
     ])
-    
+
     train_dataset = datasets.MNIST('./data', train=True, download=True, transform=transform)
     train_loader = DataLoader(train_dataset, batch_size=128, shuffle=True)
-    
+
     # 创建模型
     model = VAE(input_dim=784, hidden_dim=400, latent_dim=20)
-    
+
     # 训练
     print("Training VAE...")
     train_vae(model, train_loader, epochs=10, lr=1e-3)
-    
+
     # 生成样本
     print("\nGenerating samples...")
     samples = generate_samples(model, n_samples=16)
-    
+
     # 可视化生成样本
     fig, axes = plt.subplots(4, 4, figsize=(8, 8))
     for i, ax in enumerate(axes.flat):
@@ -731,6 +731,233 @@ $$
 
 ---
 
+## 🔧 实际应用案例
+
+### 1. 图像生成
+
+**MNIST数字生成**:
+
+VAE可以学习生成手写数字。
+
+**应用场景**:
+- 数据增强：生成更多训练样本
+- 异常检测：重构误差高的样本可能是异常
+- 数据压缩：潜在表示比原始图像小得多
+
+**性能指标**:
+- 重构误差（MSE/BCE）
+- 生成质量（FID、IS）
+- 潜在空间质量（解耦程度）
+
+---
+
+### 2. 图像修复与补全
+
+**缺失区域填充**:
+
+使用VAE进行图像修复：
+
+1. 编码完整图像到潜在空间
+2. 在潜在空间中插值或采样
+3. 解码生成修复后的图像
+
+**优势**:
+- 保持全局一致性
+- 生成多样化的修复结果
+- 可以处理大块缺失区域
+
+**实践示例**:
+
+```python
+class ImageInpaintingVAE(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.encoder = Encoder()
+        self.decoder = Decoder()
+
+    def inpaint(self, masked_image, mask):
+        # 编码
+        z_mu, z_logvar = self.encoder(masked_image)
+        z = self.reparameterize(z_mu, z_logvar)
+
+        # 解码
+        reconstructed = self.decoder(z)
+
+        # 只保留缺失区域
+        inpainted = mask * reconstructed + (1 - mask) * masked_image
+
+        return inpainted
+```
+
+---
+
+### 3. 异常检测
+
+**基于重构误差的异常检测**:
+
+VAE在正常数据上训练，异常样本的重构误差较高。
+
+**方法**:
+1. 在正常数据上训练VAE
+2. 计算测试样本的重构误差
+3. 重构误差 > 阈值 → 异常
+
+**优势**:
+- 无监督学习
+- 不需要异常样本
+- 可解释（重构误差）
+
+**应用场景**:
+- 工业缺陷检测
+- 网络入侵检测
+- 医疗异常诊断
+
+---
+
+### 4. 数据压缩与表示学习
+
+**潜在空间压缩**:
+
+VAE学习紧凑的潜在表示，可用于数据压缩。
+
+**压缩比**:
+- 原始图像: $H \times W \times C$ 像素
+- 潜在表示: $d$ 维向量（$d \ll H \times W \times C$）
+- 压缩比: $\frac{H \times W \times C}{d}$
+
+**优势**:
+- 有损压缩但保持语义
+- 潜在空间可插值
+- 支持条件生成
+
+---
+
+### 5. 风格迁移与编辑
+
+**潜在空间编辑**:
+
+在VAE的潜在空间中编辑图像属性。
+
+**方法**:
+1. 编码图像到潜在空间: $z = \text{Encoder}(x)$
+2. 编辑潜在向量: $z' = z + \alpha \cdot \Delta z$（$\Delta z$是属性方向）
+3. 解码: $x' = \text{Decoder}(z')$
+
+**应用**:
+- 年龄编辑
+- 表情变化
+- 风格转换
+
+**实践示例**:
+
+```python
+def edit_image_attribute(image, attribute_direction, strength=1.0):
+    """编辑图像属性"""
+    # 编码
+    z_mu, z_logvar = vae.encoder(image)
+    z = vae.reparameterize(z_mu, z_logvar)
+
+    # 编辑（在潜在空间中移动）
+    z_edited = z + strength * attribute_direction
+
+    # 解码
+    edited_image = vae.decoder(z_edited)
+
+    return edited_image
+
+# 示例：改变年龄
+age_direction = find_attribute_direction(vae, 'young', 'old')
+young_image = edit_image_attribute(old_image, -age_direction, strength=2.0)
+```
+
+---
+
+### 6. 推荐系统
+
+**变分推荐系统**:
+
+使用VAE进行协同过滤。
+
+**模型**:
+- 用户行为序列 → 编码器 → 用户潜在表示
+- 用户潜在表示 → 解码器 → 推荐物品概率
+
+**优势**:
+- 处理稀疏数据
+- 生成多样化推荐
+- 理论基础坚实
+
+**实践示例**:
+
+```python
+class VariationalRecommender(nn.Module):
+    def __init__(self, n_items, latent_dim=50):
+        super().__init__()
+        self.encoder = nn.Sequential(
+            nn.Linear(n_items, 200),
+            nn.ReLU(),
+            nn.Linear(200, latent_dim * 2)  # mu and logvar
+        )
+        self.decoder = nn.Sequential(
+            nn.Linear(latent_dim, 200),
+            nn.ReLU(),
+            nn.Linear(200, n_items),
+            nn.Sigmoid()
+        )
+
+    def forward(self, user_ratings):
+        # 编码
+        h = self.encoder(user_ratings)
+        mu, logvar = h[:, :latent_dim], h[:, latent_dim:]
+        z = self.reparameterize(mu, logvar)
+
+        # 解码
+        item_probs = self.decoder(z)
+
+        return item_probs, mu, logvar
+```
+
+---
+
+### 7. 文本生成
+
+**变分文本生成**:
+
+VAE用于生成文本序列。
+
+**挑战**:
+- 文本是离散的，难以使用重参数化技巧
+- 需要特殊处理（Gumbel-Softmax、REINFORCE）
+
+**应用**:
+- 对话生成
+- 文本风格迁移
+- 文本摘要
+
+---
+
+### 8. 分子生成
+
+**药物发现**:
+
+VAE用于生成新的分子结构。
+
+**模型**:
+- 分子图 → 编码器 → 分子潜在表示
+- 潜在表示 → 解码器 → 新分子结构
+
+**优势**:
+- 生成有效的分子结构
+- 潜在空间可插值
+- 支持条件生成（指定属性）
+
+**应用**:
+- 药物设计
+- 材料科学
+- 化学合成
+
+---
+
 ## 🔧 VAE变体
 
 ### 1. β-VAE
@@ -774,7 +1001,7 @@ $$
 ## 🎓 相关课程
 
 | 大学 | 课程 |
-|------|------|
+| ---- |------|
 | **Stanford** | CS236 Deep Generative Models |
 | **MIT** | 6.S191 Introduction to Deep Learning |
 | **UC Berkeley** | CS294 Deep Unsupervised Learning |
@@ -794,4 +1021,4 @@ $$
 
 ---
 
-*最后更新：2025年10月*-
+*最后更新：2025年12月20日*-

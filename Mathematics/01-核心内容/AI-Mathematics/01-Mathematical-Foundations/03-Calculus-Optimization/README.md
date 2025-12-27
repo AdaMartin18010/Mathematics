@@ -18,8 +18,8 @@
   - [📋 模块概览](#-模块概览)
   - [📚 子模块结构](#-子模块结构)
     - [1. 多元微积分 (Multivariate Calculus) ✅](#1-多元微积分-multivariate-calculus-)
-    - [2. 凸优化基础 (Convex Optimization Fundamentals) \[待补充\]](#2-凸优化基础-convex-optimization-fundamentals-待补充)
-    - [3. 非凸优化 (Non-convex Optimization) \[待补充\]](#3-非凸优化-non-convex-optimization-待补充)
+    - [2. 凸优化基础 (Convex Optimization Fundamentals) ✅](#2-凸优化基础-convex-optimization-fundamentals-)
+    - [3. 非凸优化 (Non-convex Optimization) ✅](#3-非凸优化-non-convex-optimization-)
   - [💡 核心数学工具](#-核心数学工具)
     - [梯度与Hessian](#梯度与hessian)
     - [优化算法](#优化算法)
@@ -86,23 +86,27 @@
 
 ---
 
-### 2. 凸优化基础 (Convex Optimization Fundamentals) [待补充]
+### 2. 凸优化基础 (Convex Optimization Fundamentals) ✅
 
 **核心内容**:
 
-- **凸集与凸函数**
+- **凸集与凸函数** ✅
   - 凸集定义与性质
   - 凸函数定义与判定
   - 强凸性
 
-- **凸优化问题**
+- **凸优化问题** ✅
   - 标准形式
   - 对偶理论
+  - KKT条件
   - 最优性条件
 
-- **凸优化算法**
+- **凸优化算法** ✅
+  - 梯度下降法
   - 梯度投影法
   - 近端梯度法
+  - 牛顿法
+  - 内点法
   - ADMM
 
 **AI应用**:
@@ -113,7 +117,7 @@
 
 ---
 
-### 3. 非凸优化 (Non-convex Optimization) [待补充]
+### 3. 非凸优化 (Non-convex Optimization) ✅
 
 **核心内容**:
 
